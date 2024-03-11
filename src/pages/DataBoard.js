@@ -1,5 +1,4 @@
 import React from 'react';
-function DataBoard() {
+export function DataBoard() {
     return (<div>databoard</div>)
 }
-export default DataBoard;

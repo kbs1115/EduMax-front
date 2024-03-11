@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import QuestionBoard from './pages/QuestionBoard'; 
-import DataBoard from './pages/DataBoard';
+import {DataBoard} from './pages/DataBoard';
 import NoticeBoard from './pages/NoticeBoard';
 import FreeBoard from './pages/FreeBoard';
 import LectureBoard from './pages/LectureBoard';
