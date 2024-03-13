@@ -2,12 +2,7 @@ import { useState, React } from "react";
 import styled from "styled-components";
 
 import Typography from "./Typography";
-
-export const boardMapping = {
-  question: "질문게시판",
-  data: "자료게시판",
-  free: "자유게시판",
-};
+import { boardMapping } from "./NavBar";
 
 const SideBarWrapper = styled.div`
   display: flex;

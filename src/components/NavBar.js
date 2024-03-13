@@ -5,6 +5,15 @@ import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import logo from "../assets/logo.png";
 
+export const boardMapping = {
+  question: "질문게시판",
+  data: "자료게시판",
+  free: "자유게시판",
+  lecture: "선생님강의",
+  notice: "공지사항",
+  intro: "학원소개",
+};
+
 const Header = styled.header`
   display: flex;
   flex-direction: column;
@@ -112,14 +121,7 @@ const NavBar = () => {
       </TopRow>
       <MenuItems>
         <InnerMenuItems>
-          {[
-            "질문게시판",
-            "자료게시판",
-            "자유게시판",
-            "선생님강의",
-            "공지사항",
-            "학원소개",
-          ].map((item, index) => (
+          {Object.keys(boardMapping).map((item, index) => (
             <MenuLink
               key={index}
               to={`/post/${item}`}
@@ -130,7 +132,7 @@ const NavBar = () => {
                   hoveredLink && hoveredLink !== item ? "#A8AAAE" : "#333437",
               }}
             >
-              {item}
+              {boardMapping[item]}
             </MenuLink>
           ))}
         </InnerMenuItems>
