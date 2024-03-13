@@ -3,22 +3,31 @@ import styled from "styled-components";
 // 추가할 size, 굵기 조합을 여기 추가하면 됨.
 export const sizeMapping = {
   heading1: ["48px", "700"],
-  heading2: ["40px", "700"],
-  title1: ["38px", "700"],
-  title2: ["36px", "700"],
-  largeText: ["24px", "700"],
-  bodyText: ["20px", "700"],
-  mediumText: ["18px", "500"],
-  normalText: ["16px", "500"],
-  smallText: ["14px", "400"],
-  details: ["12px", "400"],
+  h2: ["24px", "500"],
+  h3_bold: ["18px", "700"],
+  h3_medium: ["18px", "500"],
+  h1: ["32px", "500"],
+  logo: ["26px", "500"],
+  body_content_regular: ["14px", "500"],
+  body_content_small: ["12px", "500"],
+  body_sub_title: ["16px", "500"]
+  
+};
+
+export const colorMapping = {
+  nav_tab: "333437", // 네비바 탭 색깔
+  black_gray: "#393E46", // 목차색,네비바 상단 글자색
+  blue: "045DEB", // 사이트색
+  gray: "A8AAAE", // 글쓴이,날짜
+  blue_gray: "F3F4F8" // 사이트배경색
 };
 
 const Container = styled.div`
-  color: ${(props) => props.color};
-  font-family: Pretendard;
+  color: ${(props) => props.color || colorMapping[props.size]};
+  font-family: "Noto Sans KR", sans-serif;
   font-style: normal;
   line-height: 100%;
+  letter-spacing: 0px;
   font-size: ${(props) => sizeMapping[props.size][0]};
   font-weight: ${(props) => props.bold || sizeMapping[props.size][1]};
 `;

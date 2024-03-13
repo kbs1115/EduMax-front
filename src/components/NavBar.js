@@ -50,7 +50,7 @@ const InnerMenuItems = styled.div`
 `;
 
 const MenuLink = styled(Link)`
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "Noto Sans KR";
   font-size: 1rem;
   font-weight: 700;
   color: #333437;
