@@ -23,7 +23,7 @@ export const colorMapping = {
 };
 
 const Container = styled.div`
-  color: ${(props) => props.color || colorMapping[props.size]};
+  color: ${(props) => props.color || colorMapping[props.color]};
   font-family: "Noto Sans KR";
   font-style: normal;
   line-height: 100%;
