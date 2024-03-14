@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
@@ -9,7 +9,6 @@ import NoticeBoard from "./pages/NoticeBoard";
 import FreeBoard from "./pages/FreeBoard";
 import LectureBoard from "./pages/LectureBoard";
 import Introduction from "./pages/Introduction";
-import SideBar from "./components/SideBar";
 
 function App() {
   return (
@@ -21,8 +20,8 @@ function App() {
         <Route path="/post/data" element={<DataBoard />} />
         <Route path="/post/notice" element={<NoticeBoard />} />
         <Route path="/post/free" element={<FreeBoard />} />
-        <Route path="/post/lecture" element={<LectureBoard />} />
-        <Route path="/post/intro" element={<Introduction />} />
+        <Route path="/lecture" element={<LectureBoard />} />
+        <Route path="/intro" element={<Introduction />} />
       </Routes>
     </>
   );

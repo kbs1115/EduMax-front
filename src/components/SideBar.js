@@ -1,8 +1,15 @@
-import { useState, React } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import Typography from "./Typography";
 import { boardMapping } from "./NavBar";
+
+export const SubjectMapping = {
+  korean: "국어",
+  math: "수학",
+  english: "영어",
+  etc: "탐구",
+};
 
 const SideBarWrapper = styled.div`
   display: flex;
@@ -31,34 +38,32 @@ const CategoryWrapper = styled.div`
   padding: 0px 10px;
   align-items: center;
   align-self: stretch;
-  &:hover {
-    background-color: #91a5ff;
-    cursor: pointer;
-    & > div {
-      color: white;
-    }
+  background-color: ${(props) => (props.isActive ? "#91a5ff" : "transparent")};
+  cursor: pointer;
+
+  & > div {
+    color: ${(props) => (props.isActive ? "white" : "black")};
   }
 `;
 
 const SideBar = ({ board = "question", category = "english" }) => {
-  const [categoryState, setCategoryState] = useState(category);
+  // 나중에는 이 state를 props로 받아야 함.
+  const [activeCategory, setActiveCategory] = useState(category);
+
   return (
     <SideBarWrapper>
       <BoardWrapper>
         <Typography size="h1">{boardMapping[board]}</Typography>
       </BoardWrapper>
-      <CategoryWrapper>
-        <Typography size="h3_medium">국어</Typography>
-      </CategoryWrapper>
-      <CategoryWrapper>
-        <Typography size="h3_medium">수학</Typography>
-      </CategoryWrapper>
-      <CategoryWrapper>
-        <Typography size="h3_medium">영어</Typography>
-      </CategoryWrapper>
-      <CategoryWrapper>
-        <Typography size="h3_medium">탐구</Typography>
-      </CategoryWrapper>
+      {Object.entries(SubjectMapping).map(([key, value]) => (
+        <CategoryWrapper
+          key={key}
+          isActive={key === activeCategory}
+          onClick={() => setActiveCategory(key)}
+        >
+          <Typography size="h3_medium">{value}</Typography>
+        </CategoryWrapper>
+      ))}
     </SideBarWrapper>
   );
 };
