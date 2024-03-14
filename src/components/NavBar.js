@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
 import SearchBar from "./SearchBar";
 import logo from "../assets/logo.png";
+import { colorMapping } from "./Typography";
+import CustomLink from "./CustomLink";
+
+export const boardMapping = {
+  question: "질문게시판",
+  data: "자료게시판",
+  free: "자유게시판",
+  lecture: "선생님강의",
+  notice: "공지사항",
+  intro: "학원소개",
+};
 
 const Header = styled.header`
   display: flex;
@@ -11,7 +21,7 @@ const Header = styled.header`
   align-items: center;
   background-color: transparent;
   margin-top: 20px;
-  border-bottom: 2px solid #045deb; // Bottom stroke color and thickness
+  border-bottom: 2px solid ${colorMapping.blue};
 `;
 
 const TopRow = styled.div`
@@ -49,18 +59,10 @@ const InnerMenuItems = styled.div`
   gap: 53px; // Fixed spacing between items
 `;
 
-const MenuLink = styled(Link)`
-  font-family: "Noto Sans KR";
-  font-size: 1rem;
-  font-weight: 700;
-  color: #333437;
-  text-decoration: none;
-  letter-spacing: 0px;
+const MenuLink = styled(CustomLink)`
   transition: color 0.5s ease; // Add this line
   padding: 10px 0 10px 0;
-  &:hover {
-    color: #a8aaae; // Specify the hover color if needed
-  }
+  &:hover
 `;
 
 const SecondaryNavigation = styled.div`
@@ -70,15 +72,17 @@ const SecondaryNavigation = styled.div`
   gap: 20px; // Spacing between tabs
 `;
 
-const NavItem = styled(Link)`
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: #393e46;
-  text-decoration: none;
-  letter-spacing: 0px;
-  &:hover {
-    text-decoration: underline;
+const NavItem = styled(CustomLink)`
+  &:after {
+    display: block;
+    content: '';
+    border-bottom: solid 1px ${colorMapping.blue}; // 예시로 blue 사용
+    transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
+    transform-origin: 0% 50%;
+  }
+  &:hover:after {
+    transform: scaleX(1);
   }
 `;
 
@@ -104,33 +108,29 @@ const NavBar = () => {
           </LogoContainer>
         </InnerTopRow>
         <SecondaryNavigation>
-          <NavItem to="/login">로그인</NavItem>
-          <NavItem to="/signup">회원가입</NavItem>
-          <NavItem to="/notifications">알림</NavItem>
-          <NavItem to="/my-page">마이페이지</NavItem>
+          <NavItem size="body_content_medium" color="black_gray" to={`/signin`}>로그인</NavItem>
+          <NavItem size="body_content_medium" color="black_gray" to={`/signup`}>회원가입</NavItem>
+          <NavItem size="body_content_medium" color="black_gray" to={`/alarm`}>알림</NavItem>
+          <NavItem size="body_content_medium" color="black_gray" to={`/mypage`}>마이페이지</NavItem>
+
         </SecondaryNavigation>
       </TopRow>
       <MenuItems>
         <InnerMenuItems>
-          {[
-            "질문게시판",
-            "자료게시판",
-            "자유게시판",
-            "선생님강의",
-            "공지사항",
-            "학원소개",
-          ].map((item, index) => (
+          {Object.keys(boardMapping).map((item, index) => (
             <MenuLink
               key={index}
               to={`/post/${item}`}
               onMouseEnter={() => handleMouseEnter(item)}
               onMouseLeave={handleMouseLeave}
+              size="body_sub_title"
+              color="nav_tab"
               style={{
                 color:
-                  hoveredLink && hoveredLink !== item ? "#A8AAAE" : "#333437",
+                  hoveredLink && hoveredLink !== item ? colorMapping.gray : colorMapping.nav_tab,
               }}
             >
-              {item}
+              {boardMapping[item]}
             </MenuLink>
           ))}
         </InnerMenuItems>

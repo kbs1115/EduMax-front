@@ -12,12 +12,12 @@ const Router = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/post/질문게시판" element={<QuestionBoard />} />
-                <Route path="/post/자료게시판" element={<DataBoard />} />
-                <Route path="/post/공지사항" element={<NoticeBoard />} />
-                <Route path="/post/자유게시판" element={<FreeBoard />} />
-                <Route path="/post/선생님강의" element={<LectureBoard />} />
-                <Route path="/학원소개" element={<Introduction />} />
+                <Route path="/post/question" element={<QuestionBoard />} />
+                <Route path="/post/data" element={<DataBoard />} />
+                <Route path="/post/notice" element={<NoticeBoard />} />
+                <Route path="/post/free" element={<FreeBoard />} />
+                <Route path="/post/lecture" element={<LectureBoard />} />
+                <Route path="/intro" element={<Introduction />} />
             </Routes> 
         </BrowserRouter>
     );
