@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import searchIcon from "../assets/nav_search_icon.png";
-
+import { colorMapping } from "./Typography";
 const SearchContainer = styled.div`
   position: relative;
   width: 284px;
   height: 29px;
-  background-color: #f3f4f8;
+  background-color: ${colorMapping.blue_gray};
   border-radius: 15px;
 `;
 
 const SearchInput = styled.input`
   width: 80%;
   height: 100%;
-  padding: 0 0px 0 20px; // Right padding to make room for the icon
+  padding: 0 0px 0 20px; 
   border: none;
   border-radius: 15px;
   background-color: transparent;
   outline: none;
 
   ::placeholder {
-    color: #a3a3a3;
+    color: ${colorMapping.gray};
   }
 `;
 
