@@ -1,12 +1,9 @@
-import React from 'react';
+import React from "react";
+
+import SideBar from "../components/SideBar";
+
 function QuestionBoard() {
-    return (
-        <div>
-            QuestionBoard
-        </div>
-    )
-
-
+  return <SideBar />;
 }
 
 export default QuestionBoard;

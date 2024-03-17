@@ -15,6 +15,15 @@ export const boardMapping = {
   intro: "학원소개",
 };
 
+export const boardMapping = {
+  question: "질문게시판",
+  data: "자료게시판",
+  free: "자유게시판",
+  lecture: "선생님강의",
+  notice: "공지사항",
+  intro: "학원소개",
+};
+
 const Header = styled.header`
   display: flex;
   flex-direction: column;
