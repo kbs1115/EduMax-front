@@ -18,9 +18,9 @@ export const sizeMapping = {
 export const colorMapping = {
   nav_tab: "#333437", // 네비바 탭 색깔
   black_gray: "#393E46", // 목차색,네비바 상단 글자색
-  blue: "045DEB", // 사이트색
-  gray: "A8AAAE", // 글쓴이,날짜
-  blue_gray: "F3F4F8", // 사이트배경색
+  blue: "#045DEB", // 사이트색
+  gray: "#A8AAAE", // 글쓴이,날짜
+  blue_gray: "#F3F4F8", // 사이트배경색
 };
 
 const Container = styled.div`
