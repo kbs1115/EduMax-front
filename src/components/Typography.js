@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 // 추가할 size, 굵기 조합을 여기 추가하면 됨.
@@ -10,8 +11,7 @@ export const sizeMapping = {
   logo: ["26px", "500"],
   body_content_regular: ["14px", "500"],
   body_content_small: ["12px", "500"],
-  body_sub_title: ["16px", "500"]
-  
+  body_sub_title: ["16px", "500"],
 };
 
 export const colorMapping = {
@@ -19,12 +19,12 @@ export const colorMapping = {
   black_gray: "#393E46", // 목차색,네비바 상단 글자색
   blue: "045DEB", // 사이트색
   gray: "A8AAAE", // 글쓴이,날짜
-  blue_gray: "F3F4F8" // 사이트배경색
+  blue_gray: "F3F4F8", // 사이트배경색
 };
 
 const Container = styled.div`
-  color: ${(props) => props.color || colorMapping[props.size]};
-  font-family: "Noto Sans KR", sans-serif;
+  color: ${(props) => props.color || colorMapping[props.color]};
+  font-family: "Noto Sans KR";
   font-style: normal;
   line-height: 100%;
   letter-spacing: 0px;
