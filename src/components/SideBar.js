@@ -13,7 +13,8 @@ export const SubjectMapping = {
 
 const SideBarWrapper = styled.div`
   display: flex;
-  width: 200px;
+  width: 197px;
+  flex-direction: column;
   padding: 20px 0px;
   flex-direction: column;
   justify-content: center;
@@ -24,7 +25,7 @@ const SideBarWrapper = styled.div`
 
 const BoardWrapper = styled.div`
   display: flex;
-  height: 53px;
+  height: 63px;
   padding: 0px 5px 10px 5px;
   align-items: center;
   gap: 10px;
