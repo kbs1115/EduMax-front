@@ -11,7 +11,6 @@ const StyledButton = styled.button`
   background-color: ${props => props.buttonColor};
 	border-radius: 5px;
 	border-style: hidden;
-	cursor: pointer;
 `;
 
 const PostListButton = ({ width, height, size, textColor, buttonColor, children }) => {

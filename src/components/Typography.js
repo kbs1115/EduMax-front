@@ -11,6 +11,7 @@ export const sizeMapping = {
   logo: ["26px", "500"],
   body_content_regular: ["13px", "500"],
   body_content_medium: ["14px", "500"],
+  body_content_thin: ["14px", "400"],
   body_content_small: ["12px", "500"],
   body_sub_title: ["16px", "500"]
 };
