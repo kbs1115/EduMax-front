@@ -3,6 +3,7 @@ import SideBar from "../components/SideBar";
 import PostListButton from "../components/buttons/PostListButton";
 import PostTable from "../components/PostTable";
 import PostOrder from "../components/PostOrder";
+import PostSearchBar from "../components/PostSearchBar";
 
 function QuestionBoard() {
   return (
@@ -17,6 +18,7 @@ function QuestionBoard() {
     글쓰기
    </PostListButton>
    <PostOrder />
+   <PostSearchBar />
   </>  
   );
 }
