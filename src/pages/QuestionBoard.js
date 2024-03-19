@@ -2,6 +2,7 @@ import React from "react";
 import SideBar from "../components/SideBar";
 import PostListButton from "../components/buttons/PostListButton";
 import PostTable from "../components/PostTable";
+import PostOrder from "../components/PostOrder";
 
 function QuestionBoard() {
   return (
@@ -15,7 +16,7 @@ function QuestionBoard() {
    >
     글쓰기
    </PostListButton>
-   <PostTable></PostTable>
+   <PostOrder />
   </>  
   );
 }
