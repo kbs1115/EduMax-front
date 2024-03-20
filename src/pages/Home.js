@@ -1,7 +1,9 @@
 import React from "react";
 import LecturesThumbnail from "../components/home/LecturesThumbnail";
+import BestVoteSubject from "../components/home/BestVoteSubject";
 import PageFrame from "../components/PageFrame";
 import MainImage from "../components/home/MainImage";
+
 
 
 function Home() {
@@ -10,6 +12,7 @@ function Home() {
     <PageFrame>
       <MainImage/>
       <LecturesThumbnail />
+      <BestVoteSubject />
     </PageFrame>
   )
 }

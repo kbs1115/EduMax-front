@@ -46,6 +46,7 @@ const Thumbnail = styled.img`
   border-radius: 8px;
   border: 1px solid var(--${colorMapping.blue});
   background: url(${props => props.src}) lightgray -5.467px -2.343px / 103.81% 141.573% no-repeat;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const DiscriptionWrapper = styled.div`

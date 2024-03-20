@@ -21,6 +21,7 @@ export const colorMapping = {
   blue: "#045DEB", // 사이트색
   gray: "#A8AAAE", // 글쓴이,날짜
   blue_gray: "#F3F4F8", // 사이트배경색
+  container: "#DFE5EE" // 컨테이너색
 };
 
 const Container = styled.div`
