@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import searchIcon from '../assets/nav_search_icon.png'; // Adjust this path to the correct location
+import searchIcon from '../../assets/nav_search_icon.png'; // Adjust this path to the correct location
 
 const SearchBarContainer = styled.div`
   display: flex;

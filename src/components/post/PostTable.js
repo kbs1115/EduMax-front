@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Typography from "./Typography";
-import PostListButton from "./buttons/PostListButton";
+import Typography from "../Typography";
+import PostListButton from "../buttons/PostListButton";
 import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`

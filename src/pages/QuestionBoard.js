@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import SideBar from "../components/SideBar";
 import PostListButton from "../components/buttons/PostListButton";
-import PostTable from "../components/PostTable";
-import PostOrder from "../components/PostOrder";
-import PostSearchBar from "../components/PostSearchBar";
-import PostDropDown from "../components/PostDropdown";
+import PostTable from "../components/post/PostTable";
+import PostOrder from "../components/post/PostOrder";
+import PostSearchBar from "../components/post/PostSearchBar";
+import PostDropDown from "../components/post/PostDropdown";
 
 const Wrapper = styled.div`
   margin-top: 60px;

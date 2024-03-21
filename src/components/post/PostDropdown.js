@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Typography from "./Typography";
-import dropdownclick from "../assets/dropdownclick.png"
+import Typography from "../Typography";
+import dropdownclick from "../../assets/dropdownclick.png"
 
 const DropdownContainer = styled.div`
   width: 145px;
