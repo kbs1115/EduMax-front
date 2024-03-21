@@ -17,7 +17,6 @@ background: ${colorMapping.container};
 const ContainerItemWrapper = styled.div`
   display: flex;
   width: 169px;
-  
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -65,7 +64,7 @@ const AuthorWrapper = styled.div`
 display: flex;
 flex-direction: column;
 align-items: flex-end;
-gap: 5px;
+
 `;
 const ContentWrapper = styled(Link)`
 display: flex;
@@ -86,10 +85,10 @@ const PostItemWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid ${colorMapping.container};
-  transition: border-color 0.3s; // Add transition for border color
+  transition: border-color 0.3s; 
 
   &:hover {
-    border-bottom: 1px solid ${colorMapping.gray}; // Change border color on hover
+    border-bottom: 2px solid ${colorMapping.gray}; 
   }
 `;
 
@@ -111,22 +110,26 @@ const sampleData = {
     국어: Array.from({ length: 5 }, (_, i) => ({
       content: `국어 Post ${i + 1}`,
       author: `Author ${i + 1}`,
-      date: `2020-12-${i + 1}`, // Example date, adjust as necessary
+      date: `2020-12-${i + 1}`,
+      id: `1` 
     })),
     수학: Array.from({ length: 5 }, (_, i) => ({
       content: `수학 Post ${i + 1}`,
       author: `Author ${i + 1}`,
       date: `2020-12-${i + 1}`,
+      id: `1` 
     })),
     영어: Array.from({ length: 5 }, (_, i) => ({
       content: `영어 Post ${i + 1}`,
       author: `Author ${i + 1}`,
       date: `2020-12-${i + 1}`,
+      id: `1` 
     })),
     탐구: Array.from({ length: 5 }, (_, i) => ({
       content: `탐구 Post ${i + 1}`,
       author: `Author ${i + 1}`,
       date: `2020-12-${i + 1}`,
+      id: `1` 
     })),
   };
 
@@ -159,7 +162,7 @@ const CategoryPostList = ({ category }) => (
     <ListWrapper>
       {sampleData[category].map((post, index) => (
         <PostItemWrapper key={index}>
-          <ContentWrapper to={`/post/${index}`}>
+          <ContentWrapper to={`/post/${post.id}`}>
             <Typography size="body_content_regular" color="black_gray">
               {post.content}
             </Typography>

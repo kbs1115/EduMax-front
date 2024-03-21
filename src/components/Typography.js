@@ -12,7 +12,7 @@ export const sizeMapping = {
   body_content_regular: ["13px", "500"],
   body_content_medium: ["14px", "500"],
   body_content_small: ["12px", "500"],
-  body_sub_title: ["16px", "500"]
+  body_sub_title: ["16px", "500"],
 };
 
 export const colorMapping = {
@@ -28,7 +28,7 @@ const Container = styled.div`
   color: ${(props) => colorMapping[props.color]};
   font-family: "Noto Sans KR";
   font-style: normal;
-  line-height: 100%;
+  line-height: normal;
   font-style: normal;
   letter-spacing: 0px;
   font-size: ${(props) => sizeMapping[props.size][0]};

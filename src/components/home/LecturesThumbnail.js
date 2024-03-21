@@ -36,7 +36,7 @@ const LectureContainer = styled.div`
   transition: border-color 0.3s; /* Transition effect applied to border color */
 
   &:hover {
-    border-bottom: 1px solid ${colorMapping.blue}; /* Border color changes on hover */
+    border-bottom: 2px solid ${colorMapping.blue}; /* Border color changes on hover */
   }
 `;
 
@@ -106,8 +106,8 @@ align-items: center;
 gap: 50px;
 `;
 const ClickableTypography = styled(Typography)`
-  cursor: pointer; // Adding cursor change on hover
-  color: ${props => props.isActive ? 'inherit' : 'gray'}; // Color changes based on isActive prop
+  cursor: pointer;
+  color: ${props => props.isActive ? 'inherit' : 'gray'};
 `;
 const lectureData = {
   Korean: [
