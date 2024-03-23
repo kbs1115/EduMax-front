@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import LoginInput from "../components/LoginInput";
 import Typography from "../components/Typography";
 
 const Wrapper = styled.div`
@@ -26,28 +27,48 @@ const LogoWrapper = styled.div`
   line-height: normal;
   text-align: center; // 추가
   margin-bottom: 30px; // 추가, BodyWrapper와의 간격 조정
+  letter-spacing: 2.5px;
 `;
 
 
 const BodyWrapper = styled.div`
+  box-sizing: border-box;
+  padding-top: 40px;
   width: 100%;
 	height: 480px;
   border: 2px solid #DFE5EE;
   border-radius: 20px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const IdInput = styled(LoginInput)`
+  margin-bottom: 10px;
 `;
 
 const LoginPage = () => {
-    return (
-      <Wrapper>
-        <LogoWrapper>
-          EduMax
-        </LogoWrapper>
-        <BodyWrapper>
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
 
-        </BodyWrapper>
-      </Wrapper>
-    )
+  return (
+    <Wrapper>
+      <LogoWrapper>
+        EduMax
+      </LogoWrapper>
+      <BodyWrapper>
+        <IdInput placeholder="아이디" input={id} setInput={setId}/>
+        <LoginInput 
+          placeholder="비밀번호" 
+          isPassword={true}
+          input={password}
+          setInput={setPassword}
+        />
+      </BodyWrapper>
+    </Wrapper>
+  )
 }
 
 export default LoginPage;
