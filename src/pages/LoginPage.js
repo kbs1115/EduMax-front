@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import LoginInput from "../components/LoginInput";
 import Typography from "../components/Typography";
+import PostListButton from "../components/buttons/PostListButton";
 
 const Wrapper = styled.div`
   display: flex; // 추가
@@ -49,6 +50,28 @@ const IdInput = styled(LoginInput)`
   margin-bottom: 10px;
 `;
 
+const PwInput = styled(LoginInput)`
+  margin-bottom: 30px;
+`;
+
+const LoginButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 310px;
+  border-radius: 20px;
+  background-color: #4A5BAB;
+  border: none; // 버튼의 기본 테두리를 제거합니다.
+  color: #FFF;
+  font-family: "Noto Sans Symbols";
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-align: center;
+  cursor: pointer;
+`;
+
 const LoginPage = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -60,12 +83,13 @@ const LoginPage = () => {
       </LogoWrapper>
       <BodyWrapper>
         <IdInput placeholder="아이디" input={id} setInput={setId}/>
-        <LoginInput 
+        <PwInput 
           placeholder="비밀번호" 
           isPassword={true}
           input={password}
           setInput={setPassword}
         />
+        <LoginButton>로그인</LoginButton>
       </BodyWrapper>
     </Wrapper>
   )

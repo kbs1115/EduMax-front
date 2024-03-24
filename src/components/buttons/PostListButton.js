@@ -9,14 +9,22 @@ const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
   background-color: ${props => props.buttonColor};
-	border-radius: 5px;
+	border-radius: ${props => props.borderRadius};
 	border-style: hidden;
   cursor: pointer;
 `;
 
-const PostListButton = ({ width, height, size, textColor, buttonColor, children }) => {
+const PostListButton = ({ 
+  width, 
+  height, 
+  size, 
+  textColor, 
+  buttonColor, 
+  borderRadius="5px",
+  children 
+}) => {
   return (
-    <StyledButton width={width} height={height} buttonColor={buttonColor}>
+    <StyledButton width={width} height={height} buttonColor={buttonColor} borderRadius={borderRadius}>
         <Typography size={size} color={textColor}>{children}</Typography>
     </StyledButton>
   );
