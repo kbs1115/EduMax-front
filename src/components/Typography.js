@@ -12,7 +12,7 @@ export const sizeMapping = {
   body_content_regular: ["13px", "500"],
   body_content_medium: ["14px", "500"],
   body_content_small: ["12px", "500"],
-  body_sub_title: ["16px", "500"]
+  body_sub_title: ["16px", "500"],
 };
 
 export const colorMapping = {
@@ -21,13 +21,14 @@ export const colorMapping = {
   blue: "#045DEB", // 사이트색
   gray: "#A8AAAE", // 글쓴이,날짜
   blue_gray: "#F3F4F8", // 사이트배경색
+  container: "#DFE5EE" // 컨테이너색
 };
 
 const Container = styled.div`
-  color: ${(props) => props.color || colorMapping[props.color]};
+  color: ${(props) => colorMapping[props.color]};
   font-family: "Noto Sans KR";
   font-style: normal;
-  line-height: 100%;
+  line-height: normal;
   font-style: normal;
   letter-spacing: 0px;
   font-size: ${(props) => sizeMapping[props.size][0]};
