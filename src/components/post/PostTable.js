@@ -18,7 +18,7 @@ const StyledTable = styled.table`
 `;
 
 const StyledHead = styled.thead`
-  background-color: #DFE5EE;
+  background-color: #F3F4F8;
   height: 55px;
   border-top: 1px solid #393E46;
   border-bottom: 1px solid #DFE5EE;

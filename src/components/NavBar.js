@@ -108,7 +108,7 @@ const NavBar = () => {
           </LogoContainer>
         </InnerTopRow>
         <SecondaryNavigation>
-          <NavItem size="body_content_medium" color="black_gray" to={`/signin`}>로그인</NavItem>
+          <NavItem size="body_content_medium" color="black_gray" to={`/login`}>로그인</NavItem>
           <NavItem size="body_content_medium" color="black_gray" to={`/signup`}>회원가입</NavItem>
           <NavItem size="body_content_medium" color="black_gray" to={`/alarm`}>알림</NavItem>
           <NavItem size="body_content_medium" color="black_gray" to={`/mypage`}>마이페이지</NavItem>

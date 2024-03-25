@@ -13,6 +13,7 @@ export const sizeMapping = {
   body_content_medium: ["14px", "500"],
   body_content_thin: ["14px", "400"],
   body_content_small: ["12px", "500"],
+  body_content_small_thin :["12px", "400"],
   body_sub_title: ["16px", "500"],
 };
 
@@ -22,7 +23,11 @@ export const colorMapping = {
   blue: "#045DEB", // 사이트색
   gray: "#A8AAAE", // 글쓴이,날짜
   blue_gray: "#F3F4F8", // 사이트배경색
-  container: "#DFE5EE" // 컨테이너색
+  container: "#DFE5EE", // 컨테이너색
+  bright_gray:"#95A0B1", //회색보다 밝은
+  purple_blue: "#91A5FF", //신기한색
+  white :"#FFFFFF",
+  red: "#FF0000"
 };
 
 const Container = styled.div`
