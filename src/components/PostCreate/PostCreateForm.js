@@ -5,7 +5,7 @@ import Typography from "../Typography";
 import PostCreateDropdown from "./PostCreateDropdown";
 import PostCreateButton from "../buttons/PostCreateButton";
 import Ckeditor from "./Ckeditor";
-
+import FileUploader from "./Fileupload";
 const MainContainer = styled.div`
     display: flex;
     height: 902px;
@@ -136,6 +136,7 @@ const PostCreateForm = () => {
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
 
+
     const [titleError, setTitleError] = useState(false);
     const [contentError, setContentError] = useState(false);
     const [categoryError, setCategoryError] = useState(false);
@@ -179,6 +180,7 @@ const PostCreateForm = () => {
             category,
             title,
             html_content: content,
+
         };
         console.log(postData);
         // 서버 api로 보내야함
@@ -211,7 +213,7 @@ const PostCreateForm = () => {
                     <InputTitleSecondRow>
                         <StyledInput
                             type="text"
-                            placeholder="e.g: Is there an R function for finding the index of an element in a vector"
+                            placeholder="e.g: 미적분 과목의 도함수관련 질문입니다."
                             value={title}
                             onChange={handleTitleChange}
                             maxLength="30"  
