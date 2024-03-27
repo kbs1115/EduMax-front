@@ -24,9 +24,9 @@ gap: 5px;
 
 const TitleWrapper = styled.div`
 display: flex;
-width: 854px;
 padding: 20px 0px 10px 0px;
 align-items: center;
+align-self: stretch;
 border-bottom: 2px solid ${colorMapping.black_gray};
 `;
 
@@ -60,7 +60,7 @@ align-self: stretch;
 
 const SelectCategorycontainer = styled.div`
 display: flex;
-padding: 10px 10px 10px 0px;
+padding: 10px 0px 10px 0px;
 flex-direction: column;
 justify-content: center;
 align-items: flex-start;
@@ -76,7 +76,6 @@ gap: 20px;
 
 const InputTitleFirstRow = styled.div`
 display: flex;
-padding: 10px 0px;
 align-items: center;
 gap: 20px;
 align-self: stretch;

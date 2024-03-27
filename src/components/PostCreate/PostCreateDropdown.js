@@ -6,9 +6,11 @@ import dropdown from '../../assets/dropdown.png';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 213px;
-  padding: 10px;
+  padding: 10px 20px 10px 20px;
   border-radius: 5px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
   border: 1px solid #95A0B1;
   cursor: pointer;
 `;
