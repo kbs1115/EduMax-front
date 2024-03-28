@@ -29,18 +29,10 @@ const FileWrapperSecondRow = styled.div`
   gap: 10px;
   align-self: stretch;
   border-radius: 5px;
-  border: 1px solid ${props => props.isDragOver ? '#4A5BAB' : colorMapping.bright_gray};
+  border: ${props => props.isDragOver ? '3px solid #4A5BAB' : `1px solid ${colorMapping.bright_gray}`};
   cursor: pointer;
-  &:hover,
-  &:focus {
-    border-color: #4A5BAB;
-    border-width: 2px;
-  }
-  ${props => props.$isDragOver && `
-    border-color: #4A5BAB;
-    border-width: 2px;
-  `}
 `
+
 const FileItem = styled.div`
 display: flex;
 padding: 10px 10px;

@@ -23,7 +23,7 @@ const ContainerItemWrapper = styled.div`
   flex: 1 0 0;
   background: #FFF;
   cursor: pointer;
-  ${props => props.$isSelected && css`
+  ${props => props.isSelected && css`
     background: #4A5BAB;
     color: white;
   `}
