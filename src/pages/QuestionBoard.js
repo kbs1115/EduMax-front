@@ -42,6 +42,7 @@ const InnerRightWrapper = styled.div`
 `;
 
 function QuestionBoard() {
+  
   return (
     <Wrapper>
       <SideBar />

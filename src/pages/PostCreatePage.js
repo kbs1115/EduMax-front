@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import PostCreateForm from "../components/PostCreate/PostCreateForm";
 
@@ -12,6 +12,9 @@ const Wrapper = styled.div`
 
 
 function PostCreatePage() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <Wrapper>
             <PostCreateForm />

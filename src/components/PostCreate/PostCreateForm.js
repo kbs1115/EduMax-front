@@ -134,7 +134,7 @@ const PostCreateForm = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
-
+    const [files, setFiles] = useState([]);
 
     const [titleError, setTitleError] = useState(false);
     const [contentError, setContentError] = useState(false);
@@ -179,6 +179,7 @@ const PostCreateForm = () => {
             category,
             title,
             html_content: content,
+            files, 
 
         };
         console.log(postData);
@@ -231,7 +232,7 @@ const PostCreateForm = () => {
                         {contentError && <Typography size="body_content_medium" color="red">내용을 입력해주세요</Typography>}
                     </InputContentSecondRow>
                 </InputContentWrapper>
-
+                <FileUploader files={files} setFiles={setFiles} />
             </Wrapper>
             <SubmitWrapper>
                 <PostCreateButton onClick={handleSubmit} isValid={isFormValid} />

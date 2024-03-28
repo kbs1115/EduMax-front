@@ -40,7 +40,7 @@ const CategoryWrapper = styled.div`
   padding: 0px 10px;
   align-items: center;
   align-self: stretch;
-  background-color: ${(props) => (props.isActive ? "#91a5ff" : "transparent")};
+  background-color: ${(props) => (props.isActive ? "#4A5BAB" : "transparent")};
   cursor: pointer;
 
   & > div {

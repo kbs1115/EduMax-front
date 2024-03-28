@@ -18,6 +18,7 @@ export const sizeMapping = {
 };
 
 export const colorMapping = {
+  navy: "#4A5BAB",
   nav_tab: "#333437", // 네비바 탭 색깔
   black_gray: "#393E46", // 목차색,네비바 상단 글자색
   blue: "#045DEB", // 사이트색

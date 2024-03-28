@@ -10,7 +10,9 @@ justify-content: center;
 align-items: center;
 gap: 10px;
 border-radius: 5px;
-background: ${props => props.isValid ? '#045DEB' : colorMapping.purple_blue};
+
+opacity: ${props => props.isValid ? '1' : '0.5'};
+background: ${colorMapping.navy};
 cursor: pointer;
 `
 
