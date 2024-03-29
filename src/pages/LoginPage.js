@@ -1,8 +1,87 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+
 import LoginInput from "../components/LoginInput";
 import Typography from "../components/Typography";
-import PostListButton from "../components/buttons/PostListButton";
+import GoogleIcon from "../assets/googleicon.png"
+import Kakaoicon from "../assets/kakaoicon.png"
+
+
+const SocialLoginButton = ({ onClick, imagePath, margin, children }) => (
+  <SocialLoginStyledButton onClick={onClick} margin={margin}>
+    <SocialImage src={imagePath} alt="" />
+    {children}
+  </SocialLoginStyledButton>
+);
+
+
+const LoginPage = () => {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+
+  return (
+    <Wrapper>
+      <LogoWrapper>
+        EduMax
+      </LogoWrapper>
+      <BodyWrapper>
+        <IdInput placeholder="아이디" input={id} setInput={setId}/>
+        <PwInput 
+          placeholder="비밀번호" 
+          isPassword={true}
+          input={password}
+          setInput={setPassword}
+        />
+        <LoginButton>로그인</LoginButton>
+        <LoginTextWrapper>
+          <SignupTextWrapper>
+            <Link style={{ textDecoration: 'none' }}>
+              <Typography
+                color="sidebar_checked" 
+                size="body_content_small">
+                  회원가입
+              </Typography>
+            </Link>
+          </SignupTextWrapper>
+          <InnerTextWrapper>
+            <Link style={{ textDecoration: 'none' }}>
+              <Typography
+                color="sidebar_checked" 
+                size="body_content_small">
+                  아이디 찾기
+              </Typography>
+            </Link>
+            <Link style={{ textDecoration: 'none' }}>
+              <Typography
+                color="sidebar_checked" 
+                size="body_content_small">
+                  비밀번호 찾기
+              </Typography>
+            </Link>
+          </InnerTextWrapper>
+        </LoginTextWrapper>
+        <SocialLoginButton
+          margin="0 0 10px 0"
+          imagePath={GoogleIcon}>
+          <Typography
+            size="body_content_medium">
+              Google 계정으로 로그인
+          </Typography>
+        </SocialLoginButton>
+        <SocialLoginButton
+          imagePath={Kakaoicon}>
+          <Typography
+            size="body_content_medium">
+              Kakao 계정으로 로그인
+          </Typography>
+        </SocialLoginButton>
+      </BodyWrapper>
+    </Wrapper>
+  )
+}
+
+export default LoginPage;
 
 const Wrapper = styled.div`
   display: flex; // 추가
@@ -72,27 +151,52 @@ const LoginButton = styled.button`
   cursor: pointer;
 `;
 
-const LoginPage = () => {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+const LoginTextWrapper = styled.div`
+  display: flex;
+  width: 310px;
+  height: 25px;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 40px;
+`;
 
-  return (
-    <Wrapper>
-      <LogoWrapper>
-        EduMax
-      </LogoWrapper>
-      <BodyWrapper>
-        <IdInput placeholder="아이디" input={id} setInput={setId}/>
-        <PwInput 
-          placeholder="비밀번호" 
-          isPassword={true}
-          input={password}
-          setInput={setPassword}
-        />
-        <LoginButton>로그인</LoginButton>
-      </BodyWrapper>
-    </Wrapper>
-  )
-}
+const SignupTextWrapper = styled.div`
+  display: flex;
+  width: 70px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
 
-export default LoginPage;
+const InnerTextWrapper = styled.div`
+  display: flex;
+  width: 145px;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  gap: 15px;
+`;
+
+const SocialImage = styled.img`
+  width: 30px; // 너비 30px의 정사각형 이미지
+  height: 30px; // 높이 30px
+`;
+
+// 버튼 스타일을 위한 styled-component 정의
+const SocialLoginStyledButton = styled.button`
+  width: 310px; // 가로 310px
+  height: 55px; // 세로 55px
+  border-radius: 20px; // 모서리 둥글기 20px
+  border: 1px solid #A8AAAE; // 기본 테두리 스타일
+  padding: 12px 10px 12px 25px; // padding 설정
+  display: flex; // flexbox 레이아웃 사용
+  align-items: center; // 가로축(center)을 기준으로 아이템 정렬
+  gap: 15px; // 이미지와 텍스트 사이 간격 15px
+  background-color: white; // 배경색
+  margin: ${({ margin }) => margin || '0'}; // margin prop을 적용
+
+  // 클릭(active) 상태에서의 스타일
+  &:active {
+    border: 2px solid #4A5BAB; // 클릭 시 테두리 스타일
+  }
+`;

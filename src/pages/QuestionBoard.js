@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import SideBar from "../components/SideBar";
 import PostListButton from "../components/buttons/PostListButton";
@@ -42,9 +43,10 @@ const InnerRightWrapper = styled.div`
 `;
 
 function QuestionBoard() {
+  const [page, setPage] = useState(1);
   return (
     <Wrapper>
-      <SideBar />
+      <SideBar setPage={setPage}/>
       <BodyOuterWrapper>
         <PostListButton 
           width="98px" 
@@ -63,7 +65,7 @@ function QuestionBoard() {
               <PostSearchBar />
             </InnerRightWrapper>
           </InnerMenuWrapper>
-          <PostTable />
+          <PostTable page={page} setPage={setPage}/>
         </BodyInnerWrapper>
       </BodyOuterWrapper>
     </Wrapper>  
