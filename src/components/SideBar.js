@@ -13,6 +13,7 @@ export const SubjectMapping = {
 
 const SideBarWrapper = styled.div`
   display: flex;
+  box-sizing: border-box;
   height: 285px;
   width: 197px;
   flex-direction: column;
@@ -36,11 +37,11 @@ const BoardWrapper = styled.div`
 
 const CategoryWrapper = styled.div`
   display: flex;
-  height: 35px;
-  padding: 0px 10px;
+  height: 40px;
+  padding: 0px 8px;
   align-items: center;
   align-self: stretch;
-  background-color: ${(props) => (props.isActive ? "#91a5ff" : "transparent")};
+  background-color: ${(props) => (props.isActive ? "#4A5BAB" : "transparent")};
   cursor: pointer;
 
   & > div {
@@ -48,7 +49,7 @@ const CategoryWrapper = styled.div`
   }
 `;
 
-const SideBar = ({ board = "question", category = "english" }) => {
+const SideBar = ({ board = "question", category = "english" , setPage}) => {
   // 나중에는 이 state를 props로 받아야 함.
   const [activeCategory, setActiveCategory] = useState(category);
 
@@ -61,7 +62,10 @@ const SideBar = ({ board = "question", category = "english" }) => {
         <CategoryWrapper
           key={key}
           isActive={key === activeCategory}
-          onClick={() => setActiveCategory(key)}
+          onClick={() => {
+            setActiveCategory(key);
+            setPage(1);
+          }}
         >
           <Typography size="h3_medium">{value}</Typography>
         </CategoryWrapper>
