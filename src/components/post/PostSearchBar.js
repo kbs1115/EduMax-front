@@ -7,7 +7,7 @@ const SearchBarContainer = styled.div`
   align-items: center;
   background-color: #F3F4F8;
   border-radius: 15px;
-  width: 360px;
+  width: 310px;
   height: 40px;
   padding: 0 20px;
 `;

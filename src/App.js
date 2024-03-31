@@ -10,6 +10,7 @@ import FreeBoard from './pages/FreeBoard';
 import LectureBoard from './pages/LectureBoard';
 import Introduction from './pages/Introduction';
 import LoginPage from './pages/LoginPage';
+import PostCreatePage from './pages/PostCreatePage';
 
 function App() {
   const location = useLocation(); // 현재 경로를 얻기 위해 useLocation 훅 사용
@@ -26,6 +27,7 @@ function App() {
         <Route path="/lecture" element={<LectureBoard />} />
         <Route path="/intro" element={<Introduction />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/create-post" element={<PostCreatePage />} />
       </Routes>
     </>
   );

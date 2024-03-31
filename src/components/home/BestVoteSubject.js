@@ -49,7 +49,7 @@ text-decoration: none;
   }
 }
 
-${props => props.isSelected && css`
+${props => props.$isSelected && css`
   background: #4A5BAB;
   color: white;
 
@@ -183,13 +183,13 @@ const CategoryPostList = ({ category }) => (
 const QuickMenu = () => {
     return (
         <ContainerWrapper>
-            <RightContainerItemWrapper to={"/post/form"}>
+            <RightContainerItemWrapper to={"/create-post"}>
                 <Typography size="body_sub_title" color="black_gray">글쓰기</Typography>
             </RightContainerItemWrapper>
-            <RightContainerItemWrapper to={"/mypage/posts"}>
+            <RightContainerItemWrapper to={"/mypage-posts"}>
                 <Typography size="body_sub_title" color="black_gray">내가 쓴 게시물</Typography>
             </RightContainerItemWrapper>
-            <RightContainerItemWrapper to={"/mypage"}>
+            <RightContainerItemWrapper to={"/mypage-user"}>
                 <Typography size="body_sub_title" color="black_gray">마이페이지</Typography>
             </RightContainerItemWrapper>
             <RightContainerItemWrapper to={"https://www.youtube.com/@sunggjun"}>
