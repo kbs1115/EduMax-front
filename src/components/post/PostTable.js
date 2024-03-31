@@ -67,8 +67,7 @@ const PageNumber = styled.div`
 `;
 
 // PostTable component
-const PostTable = () => {
-  const [page, setPage] = useState(1);
+const PostTable = ({page, setPage}) => {
   return (
     <>
       <Wrapper>
