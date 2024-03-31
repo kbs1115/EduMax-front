@@ -44,6 +44,7 @@ const InnerRightWrapper = styled.div`
 
 function QuestionBoard() {
   const [page, setPage] = useState(1);
+
   return (
     <Wrapper>
       <SideBar setPage={setPage}/>

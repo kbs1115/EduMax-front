@@ -22,7 +22,7 @@ const Header = styled.header`
   align-items: center;
   background-color: transparent;
   margin-top: 20px;
-  border-bottom: 2px solid ${colorMapping.blue};
+  border-bottom: 2px solid ${colorMapping.navy};
 `;
 
 const TopRow = styled.div`

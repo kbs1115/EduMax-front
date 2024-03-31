@@ -36,7 +36,7 @@ const LectureContainer = styled.div`
   transition: border-color 0.3s; /* Transition effect applied to border color */
 
   &:hover {
-    border-bottom: 2px solid ${colorMapping.blue}; /* Border color changes on hover */
+    border-bottom: 2px solid ${colorMapping.navy}; /* Border color changes on hover */
   }
 `;
 
@@ -44,7 +44,7 @@ const Thumbnail = styled.img`
   width: 246px; 
   height: 139px;
   border-radius: 8px;
-  border: 1px solid var(--${colorMapping.blue});
+  border: 1px solid var(--${colorMapping.navy});
   background: url(${props => props.src}) lightgray -5.467px -2.343px / 103.81% 141.573% no-repeat;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
@@ -172,7 +172,7 @@ const LecturesThumbnail = () => {
                 <Thumbnail src={lecture.img}></Thumbnail>
                 <DiscriptionWrapper>
                   <Typography size="body_content_regular" color="#000000">{lecture.title}</Typography>
-                  <Typography size="body_content_small" color="blue">{lecture.instructor}</Typography>
+                  <Typography size="body_content_small" color="navy">{lecture.instructor}</Typography>
                 </DiscriptionWrapper>
               </LectureContainer>
             </StyledLink>
