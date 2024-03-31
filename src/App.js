@@ -10,13 +10,14 @@ import FreeBoard from './pages/FreeBoard';
 import LectureBoard from './pages/LectureBoard';
 import Introduction from './pages/Introduction';
 import LoginPage from './pages/LoginPage';
+import Signup from './pages/Signup';
 
 function App() {
   const location = useLocation(); // 현재 경로를 얻기 위해 useLocation 훅 사용
 
   return (
     <>
-      {location.pathname !== '/login' && <NavBar />}
+      {location.pathname !== '/login' && location.pathname !== '/signup' && <NavBar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post/question" element={<QuestionBoard />} />
@@ -26,6 +27,7 @@ function App() {
         <Route path="/lecture" element={<LectureBoard />} />
         <Route path="/intro" element={<Introduction />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
   );

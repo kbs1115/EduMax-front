@@ -14,6 +14,7 @@ export const sizeMapping = {
   body_content_thin: ["14px", "400"],
   body_content_small: ["12px", "500"],
   body_sub_title: ["16px", "500"],
+  signup_small_logo: ["20px", "500"],
 };
 
 export const colorMapping = {
@@ -24,7 +25,8 @@ export const colorMapping = {
   blue_gray: "#F3F4F8", // 사이트배경색
   container: "#DFE5EE", // 컨테이너색
   sidebar_checked: "#4A5BAB", //사이드바 과목 선택
-  white: "#FFF"
+  white: "#FFF",
+  timer: "#ED6E6E"
 };
 
 const Container = styled.div`
