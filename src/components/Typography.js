@@ -15,6 +15,7 @@ export const sizeMapping = {
   body_content_small: ["12px", "500"],
   body_content_small_thin :["12px", "400"],
   body_sub_title: ["16px", "500"],
+  signup_small_logo: ["20px", "500"],
 };
 
 export const colorMapping = {
@@ -25,6 +26,7 @@ export const colorMapping = {
   gray: "#A8AAAE", // 글쓴이,날짜
   blue_gray: "#F3F4F8", // 사이트배경색
   container: "#DFE5EE", // 컨테이너색
+  timer_red: "#ED6E6E"
   bright_gray:"#95A0B1", //회색보다 밝은
   purple_blue: "#91A5FF", //신기한색
   white :"#FFFFFF",

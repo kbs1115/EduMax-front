@@ -10,6 +10,7 @@ import FreeBoard from './pages/FreeBoard';
 import LectureBoard from './pages/LectureBoard';
 import Introduction from './pages/Introduction';
 import LoginPage from './pages/LoginPage';
+import Signup from './pages/Signup';
 import PostCreatePage from './pages/PostCreatePage';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
 
   return (
     <>
-      {location.pathname !== '/login' && <NavBar />}
+      {location.pathname !== '/login' && location.pathname !== '/signup' && <NavBar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post/question" element={<QuestionBoard />} />
@@ -27,6 +28,7 @@ function App() {
         <Route path="/lecture" element={<LectureBoard />} />
         <Route path="/intro" element={<Introduction />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/create-post" element={<PostCreatePage />} />
       </Routes>
     </>
