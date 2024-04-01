@@ -33,8 +33,11 @@ const Signup = () => {
   const moveTo = useNavigate();
 
   const [ID, setID] = useState("");
+  const [isIDValid, setIsIDValid] = useState(false);
   const [pw, setPw] = useState("");
+  const [isPwValid, setIsPwValid] = useState(false);
   const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const [nickname, setNickname] = useState("");
   const [certNum, setCertNum] = useState("");
 
@@ -43,6 +46,22 @@ const Signup = () => {
 
   const [timer, setTimer] = useState(false); // 타이머를 위한 상태
   const [timeLeft, setTimeLeft] = useState(300); // 초기 시간 5분 설정
+
+  useEffect(() => {
+    // ID 유효성 검사를 위한 정규 표현식
+    const regex = /^[a-zA-Z0-9_]{4,20}$/;
+    setIsIDValid(regex.test(ID));
+  }, [ID]);
+
+  useEffect(() => {
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
+    setIsPwValid(regex.test(pw));
+  }, [pw]);
+
+  useEffect(() => {
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
+    setIsEmailValid(regex.test(email));
+  }, [email]);
 
   useEffect(() => {
     // 타이머가 동작 중일 때만 작동
@@ -59,10 +78,8 @@ const Signup = () => {
   }, [timeLeft, timer]);
 
   const handleStartTimer = () => {
-    if (!timer) { // 타이머가 이미 동작 중이지 않을 경우에만 시작
-      setTimeLeft(300); // 5분으로 재설정
-      setTimer(true); // 타이머 시작
-    }
+    setTimeLeft(300); // 5분으로 재설정
+    setTimer(true); // 타이머 시작
   };
 
   // 타이머 포맷 변경 함수
@@ -78,7 +95,7 @@ const Signup = () => {
         <LogoWrapper>
           <Typography
             size="logo"
-            color="sidebar_checked"
+            color="navy"
             font="symbol">
             EduMax
           </Typography>
@@ -115,12 +132,16 @@ const Signup = () => {
           <Typography
               size="h3_bold"
               color="black_gray">
-              아이디
+            아이디
           </Typography>
-          <SignupInput 
-            placeholder="4~20자리/영문, 숫자, 특수문자 '_' 사용 가능" 
-            input={ID}
-            setInput={setID}/>
+          <InputWithButtonWrapper>
+            <SignupInput 
+              placeholder="4~20자리 / 영문, 숫자, '_' 사용가능" 
+              input={ID}
+              setInput={setID}
+              width="310px"/>
+            <SignupButton  isDisabled={isIDValid === false}/>
+          </InputWithButtonWrapper>
         </InputWrapper>
       </div>
       <InputWrapper>
@@ -130,7 +151,7 @@ const Signup = () => {
           비밀번호
         </Typography>
         <SignupInput 
-          placeholder="8~20자리/영문 대소문자, 숫자, 특수문자 조합" 
+          placeholder="8~20자리 / 영문, 숫자, 특수문자 반드시 하나 이상 포함" 
           input={pw}
           setInput={setPw}
           isPassword={true}/>
@@ -163,7 +184,7 @@ const Signup = () => {
             setInput={setEmail}
             width="310px"/>
           <SignupButton  
-            isDisabled={email.trim().length === 0} 
+            isDisabled={!isEmailValid} 
             text="인증요청"
             onClick={handleStartTimer}/>
         </InputWithButtonWrapper>
@@ -180,14 +201,14 @@ const Signup = () => {
             input={certNum}
             setInput={setCertNum}/>
           <TimerWrapper>
-            <Typography color="timer" size="body_sub_title">
+          {timer && <Typography color="timer_red" size="body_sub_title">
               {formatTime(timeLeft)}
-            </Typography>
+            </Typography>}
           </TimerWrapper>
         </InputWrapper>
       </div>
       <SignupButton 
-        isDisabled={ID == "" || pw == "" || email == "" || certNum == "" || nickname == ""} 
+        isDisabled={!(isIDValid && isPwValid)} 
         isBigButton={true} 
         text="회원가입 완료" 
         width="100%"
@@ -271,6 +292,7 @@ const CertifyButton = styled.button`
 
 const TimerWrapper = styled.div`
   position: relative;
+  height: 40px;
   bottom: 52px;
   left: 400px;
 `;

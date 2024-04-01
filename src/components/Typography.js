@@ -26,7 +26,7 @@ export const colorMapping = {
   gray: "#A8AAAE", // 글쓴이,날짜
   blue_gray: "#F3F4F8", // 사이트배경색
   container: "#DFE5EE", // 컨테이너색
-  timer_red: "#ED6E6E"
+  timer_red: "#ED6E6E",
   bright_gray:"#95A0B1", //회색보다 밝은
   purple_blue: "#91A5FF", //신기한색
   white :"#FFFFFF",
