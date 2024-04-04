@@ -12,6 +12,7 @@ import PostLinkShareButton from "../buttons/PostLinkShareButton";
 import PostDeleteButton from "../buttons/PostDeleteButton";
 import PostModifyButton from "../buttons/PostModifyButton";
 import ListButtons from "../buttons/ListButtons";
+
 const PostWrapper = styled.div`
 display: flex;
 flex-direction: column;
@@ -26,10 +27,11 @@ align-items: center;
 align-self: stretch;
 border-bottom: 1px solid ${colorMapping.container}
 `;
-const CategoryContainer = styled.div`
+const CategoryContainer = styled(Link)`
 display: flex;
 align-items: center;
 gap: 10px;
+text-decoration: none;
 `;
 
 const HomeIconImage = styled.img`
@@ -39,8 +41,7 @@ height: 18px;
 
 const PostTitleWrapper = styled.div`
 display: flex;
-height: 66px;
-padding: 10px 5px;
+padding: 10px 0 10px 5px;
 align-items: center;
 align-self: stretch;
 border-bottom: 1px solid ${colorMapping.black_gray};
@@ -142,40 +143,10 @@ align-items: center;
 gap: 10px;
 `
 
-
-
-
-
-const filesdataExample = [
-    {
-        file_name: "Reportddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd2024.pdf",
-        file_location: "https://example.com/report2024.pdf"
-    },
-    {
-        file_name: "Image.png",
-        file_location: "https://example.com/image.png"
-    }
-];
-const SamplehtmlContent = `
-<div>
-  <h1>Welcome to Our Website!</h1>
-  <p>This is a sample website to demonstrate how HTML content can be dynamically inserted into a React component.</p>
-  <h2>Features</h2>
-  <ul>
-    <li>Dynamic HTML content rendering</li>
-    <li>Interactive user interface</li>
-    <li>Responsive design</li>
-  </ul>
-  <p>For more information, visit our <a href="https://example.com">homepage</a>.</p>
-  <h2>Contact Us</h2>
-  <p>If you have any questions, please feel free to reach out at <a href="mailto:contact@example.com">contact@example.com</a>.</p>
-</div>
-`;
-const voterNicknames = ["user1", "user2", "user3"];
-const currentUserNickname = "user1";
 const PostContainer = (
-    { category, title, author, modified_date, views,
-        filesdata = filesdataExample, html_content = SamplehtmlContent, voter_nicknames = voterNicknames, user_nickname = currentUserNickname }
+    {
+        category, title, author, modified_date, views,
+        filesdata, html_content, voter_nicknames, user_nickname}
 ) => {
     const Files = () => {
         if (!filesdata || filesdata.length === 0) {
@@ -202,6 +173,19 @@ const PostContainer = (
     const [hasVoted, setHasVoted] = useState(voters.includes(user_nickname));
     const navigate = useNavigate();
 
+    const PostCategorymapping ={
+        FR: "자유게시판",
+        NO: "공지사항",
+        KQ: "질문게시판-국어",
+        MQ: "질문게시판-수학",
+        EQ: "질문게시판-영어",
+        OQ: "질문게시판-탐구",
+        KD: "자료게시판-국어",
+        MD: "자료게시판-수학",
+        ED: "자료게시판-영어",
+        OD: "자료게시판-탐구",
+    }
+    
     const handleVote = () => {
         if (!user_nickname) {
             if (window.confirm("로그인이 필요한 작업입니다. 로그인 페이지로 이동하시겠습니까?")) {
@@ -218,9 +202,9 @@ const PostContainer = (
     return (
         <PostWrapper>
             <CategoryWrapper>
-                <CategoryContainer>
+                <CategoryContainer to={`/post/?category=${category}`}>
                     <HomeIconImage src={homeIcon} />
-                    <Typography size="body_sub_title" color="gray">질문게시판-{category}</Typography>
+                    <Typography size="body_sub_title" color="gray">{PostCategorymapping[category]}</Typography>
                 </CategoryContainer>
             </CategoryWrapper>
 

@@ -4,7 +4,7 @@ import { colorMapping } from "../Typography";
 import Typography from "../Typography";
 import PostCreateDropdown from "./PostCreateDropdown";
 import PostCreateButton from "../buttons/PostCreateButton";
-import Ckeditor from "./Ckeditor";
+import CkeditorBox from "./CkeditorBox";
 import FileUploader from "./Fileupload";
 const MainContainer = styled.div`
     display: flex;
@@ -228,7 +228,7 @@ const PostCreateForm = () => {
                         <Typography size="body_content_small_thin" color="black_gray" style={{ opacity: 0.8 }}>최소 한글자 이상 적어주세요</Typography>
                     </InputContentFirstRow>
                     <InputContentSecondRow>
-                        <Ckeditor setContent={handleContentChange} />
+                        <CkeditorBox setContent={handleContentChange} />
                         {contentError && <Typography size="body_content_medium" color="red">내용을 입력해주세요</Typography>}
                     </InputContentSecondRow>
                 </InputContentWrapper>

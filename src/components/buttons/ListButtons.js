@@ -11,9 +11,12 @@ justify-content: center;
 align-items: center;
 gap: 5px;
 border-radius: 5px;
-border: 1px solid ${colorMapping.middle_gray};
-background-color: white;
+border: 1px solid ${colorMapping.navy};
+background-color: ${colorMapping.navy};
 cursor: pointer;
+&:hover {
+    background: ${colorMapping.brignt_navy};
+  }
 `;
 
 const ListIconWrapper = styled.img`
@@ -25,13 +28,13 @@ const ListButton = ({ category }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/post/${category}`); // 매핑된거에 맞게 url 보내면될듯합니다.
+        navigate(`/post/?category=${category}`); // 매핑된거에 맞게 url 보내면될듯합니다.
     };
 
     return (
         <ButtonContainer onClick={handleClick}>
             <ListIconWrapper src={listIcon} />
-            <Typography size="body_content_medium" color="black_gray">목록으로</Typography>
+            <Typography size="body_content_medium" color="white">목록으로</Typography>
         </ButtonContainer>
     );
 };

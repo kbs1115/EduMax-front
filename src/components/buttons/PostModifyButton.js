@@ -12,6 +12,9 @@ border-radius: 5px;
 border: 1px solid ${colorMapping.middle_gray};
 background-color: white;
 cursor: pointer;
+&:hover {
+    border: 1px solid ${colorMapping.brignt_navy};
+  }
 `;
 
 const PostDeleteButton = () => {

@@ -19,6 +19,9 @@ const ButtonContainer = styled.button`
   &:disabled {
     cursor: default;
   }
+  &:hover {
+    border: 2px solid ${colorMapping.brignt_navy};
+  }
 `;
 const VoteIconWrapper = styled.img`
 width: 20px;
