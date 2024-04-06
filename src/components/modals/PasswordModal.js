@@ -75,21 +75,12 @@ const StyledButton = styled.button`
 
 const Step2Wrapper = styled.div`
 	display: flex;
-	width: 100%;
-	height: 100%;
-	flex-direction: column;
-	align-items: center;
-`;
-
-
-const Step2TextWrapper = styled.div`
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	margin: auto;
 `;
 
-const EmailModal = () => {
+const PasswordModal = () => {
 	const [email, setEmail] = useState("");
 	const [certNum, setCertNum] = useState("");
 	const [isEmailValid, setIsEmailValid] = useState(false);
@@ -164,8 +155,7 @@ const EmailModal = () => {
 				</StyledButton>
 			</div>
 			</>: 
-			<Step2Wrapper>
-				<Step2TextWrapper>
+				<Step2Wrapper>
 					<Typography color='gray' size='body_sub_title'>
 						귀하의 아이디는&nbsp; 
 					</Typography>
@@ -175,18 +165,10 @@ const EmailModal = () => {
 					<Typography color='gray' size='body_sub_title'>
 						입니다.
 					</Typography>
-				</Step2TextWrapper>
-				<div>
-					<StyledButton onClick={() => setStep(1)}>
-						<Typography 
-							size='body_sub_title' 
-							color='white'>홈으로</Typography>
-					</StyledButton>
-				</div>
-			</Step2Wrapper>
+				</Step2Wrapper>
 			}
     </Wrapper>
   );
 }
 
-export default EmailModal;
+export default PasswordModal;
