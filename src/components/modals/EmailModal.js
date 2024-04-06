@@ -73,10 +73,18 @@ const StyledButton = styled.button`
 	cursor: pointer;
 `;
 
+const Step2Wrapper = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: auto;
+`;
+
 const EmailModal = () => {
 	const [email, setEmail] = useState("");
 	const [certNum, setCertNum] = useState("");
 	const [isEmailValid, setIsEmailValid] = useState(false);
+	const [step, setStep] = useState(1);
 
 	const handleEmailChange = (event) => {
 		setEmail(event.target.value);
@@ -97,17 +105,20 @@ const EmailModal = () => {
 			<div style={{ display: "flex", flexDirection: "column", width: "100%", paddingBottom: "10px" }}>
 				<TitleWrapper>
 					<Typography size='h2'>
-						이메일 인증
+						{step === 1 ? "이메일 인증" : "인증 완료"}
 					</Typography>
 					<Typography size='h2' color='navy'>
-						Step 1/2
+						Step {step}/2
 					</Typography>
 				</TitleWrapper>
-				<Typography size='body_content_thin' color='gray'>
-					본인확인을 위해 반드시 인증절차가 필요합니다.
-				</Typography>
+				{step === 1 && <>
+					<Typography size='body_content_thin' color='gray'>
+						본인확인을 위해 반드시 인증절차가 필요합니다.
+					</Typography>
+				</>}
 			</div>
-			<div style={{ display: "flex", width: "100%", flexDirection: "column", gap: "20px" }}>
+			{ step === 1 ? <>
+				<div style={{ display: "flex", width: "100%", flexDirection: "column", gap: "20px" }}>
 				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "end"}}>
 					<EmailWrapper>
 						<Typography color='black_gray' size='h3_bold'>
@@ -137,12 +148,25 @@ const EmailModal = () => {
 				</CertNumWrapper>
 			</div>
 			<div>
-				<StyledButton disabled={!(isEmailValid && certNum !== "")}>
+				<StyledButton disabled={!(isEmailValid && certNum !== "")} onClick={() => setStep(2)}>
 					<Typography 
 						size='body_sub_title' 
 						color={isEmailValid ? 'white' : 'gray'}>다음</Typography>
 				</StyledButton>
 			</div>
+			</>: 
+				<Step2Wrapper>
+					<Typography color='gray' size='body_sub_title'>
+						귀하의 아이디는&nbsp; 
+					</Typography>
+					<Typography color='black_gray' size='body_sub_title'>
+						gmyun1999
+					</Typography>
+					<Typography color='gray' size='body_sub_title'>
+						입니다.
+					</Typography>
+				</Step2Wrapper>
+			}
     </Wrapper>
   );
 }
