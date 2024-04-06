@@ -32,7 +32,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/create-post" element={<PostCreatePage />} />
       </Routes>
-      <EmailModal />
+      <EmailModal isPassword={true}/>
     </>
   );
 }
