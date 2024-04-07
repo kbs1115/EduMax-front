@@ -10,6 +10,7 @@ export const sizeMapping = {
   h1: ["32px", "500"],
   logo: ["26px", "500"],
   body_content_regular: ["13px", "500"],
+  body_content_bold:["14px", "700"],
   body_content_medium: ["14px", "500"],
   body_content_thin: ["14px", "400"],
   body_content_small: ["12px", "500"],
@@ -20,15 +21,18 @@ export const sizeMapping = {
 
 export const colorMapping = {
   navy: "#4A5BAB",
+  brignt_navy: "#2B42B0",
   nav_tab: "#333437", // 네비바 탭 색깔
   black_gray: "#393E46", // 목차색,네비바 상단 글자색
   blue: "#045DEB", // 사이트색
   gray: "#A8AAAE", // 글쓴이,날짜
   blue_gray: "#F3F4F8", // 사이트배경색
   container: "#DFE5EE", // 컨테이너색
-  timer_red: "#ED6E6E"
+  timer_red: "#ED6E6E",
   bright_gray:"#95A0B1", //회색보다 밝은
+  middle_gray:"#B6C0D5", //회원가입
   purple_blue: "#91A5FF", //신기한색
+  bright_black_gray: "#4D4E52", //회색
   white :"#FFFFFF",
   red: "#FF0000"
 };
