@@ -19,7 +19,7 @@ function App() {
 
   return (
     <>
-      {location.pathname !== '/login' && location.pathname !== '/signup' && <NavBar />}
+      {location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/find' &&<NavBar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post/question" element={<QuestionBoard />} />
@@ -31,8 +31,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/create-post" element={<PostCreatePage />} />
+        <Route path="/find" element={<EmailModal isPassword={false}/>} />
       </Routes>
-      <EmailModal isPassword={true}/>
     </>
   );
 }

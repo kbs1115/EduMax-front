@@ -201,7 +201,8 @@ export default EmailModal;
 
 const Wrapper = styled.div`
   display: flex;
-	box-sizing: border-box;
+  margin: auto;
+  box-sizing: border-box;
   width: 640px;
   height: 445px;
   padding: 30px 40px;
