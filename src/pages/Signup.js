@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import Typography from "../components/Typography";
 import SignupInput from "../components/SignupInput";
+import CheckMark from "../assets/check_mark.png"
 
 
 const SignupButton = ({ 
@@ -33,8 +34,11 @@ const Signup = () => {
   const moveTo = useNavigate();
 
   const [ID, setID] = useState("");
+  const [isIDValid, setIsIDValid] = useState(false);
   const [pw, setPw] = useState("");
+  const [isPwValid, setIsPwValid] = useState(false);
   const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const [nickname, setNickname] = useState("");
   const [certNum, setCertNum] = useState("");
 
@@ -43,6 +47,25 @@ const Signup = () => {
 
   const [timer, setTimer] = useState(false); // 타이머를 위한 상태
   const [timeLeft, setTimeLeft] = useState(300); // 초기 시간 5분 설정
+
+  const [yakgwan1Checked, setYakgwan1Checked] = useState(false);
+  const [yakgwan2Checked, setYakgwan2Checked] = useState(false);
+
+  useEffect(() => {
+    // ID 유효성 검사를 위한 정규 표현식
+    const regex = /^[a-zA-Z0-9_]{4,20}$/;
+    setIsIDValid(regex.test(ID));
+  }, [ID]);
+
+  useEffect(() => {
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
+    setIsPwValid(regex.test(pw));
+  }, [pw]);
+
+  useEffect(() => {
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
+    setIsEmailValid(regex.test(email));
+  }, [email]);
 
   useEffect(() => {
     // 타이머가 동작 중일 때만 작동
@@ -59,10 +82,8 @@ const Signup = () => {
   }, [timeLeft, timer]);
 
   const handleStartTimer = () => {
-    if (!timer) { // 타이머가 이미 동작 중이지 않을 경우에만 시작
-      setTimeLeft(300); // 5분으로 재설정
-      setTimer(true); // 타이머 시작
-    }
+    setTimeLeft(300); // 5분으로 재설정
+    setTimer(true); // 타이머 시작
   };
 
   // 타이머 포맷 변경 함수
@@ -78,7 +99,7 @@ const Signup = () => {
         <LogoWrapper>
           <Typography
             size="logo"
-            color="sidebar_checked"
+            color="navy"
             font="symbol">
             EduMax
           </Typography>
@@ -115,12 +136,16 @@ const Signup = () => {
           <Typography
               size="h3_bold"
               color="black_gray">
-              아이디
+            아이디
           </Typography>
-          <SignupInput 
-            placeholder="4~20자리/영문, 숫자, 특수문자 '_' 사용 가능" 
-            input={ID}
-            setInput={setID}/>
+          <InputWithButtonWrapper>
+            <SignupInput 
+              placeholder="4~20자리 / 영문, 숫자, '_' 사용가능" 
+              input={ID}
+              setInput={setID}
+              width="310px"/>
+            <SignupButton  isDisabled={isIDValid === false}/>
+          </InputWithButtonWrapper>
         </InputWrapper>
       </div>
       <InputWrapper>
@@ -130,7 +155,7 @@ const Signup = () => {
           비밀번호
         </Typography>
         <SignupInput 
-          placeholder="8~20자리/영문 대소문자, 숫자, 특수문자 조합" 
+          placeholder="8~20자리 / 영문, 숫자, 특수문자 반드시 하나 이상 포함" 
           input={pw}
           setInput={setPw}
           isPassword={true}/>
@@ -163,12 +188,12 @@ const Signup = () => {
             setInput={setEmail}
             width="310px"/>
           <SignupButton  
-            isDisabled={email.trim().length === 0} 
+            isDisabled={!isEmailValid} 
             text="인증요청"
             onClick={handleStartTimer}/>
         </InputWithButtonWrapper>
       </InputWrapper>
-      <div style={{ marginBottom: "30px"}}>
+      <div>
         <InputWrapper>
           <Typography
               size="h3_bold"
@@ -180,14 +205,57 @@ const Signup = () => {
             input={certNum}
             setInput={setCertNum}/>
           <TimerWrapper>
-            <Typography color="timer" size="body_sub_title">
+          {timer && <Typography color="timer_red" size="body_sub_title">
               {formatTime(timeLeft)}
-            </Typography>
+            </Typography>}
           </TimerWrapper>
         </InputWrapper>
       </div>
+      <InputWrapper>
+        <Typography
+            size="h3_bold"
+            color="black_gray">
+          약관
+        </Typography>
+        <YakgwanBox>
+          <YakgwanWrapper>
+            <YakgwanCheckBox 
+              isChecked={yakgwan1Checked} src={CheckMark}
+              onClick={() => setYakgwan1Checked(!yakgwan1Checked)}/>
+            <Link style={{ textDecoration: 'none', cursor: 'pointer' }}>
+              <Typography 
+                color={yakgwan1Checked ? "black_gray" : "gray"}  
+                size="body_sub_title" >
+                (필수) 에듀맥스 이용약관
+              </Typography>
+            </Link>
+            <Typography 
+              color={yakgwan1Checked ? "black_gray" : "gray"}  
+              size="body_sub_title" >
+                에 동의
+              </Typography>
+          </YakgwanWrapper>
+          <YakgwanWrapper>
+            <YakgwanCheckBox 
+              isChecked={yakgwan2Checked} src={CheckMark}
+              onClick={() => setYakgwan2Checked(!yakgwan2Checked)}/>
+            <Link style={{ textDecoration: 'none', cursor: 'pointer' }}>
+              <Typography 
+                color={yakgwan2Checked ? "black_gray" : "gray"} 
+                size="body_sub_title" >
+                (필수) 개인정보 수집 및 이용
+              </Typography>
+            </Link>
+            <Typography 
+              color={yakgwan2Checked ? "black_gray" : "gray"} 
+              size="body_sub_title" >
+              에 동의
+            </Typography>
+          </YakgwanWrapper>
+        </YakgwanBox>
+      </InputWrapper>
       <SignupButton 
-        isDisabled={ID == "" || pw == "" || email == "" || certNum == "" || nickname == ""} 
+        isDisabled={!(isIDValid && isPwValid && yakgwan1Checked && yakgwan2Checked)} 
         isBigButton={true} 
         text="회원가입 완료" 
         width="100%"
@@ -232,7 +300,6 @@ const ContentWrapper = styled.div`
   padding-top: 10px;
   display: flex;
   width: 450px;
-  height: 1000px;
   flex-direction: column;
   align-items: center;
   gap: 20px;
@@ -271,6 +338,38 @@ const CertifyButton = styled.button`
 
 const TimerWrapper = styled.div`
   position: relative;
+  height: 30px;
   bottom: 52px;
   left: 400px;
+`;
+
+const YakgwanBox = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  width: 450px;
+  height: 110px;
+  padding: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 10px;
+  border: 1px solid #B6C0D5;
+  margin-bottom: 30px;
+`;
+
+const YakgwanWrapper = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`;
+
+const YakgwanCheckBox = styled.div`
+  width: ${(props) => props.isChecked ? "27px" : "25px"};
+  height: ${(props) => props.isChecked ? "27px" : "25px"};
+  margin-right: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: ${(props) => props.isChecked ? "none" : "1px solid #A8AAAE"};
+  background: ${(props) => props.isChecked ? `url(${props.src}) center/cover` : "#FFFFFF"};
 `;
