@@ -35,14 +35,23 @@ const Signup = () => {
 
   const [ID, setID] = useState("");
   const [isIDValid, setIsIDValid] = useState(false);
+  const [isIdDup, setIsIdDup] = useState(null);
+  const [idError, setIdError] = useState(false);
+
   const [pw, setPw] = useState("");
   const [isPwValid, setIsPwValid] = useState(false);
+  const [pwError, setPwError] = useState("");
+
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [nickname, setNickname] = useState("");
-  const [certNum, setCertNum] = useState("");
+  const [emailError, setEmailError] = useState("");
 
-  const [isDup, setIsDup] = useState(true);
+  const [nickname, setNickname] = useState("");
+  const [isDup, setIsDup] = useState(null);
+
+  const [certNum, setCertNum] = useState("");
+  const [isCertValid, setIsCertValid] = useState(false);
+  const [certError, setCertError] = useState("");
   const [isCertifyed, setIsCertified] = useState(false);
 
   const [timer, setTimer] = useState(false); // 타이머를 위한 상태
@@ -52,20 +61,101 @@ const Signup = () => {
   const [yakgwan2Checked, setYakgwan2Checked] = useState(false);
 
   useEffect(() => {
-    // ID 유효성 검사를 위한 정규 표현식
-    const regex = /^[a-zA-Z0-9_]{4,20}$/;
-    setIsIDValid(regex.test(ID));
+    setIsIdDup(null);
+
+    if (ID === "")
+      setIdError("")
+    else {
+      const regex = /^[a-zA-Z0-9_]{4,20}$/;
+      setIsIDValid(regex.test(ID));
+      if (isIDValid === false)
+        setIdError("아이디는 4~20자의 영문, 숫자, 특수문자여야 합니다.")
+      else
+        setIdError("")
+    }
   }, [ID]);
 
   useEffect(() => {
-    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
-    setIsPwValid(regex.test(pw));
+    if (isIdDup === true)
+      setIdError("중복되는 아이디입니다.")
+    else if (isIdDup === false)
+      setIdError("사용 가능한 아이디입니다.")
+  }, [isIdDup]);
+
+  useEffect(() => {
+    if (pw === "") {
+      setPwError("");
+      setIsPwValid(false); // 비밀번호가 비어있을 경우, 유효하지 않음
+    } else {
+      // 비밀번호 길이 검증
+      if (pw.length < 8 || pw.length > 20) {
+        setPwError("비밀번호는 8~20자리여야 합니다.");
+        setIsPwValid(false);
+        return; // 이후 조건 검사를 중단
+      }
+      // 영문자 포함 검증
+      if (!/[a-zA-Z]/.test(pw)) {
+        setPwError("비밀번호에는 하나 이상의 영문자가 포함되어야 합니다.");
+        setIsPwValid(false);
+        return; // 이후 조건 검사를 중단
+      }
+      // 숫자 포함 검증
+      if (!/\d/.test(pw)) {
+        setPwError("비밀번호에는 하나 이상의 숫자가 포함되어야 합니다.");
+        setIsPwValid(false);
+        return; // 이후 조건 검사를 중단
+      }
+      // 특수문자 포함 검증
+      if (!/[!@#$%^&*]/.test(pw)) {
+        setPwError("비밀번호에는 하나 이상의 특수문자가 포함되어야 합니다.");
+        setIsPwValid(false);
+        return; // 이후 조건 검사를 중단
+      }
+      // 모든 조건을 만족하면 에러 메시지를 비움 및 유효성 상태를 true로 설정
+      setPwError("");
+      setIsPwValid(true);
+    }
   }, [pw]);
 
   useEffect(() => {
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
-    setIsEmailValid(regex.test(email));
+    setIsDup(null);
+  }, [nickname]);
+  
+  useEffect(() => {
+    if (email === ""){
+      setEmailError("");
+      setIsEmailValid(false);
+    }
+    else {
+      const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
+      if (regex.test(email)){
+        setIsEmailValid(true)
+        setEmailError("")
+      }
+      else{
+        setIsEmailValid(false)
+        setEmailError("이메일 형식이 잘못되었습니다.")
+      }
+    }
   }, [email]);
+
+  useEffect(() => {
+    if (certNum === ""){
+      setCertError("");
+      setIsCertValid(false);
+    }
+    else {
+      const regex = /^\d{6}$/;
+      if (regex.test(certNum)){
+        setIsCertValid(true);
+        setCertError("");
+      }
+      else {
+        setIsCertValid(false);
+        setCertError("인증번호는 6자리의 자연수입니다.")
+      }
+    }
+  }, [certNum]);
 
   useEffect(() => {
     // 타이머가 동작 중일 때만 작동
@@ -92,6 +182,14 @@ const Signup = () => {
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
+
+  const checkIdDuplication = () => {
+    setIsIdDup(false);
+  }
+
+  const checkNicknameDuplication = () => {
+    setIsDup(false);
+  }
 
   return (<>
     <HeaderWrapper>
@@ -144,8 +242,15 @@ const Signup = () => {
               input={ID}
               setInput={setID}
               width="310px"/>
-            <SignupButton  isDisabled={isIDValid === false}/>
+            <SignupButton  
+              isDisabled={isIDValid === false}
+              onClick={checkIdDuplication}/>
           </InputWithButtonWrapper>
+          { ( idError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color= { isIdDup === false ? "ok_message" : "warning_red"}
+            size="body_sub_title">
+              {idError}
+            </Typography></div>}
         </InputWrapper>
       </div>
       <InputWrapper>
@@ -159,6 +264,11 @@ const Signup = () => {
           input={pw}
           setInput={setPw}
           isPassword={true}/>
+        { ( pwError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color="warning_red"
+            size="body_sub_title">
+              {pwError}
+            </Typography></div>}
       </InputWrapper>
       <InputWrapper>
         <Typography
@@ -172,8 +282,15 @@ const Signup = () => {
             input={nickname}
             setInput={setNickname}
             width="310px"/>
-          <SignupButton  isDisabled={nickname.trim().length === 0}/>
+          <SignupButton  
+            isDisabled={nickname.trim().length === 0}
+            onClick={checkNicknameDuplication}/>
         </InputWithButtonWrapper>
+        { ( nickname !== "" && isDup !== null ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color= { isDup === false ? "ok_message" : "warning_red"}
+            size="body_sub_title">
+              {isDup ? "중복되는 닉네임입니다." : "사용 가능한 닉네임입니다."}
+            </Typography></div>}
       </InputWrapper>
       <InputWrapper>
         <Typography
@@ -192,6 +309,11 @@ const Signup = () => {
             text="인증요청"
             onClick={handleStartTimer}/>
         </InputWithButtonWrapper>
+        { ( emailError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color="warning_red"
+            size="body_sub_title">
+              {emailError}
+            </Typography></div>}
       </InputWrapper>
       <div>
         <InputWrapper>
@@ -204,6 +326,11 @@ const Signup = () => {
             placeholder="인증번호를 입력하세요" 
             input={certNum}
             setInput={setCertNum}/>
+            { ( certError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color="warning_red"
+            size="body_sub_title">
+              {certError}
+            </Typography></div>}
           <TimerWrapper>
           {timer && <Typography color="timer_red" size="body_sub_title">
               {formatTime(timeLeft)}
@@ -255,7 +382,10 @@ const Signup = () => {
         </YakgwanBox>
       </InputWrapper>
       <SignupButton 
-        isDisabled={!(isIDValid && isPwValid && yakgwan1Checked && yakgwan2Checked)} 
+        isDisabled={
+          !(isIDValid && isPwValid && isEmailValid && yakgwan1Checked 
+          && yakgwan2Checked && isCertValid && !isIdDup && !isDup && timer)
+        } 
         isBigButton={true} 
         text="회원가입 완료" 
         width="100%"

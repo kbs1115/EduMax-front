@@ -34,7 +34,9 @@ export const colorMapping = {
   purple_blue: "#91A5FF", //신기한색
   bright_black_gray: "#4D4E52", //회색
   white :"#FFFFFF",
-  red: "#FF0000"
+  red: "#FF0000",
+  warning_red: "#FF4747",
+  ok_message: "#5E59FF"
 };
 
 const Container = styled.div`
