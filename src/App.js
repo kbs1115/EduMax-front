@@ -32,7 +32,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/create-post" element={<PostCreatePage />} />
-        <Route path="/find" element={<EmailModal isPassword={false}/>} />
+        <Route path="/find" element={<EmailModal isPassword={true}/>} />
         <Route path="/post/:postId" element={<PostDetailPage />} />
       </Routes>
     </>
