@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import Typography from "../components/Typography";
 import SignupInput from "../components/SignupInput";
@@ -26,6 +27,63 @@ const SignupButton = ({
         {text}
       </Typography>
     </CertifyButton>
+  );
+};
+
+
+const SignupModal = ({ isOpen, onClose, modalNum }) => {
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+
+  useEffect(() => {
+    if (modalNum === 1) {
+      setContent("modal1content".repeat(200))
+      setTitle("에듀맥스 서비스 이용 약관")
+    }
+    else
+      setContent("modal2content".repeat(200))
+  }, []);
+
+  // modal 뒤 스크린 활성화/비활성화
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <SignupModalBackdrop onClick={onClose}>
+      <SignupModalView onClick={e => e.stopPropagation()}>
+        <div style={{ display: "flex", width: "100%", justifyContent: "end", cursor: "pointer"}}>
+          <svg onClick={onClose} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.3687 0.477142C18.7325 -0.159051 17.7011 -0.159052 17.0649 0.477141L9.92301 7.61902L2.93527 0.631269C2.29908 -0.00492373 1.26761 -0.00492402 0.631419 0.631269C-0.00477254 1.26746 -0.00477366 2.29893 0.631418 2.93513L7.61915 9.92287L0.477118 17.0649C-0.159074 17.7011 -0.159074 18.7326 0.477118 19.3688C1.11331 20.005 2.14478 20.005 2.78097 19.3688L9.92301 12.2267L17.2192 19.5229C17.8554 20.1591 18.8868 20.1591 19.523 19.5229C20.1592 18.8867 20.1592 17.8552 19.523 17.2191L12.2269 9.92287L19.3687 2.781C20.0049 2.14481 20.0049 1.11334 19.3687 0.477142Z" fill="#B6C0D5"/>
+          </svg>
+        </div>
+        <Typography color="#000" size="h2">
+          {title}
+        </Typography>
+        <ScrollbarContainer>
+          <Scrollbars
+            autoHide
+            style={{ width: '100%', height: '258px' }}
+            renderThumbVertical={props => <div {...props} style={{ backgroundColor: '#888', borderRadius: '4px' }} />}
+            renderTrackVertical={props => <div {...props} style={{ right: '2px', bottom: '2px', top: '2px', borderRadius: '3px', backgroundColor: '#f1f1f1' }} />}
+          >
+            <ContentContainer>
+              {content}
+            </ContentContainer>
+          </Scrollbars>
+        </ScrollbarContainer>
+      </SignupModalView>
+    </SignupModalBackdrop>
   );
 };
 
@@ -59,6 +117,7 @@ const Signup = () => {
 
   const [yakgwan1Checked, setYakgwan1Checked] = useState(false);
   const [yakgwan2Checked, setYakgwan2Checked] = useState(false);
+  const [isModal1Open, setIsModal1Open] = useState(false);
 
   useEffect(() => {
     setIsIdDup(null);
@@ -349,13 +408,19 @@ const Signup = () => {
             <YakgwanCheckBox 
               isChecked={yakgwan1Checked} src={CheckMark}
               onClick={() => setYakgwan1Checked(!yakgwan1Checked)}/>
-            <Link style={{ textDecoration: 'none', cursor: 'pointer' }}>
+            <div 
+              style={{ textDecoration: 'none', cursor: 'pointer' }}
+              onClick={() => setIsModal1Open(true)}>
               <Typography 
                 color={yakgwan1Checked ? "black_gray" : "gray"}  
                 size="body_sub_title" >
                 (필수) 에듀맥스 이용약관
               </Typography>
-            </Link>
+            </div>
+            <SignupModal 
+                isOpen={isModal1Open} 
+                onClose={() => setIsModal1Open(false)}
+                modalNum={1}/>
             <Typography 
               color={yakgwan1Checked ? "black_gray" : "gray"}  
               size="body_sub_title" >
@@ -503,3 +568,49 @@ const YakgwanCheckBox = styled.div`
   border: ${(props) => props.isChecked ? "none" : "1px solid #A8AAAE"};
   background: ${(props) => props.isChecked ? `url(${props.src}) center/cover` : "#FFFFFF"};
 `;
+
+const SignupModalBackdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+// 모달 창 스타일
+const SignupModalView = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  width: 620px;
+  height: 445px;
+  padding: 30px 30px 40px;
+  flex-direction: column;
+  align-items: start;
+  gap: 20px;
+  border-radius: 20px;
+  background: #FFF;
+`;
+
+const ContentContainer = styled.div`
+  word-wrap: break-word;
+  color: #393E46;
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+const ScrollbarContainer = styled.div`
+  height: 280px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid #B6C0D5;
+`;
+
