@@ -12,8 +12,9 @@ import Introduction from './pages/Introduction';
 import LoginPage from './pages/LoginPage';
 import Signup from './pages/Signup';
 import PostCreatePage from './pages/PostCreatePage';
-import EmailModal from './components/modals/EmailModal';
+import EmailModal from './components/modals/FindModal';
 import PostDetailPage from './pages/PostDetail';
+import MyPage from './pages/MyPage';
 
 function App() {
   const location = useLocation(); // 현재 경로를 얻기 위해 useLocation 훅 사용
@@ -28,6 +29,7 @@ function App() {
         <Route path="/post/notice" element={<NoticeBoard />} />
         <Route path="/post/free" element={<FreeBoard />} />
         <Route path="/lecture" element={<LectureBoard />} />
+        <Route path='/mypage' element={<MyPage />} />
         <Route path="/intro" element={<Introduction />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<Signup />} />

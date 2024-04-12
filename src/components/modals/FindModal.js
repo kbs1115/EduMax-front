@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Typography from '../Typography';
 
 
-const EmailModal = ({isPassword = false}) => {
+const FindModal = ({ isOpen, isPassword = false, onClose }) => {
 	const [title, setTitle] = useState({
 		"title": "",
 		"step": ""
@@ -145,8 +145,11 @@ const EmailModal = ({isPassword = false}) => {
 			});
   }, [step]);
 
+  if (!isOpen) return null; // Don't render the modal unless it's open
+
   return (
-    <Wrapper>
+	<Backdrop onClick={onClose}>
+		<Wrapper onClick={(e) => e.stopPropagation()}>
 			<div style={{ display: "flex", flexDirection: "column", width: "100%", paddingBottom: "10px" }}>
 				<TitleWrapper>
 					<Typography size='h2'>
@@ -287,10 +290,12 @@ const EmailModal = ({isPassword = false}) => {
 				</div>
 			</Step2Wrapper>}
     </Wrapper>
+	</Backdrop>
+    
   );
 }
 
-export default EmailModal;
+export default FindModal;
 
 const Wrapper = styled.div`
   display: flex;
@@ -303,6 +308,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   border: 1px solid #B6C0D5;
+  background-color: white;
 `;
 
 const TitleWrapper = styled.div`
@@ -378,5 +384,18 @@ const Step2TextWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	margin: auto;
+`;
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 `;
 
