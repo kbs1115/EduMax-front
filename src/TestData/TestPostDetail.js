@@ -41,7 +41,7 @@ export const ResponsePostData1 = {
     html_content: SamplehtmlContent,
     created_at: "2020-12-30",
     modified_at: "2020-12-30",
-    category: "KQ",
+    category: "EQ",
     author: "윤규민",
     views: 20 // 조화수인데 백엔드 구현이 필요함
 };

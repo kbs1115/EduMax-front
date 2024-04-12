@@ -50,9 +50,9 @@ function QuestionBoard() {
       <SideBar setPage={setPage}/>
       <BodyOuterWrapper>
         <PostListButton 
-          width="98px" 
+          width="90px" 
           height="43px" 
-          size="body_content_medium" 
+          size="body_content_bold" 
           buttonColor="#4A5BAB" 
           textColor="white"
         >

@@ -41,7 +41,7 @@ function PostDetailPage() {
     }
 
     // 테스트 데이터 매핑
-    const { files, likes, title, html_content, created_at, modified_at, category, author, views } = ResponsePostData1;
+    const { files, likes, title, html_content, created_at, modified_at, category, author, views } = ResponsePostData2;
 
     // Mapping likes to voter_nicknames
     const voter_nicknames = likes.map(like => like.user);

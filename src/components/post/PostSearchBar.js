@@ -5,7 +5,7 @@ import searchIcon from '../../assets/nav_search_icon.png'; // Adjust this path t
 const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: #F3F4F8;
+  background-color: #F7F7F8;
   border-radius: 15px;
   width: 310px;
   height: 40px;
