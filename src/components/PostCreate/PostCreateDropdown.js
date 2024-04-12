@@ -56,8 +56,8 @@ const PostCreateDropdown = ({ onCategorySelect }) => {
   };
 
     return (
-        <Container>
-            <ButtonWrapper onClick={toggleDropdown}>
+        <Container onClick={toggleDropdown}>
+            <ButtonWrapper>
                 <Typography size="body_content_thin" color="gray">{selectedOption}</Typography>
                 <ArrowWrapper src={dropdown} />
             </ButtonWrapper>
