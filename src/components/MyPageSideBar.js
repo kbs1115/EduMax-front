@@ -15,7 +15,6 @@ const MyPageSideBar = ({
     setPage,
     setCategory 
 }) => {
-    // 나중에는 이 state를 props로 받아야 함.
   
     return (
       <SideBarWrapper>

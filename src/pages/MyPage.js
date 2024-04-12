@@ -65,6 +65,33 @@ const EmailInfoWrapper = styled.div`
 	gap: 5px;
 `;
 
+const BodyInnerWrapper = styled.div`
+  margin-top: 10px;
+  border-top: 2px solid #393E46;
+  padding: 30px 0;
+`;
+
+const InnerMenuWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+`;
+
+const InnerCommentMenuWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+`;
+
+const InnerRightWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+`;
+
 const InfoPage = () => {
 	const [isEmailModal, setIsEmailModal] = useState(false);
 	const [isPwModal, setIsPwModal] = useState(false);
@@ -124,6 +151,21 @@ const InfoPage = () => {
 	</BodyOuterWrapper>);
 }
 
+const CommentPage = ({page = 1, setPage}) => {
+	return (<BodyOuterWrapper>
+		<InnerCommentMenuWrapper>
+			<Typography color="black_bright_gray" size="h2">
+				내가 쓴 댓글
+			</Typography>
+			<InnerRightWrapper>
+				<PostDropDown />
+				<PostSearchBar />
+			</InnerRightWrapper>
+		</InnerCommentMenuWrapper>
+		<PostTable page={page} setPage={setPage} itemNum={5}/>
+	</BodyOuterWrapper>);
+}
+
 
 function MyPage() {
   const [page, setPage] = useState(1);
@@ -135,7 +177,23 @@ function MyPage() {
 				category={category} 
 				setCategory={setCategory}
 				setPage={setPage}/>
-      {category === "info" ? <InfoPage /> : <></>}
+      {category === "info" ? <InfoPage /> : 
+			category === "comments" ? <CommentPage page={page} setPage={setPage}/> :
+			<BodyOuterWrapper>
+				<Typography color="black_bright_gray" size="h2">
+					{mypageMapping[category]}
+				</Typography>
+        <BodyInnerWrapper>
+          <InnerMenuWrapper>
+            <PostOrder />
+            <InnerRightWrapper>
+              <PostDropDown />
+              <PostSearchBar />
+            </InnerRightWrapper>
+          </InnerMenuWrapper>
+          <PostTable page={page} setPage={setPage} itemNum={5}/>
+        </BodyInnerWrapper>
+			</BodyOuterWrapper>}
     </Wrapper>  
   );
 }

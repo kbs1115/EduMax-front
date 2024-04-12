@@ -67,7 +67,7 @@ const PageNumber = styled.div`
 `;
 
 // PostTable component
-const PostTable = ({page, setPage}) => {
+const PostTable = ({page, setPage, itemNum = 10}) => {
   return (
     <>
       <Wrapper>
@@ -114,7 +114,7 @@ const PostTable = ({page, setPage}) => {
               </StyledCell>
             </StyledRow>
             {/* undefined array 대신에 data array가 들어가면 된다. setData를 써야할듯? */}
-            {[...Array(10)].map((_, index) => (
+            {[...Array(itemNum)].map((_, index) => (
               <StyledRow key={index}>
                 <NumCell>
                   <Typography size="body_content_medium" color="#393E46">{page * 10 + index - 9}</Typography>
