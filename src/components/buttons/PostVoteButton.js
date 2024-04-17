@@ -13,14 +13,14 @@ const ButtonContainer = styled.button`
   align-items: center;
   gap: 10px;
   border-radius: 10px;
-  border: 2px solid ${props => props.isVoted ? '#4A5BAB' : colorMapping.container};
+  border: 2px solid ${props => props.isVoted ? colorMapping.bright_blue : colorMapping.container};
   background-color: white;
   cursor: ${props => props.isVoted ? 'default' : 'pointer'};
   &:disabled {
     cursor: default;
   }
   &:hover {
-    border: 2px solid ${colorMapping.brignt_navy};
+    border: 2px solid ${colorMapping.bright_blue};
   }
 `;
 const VoteIconWrapper = styled.img`

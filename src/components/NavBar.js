@@ -22,7 +22,7 @@ const Header = styled.header`
   align-items: center;
   background-color: transparent;
   margin-top: 20px;
-  border-bottom: 2px solid ${colorMapping.navy};
+  border-bottom: 2px solid ${colorMapping.bright_blue};
 `;
 
 const TopRow = styled.div`
@@ -134,7 +134,6 @@ const NavBar = () => {
             </MenuLink>
           ))}
         </InnerMenuItems>
-        <SearchBar />
       </MenuItems>
     </Header>
   );

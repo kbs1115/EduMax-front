@@ -25,6 +25,7 @@ gap: 10px;
 border-top: 2px solid #393E46;
 `
 
+// 토근을 만들어요. User Context ds`~~
 function PostDetailPage() {
 
     // 라우터로부터 postId 추출

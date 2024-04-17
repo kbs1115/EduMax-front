@@ -24,7 +24,7 @@ const ContainerItemWrapper = styled.div`
   background: #FFF;
   cursor: pointer;
   ${props => props.isSelected && css`
-    background: #4A5BAB;
+    background: ${colorMapping.bright_blue};
     color: white;
   `}
 `;
@@ -41,7 +41,7 @@ transition: background-color 0.3s; // Smooth transition for background
 text-decoration: none;
 // Apply hover styles to the container
 &:hover {
-  background: #4A5BAB;
+  background: ${colorMapping.bright_blue};
 
 
   & > div {
@@ -50,7 +50,7 @@ text-decoration: none;
 }
 
 ${props => props.$isSelected && css`
-  background: #4A5BAB;
+  background: ${colorMapping.bright_blue};
   color: white;
 
   // Ensure the Typography component inside also changes color

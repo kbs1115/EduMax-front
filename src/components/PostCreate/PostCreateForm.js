@@ -201,7 +201,7 @@ const PostCreateForm = () => {
                             <Typography size="body_content_small_thin" color="black_gray" style={{ opacity: 0.8 }}>게시글의 종류에 맞는 게시판에 넣어주세요</Typography>
                         </SelectCategoryFirstRow>
                         <PostCreateDropdown onCategorySelect={handleCategorySelect} />
-                        {categoryError && <Typography size="body_content_medium" color="red">게시판을 선택해주세요</Typography>}
+                        {categoryError && <Typography size="body_content_medium" color="timer_red">게시판을 선택해주세요</Typography>}
                     </SelectCategorycontainer>
                 </SelectCategoryWrapper>
 
@@ -219,7 +219,7 @@ const PostCreateForm = () => {
                             maxLength="30"  
                         />
                     </InputTitleSecondRow>
-                    {titleError && <Typography size="body_content_medium" color="red">제목을 입력해주세요</Typography>}
+                    {titleError && <Typography size="body_content_medium" color="timer_red">제목을 입력해주세요</Typography>}
                 </InputTitleWrapper>
 
                 <InputContentWrapper>
@@ -229,7 +229,7 @@ const PostCreateForm = () => {
                     </InputContentFirstRow>
                     <InputContentSecondRow>
                         <CkeditorBox setContent={handleContentChange} />
-                        {contentError && <Typography size="body_content_medium" color="red">내용을 입력해주세요</Typography>}
+                        {contentError && <Typography size="body_content_medium" color="timer_red">내용을 입력해주세요</Typography>}
                     </InputContentSecondRow>
                 </InputContentWrapper>
                 <FileUploader files={files} setFiles={setFiles} />

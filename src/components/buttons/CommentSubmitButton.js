@@ -9,11 +9,11 @@ const ButtonWrapper = styled.div`
   align-items: center;
   gap: 10px;
   border-radius: 5px;
-  background: ${colorMapping.navy};
+  background: ${colorMapping.bright_blue};
   cursor: pointer;
 
   &:hover {
-    background: ${colorMapping.brignt_navy};
+    background: ${colorMapping.hover_blue};
   }
 `
 const CommentSubmitButton = ({content,onClick, isValid})=>{

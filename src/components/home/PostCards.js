@@ -81,7 +81,7 @@ align-content: center;
 gap: 40px 30px;
 align-self: stretch;
 flex-wrap: wrap;
-background : ${colorMapping.blue_gray};
+background : #F6F8FF;
 `;
 
 const ContentContainer = ({ date, author, content, id}) => {

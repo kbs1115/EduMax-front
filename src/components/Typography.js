@@ -33,6 +33,9 @@ export const colorMapping = {
   middle_gray:"#B6C0D5", //회원가입
   purple_blue: "#91A5FF", //신기한색
   bright_black_gray: "#4D4E52", //회색
+  bright_blue: "#4C6BFF", // 남색 대체색
+  hover_blue: "#002CFF",
+  orange: "#F79502",
   white :"#FFFFFF",
   red: "#FF0000"
 };

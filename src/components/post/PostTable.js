@@ -96,7 +96,7 @@ const PostTable = ({page, setPage}) => {
               <NumCell>
                 <PostListButton width="50px" 
                 height="30px" 
-                buttonColor="orange"
+                buttonColor="#4D4E52"
                 textColor="white"
                 size="body_content_medium">공지</PostListButton>
               </NumCell>
