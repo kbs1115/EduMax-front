@@ -22,9 +22,11 @@ const LoginPage = () => {
 
   return (
     <Wrapper>
-      <LogoWrapper>
-        EduMax
-      </LogoWrapper>
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <LogoWrapper>
+          EduMax
+        </LogoWrapper>
+      </Link>
       <BodyWrapper>
         <IdInput placeholder="아이디" input={id} setInput={setId}/>
         <PwInput 
@@ -38,7 +40,7 @@ const LoginPage = () => {
           <SignupTextWrapper>
             <Link style={{ textDecoration: 'none' }}>
               <Typography
-                color="sidebar_checked" 
+                color="navy" 
                 size="body_content_small">
                   회원가입
               </Typography>
@@ -47,14 +49,14 @@ const LoginPage = () => {
           <InnerTextWrapper>
             <Link style={{ textDecoration: 'none' }}>
               <Typography
-                color="sidebar_checked" 
+                color="navy" 
                 size="body_content_small">
                   아이디 찾기
               </Typography>
             </Link>
             <Link style={{ textDecoration: 'none' }}>
               <Typography
-                color="sidebar_checked" 
+                color="navy" 
                 size="body_content_small">
                   비밀번호 찾기
               </Typography>
@@ -198,5 +200,10 @@ const SocialLoginStyledButton = styled.button`
   // 클릭(active) 상태에서의 스타일
   &:active {
     border: 2px solid #4A5BAB; // 클릭 시 테두리 스타일
+  }
+
+  &:hover {
+    border: 2px solid #4A5BAB; // 클릭 시 테두리 스타일
+    cursor: pointer;
   }
 `;

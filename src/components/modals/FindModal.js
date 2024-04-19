@@ -3,18 +3,55 @@ import styled from 'styled-components';
 import Typography from '../Typography';
 
 
-const EmailModal = ({isPassword = false}) => {
+const FindModal = ({ isOpen, isPassword = false, onClose }) => {
 	const [title, setTitle] = useState({
 		"title": "",
 		"step": ""
 	})
 	const [email, setEmail] = useState("");
-	const [pw1, setPw1] = useState("");
-	const [pw2, setPw2] = useState("");
-	const [certNum, setCertNum] = useState("");
 	const [isEmailValid, setIsEmailValid] = useState(false);
+	const [emailError, setEmailError] = useState("");
+
+	const [pw, setPw] = useState("");
+	const [isPwNotSame, setIsPwNotSame] = useState(false);
 	const [isPwValid, setIsPwValid] = useState(false);
+  	const [pwError, setPwError] = useState("");
+	const [pw2, setPw2] = useState("");
+
+	const [certNum, setCertNum] = useState("");
+	const [isCertValid, setIsCertValid] = useState(false);
+	const [certError, setCertError] = useState("");
+
 	const [step, setStep] = useState(1);
+
+	const [timer, setTimer] = useState(false); // 타이머를 위한 상태
+  	const [timeLeft, setTimeLeft] = useState(300); // 초기 시간 5분 설정
+
+	useEffect(() => {
+	// 타이머가 동작 중일 때만 작동
+	if (timeLeft > 0 && timer) {
+		const intervalId = setInterval(() => {
+		setTimeLeft(timeLeft - 1);
+		}, 1000);
+
+		return () => clearInterval(intervalId);
+	} else {
+		clearInterval(timer);
+		setTimer(null);
+	}
+	}, [timeLeft, timer]);
+
+	const handleStartTimer = () => {
+		setTimeLeft(300); // 5분으로 재설정
+		setTimer(true); // 타이머 시작
+	};
+	
+	// 타이머 포맷 변경 함수
+	const formatTime = (time) => {
+		const minutes = Math.floor(time / 60);
+		const seconds = time % 60;
+		return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+	};
 
 	const handleEmailChange = (event) => {
 		setEmail(event.target.value);
@@ -25,18 +62,83 @@ const EmailModal = ({isPassword = false}) => {
 	};
 
 	useEffect(() => {
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
-    setIsEmailValid(regex.test(email));
-		console.log(isEmailValid);
-  }, [email]);
+		if (email === ""){
+		  setEmailError("");
+		  setIsEmailValid(false);
+		}
+		else {
+		  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
+		  if (regex.test(email)){
+			setIsEmailValid(true)
+			setEmailError("")
+		  }
+		  else{
+			setIsEmailValid(false)
+			setEmailError("이메일 형식이 잘못되었습니다.")
+		  }
+		}
+	  }, [email]);
+
+	  useEffect(() => {
+		if (pw === "") {
+		  setPwError("");
+		  setIsPwValid(false); // 비밀번호가 비어있을 경우, 유효하지 않음
+		} else {
+		  // 비밀번호 길이 검증
+		  if (pw.length < 8 || pw.length > 20) {
+			setPwError("비밀번호는 8~20자리여야 합니다.");
+			setIsPwValid(false);
+			return; // 이후 조건 검사를 중단
+		  }
+		  // 영문자 포함 검증
+		  if (!/[a-zA-Z]/.test(pw)) {
+			setPwError("비밀번호에는 하나 이상의 영문자가 포함되어야 합니다.");
+			setIsPwValid(false);
+			return; // 이후 조건 검사를 중단
+		  }
+		  // 숫자 포함 검증
+		  if (!/\d/.test(pw)) {
+			setPwError("비밀번호에는 하나 이상의 숫자가 포함되어야 합니다.");
+			setIsPwValid(false);
+			return; // 이후 조건 검사를 중단
+		  }
+		  // 특수문자 포함 검증
+		  if (!/[!@#$%^&*]/.test(pw)) {
+			setPwError("비밀번호에는 하나 이상의 특수문자가 포함되어야 합니다.");
+			setIsPwValid(false);
+			return; // 이후 조건 검사를 중단
+		  }
+		  // 모든 조건을 만족하면 에러 메시지를 비움 및 유효성 상태를 true로 설정
+		  setPwError("");
+		  setIsPwValid(true);
+		}
+	  }, [pw]);
 
 	useEffect(() => {
-    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
-    setIsPwValid(regex.test(pw1));
+		if (pw !== "" && pw2 !== "" && pw !== pw2){
+			setIsPwNotSame(true);
+		}
+		else
+			setIsPwNotSame(false);
+  }, [pw, pw2]);
 
-		if (pw1 !== pw2)
-			setIsPwValid(false);
-  }, [pw1, pw2]);
+	useEffect(() => {
+		if (certNum === ""){
+		setCertError("");
+		setIsCertValid(false);
+		}
+		else {
+		const regex = /^\d{6}$/;
+		if (regex.test(certNum)){
+			setIsCertValid(true);
+			setCertError("");
+		}
+		else {
+			setIsCertValid(false);
+			setCertError("인증번호는 6자리의 자연수입니다.")
+		}
+		}
+	}, [certNum]);
 
 	useEffect(() => {
     if (step === 1) {
@@ -72,8 +174,11 @@ const EmailModal = ({isPassword = false}) => {
 			});
   }, [step]);
 
+  if (!isOpen) return null; // Don't render the modal unless it's open
+
   return (
-    <Wrapper>
+	<Backdrop onClick={onClose}>
+		<Wrapper onClick={(e) => e.stopPropagation()}>
 			<div style={{ display: "flex", flexDirection: "column", width: "100%", paddingBottom: "10px" }}>
 				<TitleWrapper>
 					<Typography size='h2'>
@@ -102,12 +207,19 @@ const EmailModal = ({isPassword = false}) => {
 							placeholder="이메일을 입력하세요"
 						/>
 					</EmailWrapper>
-					<StyledButton disabled={!isEmailValid}>
+					<StyledButton 
+						disabled={!isEmailValid}
+						onClick={handleStartTimer}>
 						<Typography 
 							size='body_sub_title' 
 							color={isEmailValid ? 'white' : 'gray'}>인증요청</Typography>
 					</StyledButton>
 				</div>
+				{ ( emailError !== "" ) && <div style={{ marginLeft: "10px" }}><Typography 
+            		color="warning_red"
+            		size="body_content_thin">
+              			{emailError}
+            		</Typography></div>}
 				<CertNumWrapper>
 					<Typography color='black_gray' size='h3_bold'>
 						인증번호
@@ -117,7 +229,17 @@ const EmailModal = ({isPassword = false}) => {
 						onChange={handleCertNumChange} 
 						placeholder="인증번호를 입력하세요"
 					/>
+					<TimerWrapper>
+						{timer && <Typography color="timer_red" size="body_sub_title">
+							{formatTime(timeLeft)}
+						</Typography>}
+					</TimerWrapper>
 				</CertNumWrapper>
+				{ ( certError !== "" ) && <div style={{ marginLeft: "10px" }}><Typography 
+					color="warning_red"
+					size="body_content_thin">
+						{certError}
+					</Typography></div>}
 			</div>
 			<div>
 				<StyledButton disabled={!(isEmailValid && certNum !== "")} onClick={() => setStep(2)}>
@@ -154,11 +276,16 @@ const EmailModal = ({isPassword = false}) => {
 					비밀번호
 				</Typography>
 				<StyledInput 
-					value={pw1}
+					value={pw}
 					type='password' 
-					onChange={(event) => setPw1(event.target.value)} 
+					onChange={(event) => setPw(event.target.value)} 
 					placeholder="8~20자리/ 영문 대소문자, 숫자, 특수문자 조합"
 				/>
+				{ ( pwError !== "" ) && <div style={{ marginLeft: "10px" }}><Typography 
+            color="warning_red"
+            size="body_sub_title">
+              {pwError}
+            </Typography></div>}
 			</CertNumWrapper>
 			<CertNumWrapper>
 				<Typography color='black_gray' size='h3_bold'>
@@ -170,10 +297,15 @@ const EmailModal = ({isPassword = false}) => {
 					onChange={(event) => setPw2(event.target.value)} 
 					placeholder="8~20자리/ 영문 대소문자, 숫자, 특수문자 조합"
 				/>
+				{ (isPwNotSame && isPwValid) && <div style={{ marginLeft: "10px" }}><Typography 
+            color="warning_red"
+            size="body_sub_title">
+              비밀번호가 일치하지 않습니다.
+            </Typography></div>}
 			</CertNumWrapper>
 		</div>
 		<div>
-			<StyledButton disabled={!isPwValid} onClick={() => setStep(3)}>
+			<StyledButton disabled={!isPwValid || isPwNotSame} onClick={() => setStep(3)}>
 				<Typography 
 					size='body_sub_title' 
 					color={isEmailValid ? 'white' : 'gray'}>다음</Typography>
@@ -194,10 +326,12 @@ const EmailModal = ({isPassword = false}) => {
 				</div>
 			</Step2Wrapper>}
     </Wrapper>
+	</Backdrop>
+    
   );
 }
 
-export default EmailModal;
+export default FindModal;
 
 const Wrapper = styled.div`
   display: flex;
@@ -210,6 +344,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   border: 1px solid #B6C0D5;
+  background-color: white;
 `;
 
 const TitleWrapper = styled.div`
@@ -285,5 +420,25 @@ const Step2TextWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	margin: auto;
+`;
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+`;
+
+const TimerWrapper = styled.div`
+  position: relative;
+  height: 0px;
+  bottom: 45px;
+  left: 510px;
 `;
 

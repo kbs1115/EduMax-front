@@ -21,10 +21,11 @@ const PostListButton = ({
   textColor, 
   buttonColor, 
   borderRadius="5px",
+  onClick,
   children 
 }) => {
   return (
-    <StyledButton width={width} height={height} buttonColor={buttonColor} borderRadius={borderRadius}>
+    <StyledButton width={width} height={height} buttonColor={buttonColor} borderRadius={borderRadius} onClick={onClick}>
         <Typography size={size} color={textColor}>{children}</Typography>
     </StyledButton>
   );

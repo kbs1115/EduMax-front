@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import Typography from "../components/Typography";
 import SignupInput from "../components/SignupInput";
@@ -30,19 +31,78 @@ const SignupButton = ({
 };
 
 
+const SignupModal = ({ isOpen, onClose, modalNum }) => {
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+
+  useEffect(() => {
+    if (modalNum === 1) {
+      setContent("modal1content".repeat(200))
+      setTitle("에듀맥스 서비스 이용 약관")
+    }
+    else
+      setContent("modal2content".repeat(200))
+  }, []);
+
+  // modal 뒤 스크린 활성화/비활성화
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <SignupModalBackdrop onClick={onClose}>
+      <SignupModalView onClick={e => e.stopPropagation()}>
+        <div style={{ display: "flex", width: "100%", justifyContent: "end", cursor: "pointer"}}>
+          <svg onClick={onClose} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.3687 0.477142C18.7325 -0.159051 17.7011 -0.159052 17.0649 0.477141L9.92301 7.61902L2.93527 0.631269C2.29908 -0.00492373 1.26761 -0.00492402 0.631419 0.631269C-0.00477254 1.26746 -0.00477366 2.29893 0.631418 2.93513L7.61915 9.92287L0.477118 17.0649C-0.159074 17.7011 -0.159074 18.7326 0.477118 19.3688C1.11331 20.005 2.14478 20.005 2.78097 19.3688L9.92301 12.2267L17.2192 19.5229C17.8554 20.1591 18.8868 20.1591 19.523 19.5229C20.1592 18.8867 20.1592 17.8552 19.523 17.2191L12.2269 9.92287L19.3687 2.781C20.0049 2.14481 20.0049 1.11334 19.3687 0.477142Z" fill="#B6C0D5"/>
+          </svg>
+        </div>
+        <Typography color="#000" size="h2">
+          {title}
+        </Typography>
+        <ScrollbarContainer>
+          <ContentContainer>
+            {content}
+          </ContentContainer>
+        </ScrollbarContainer>
+      </SignupModalView>
+    </SignupModalBackdrop>
+  );
+};
+
+
 const Signup = () => {
   const moveTo = useNavigate();
 
   const [ID, setID] = useState("");
   const [isIDValid, setIsIDValid] = useState(false);
+  const [isIdDup, setIsIdDup] = useState(null);
+  const [idError, setIdError] = useState(false);
+
   const [pw, setPw] = useState("");
   const [isPwValid, setIsPwValid] = useState(false);
+  const [pwError, setPwError] = useState("");
+
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [nickname, setNickname] = useState("");
-  const [certNum, setCertNum] = useState("");
+  const [emailError, setEmailError] = useState("");
 
-  const [isDup, setIsDup] = useState(true);
+  const [nickname, setNickname] = useState("");
+  const [isDup, setIsDup] = useState(null);
+
+  const [certNum, setCertNum] = useState("");
+  const [isCertValid, setIsCertValid] = useState(false);
+  const [certError, setCertError] = useState("");
   const [isCertifyed, setIsCertified] = useState(false);
 
   const [timer, setTimer] = useState(false); // 타이머를 위한 상태
@@ -50,22 +110,104 @@ const Signup = () => {
 
   const [yakgwan1Checked, setYakgwan1Checked] = useState(false);
   const [yakgwan2Checked, setYakgwan2Checked] = useState(false);
+  const [isModal1Open, setIsModal1Open] = useState(false);
 
   useEffect(() => {
-    // ID 유효성 검사를 위한 정규 표현식
-    const regex = /^[a-zA-Z0-9_]{4,20}$/;
-    setIsIDValid(regex.test(ID));
+    setIsIdDup(null);
+
+    if (ID === "")
+      setIdError("")
+    else {
+      const regex = /^[a-zA-Z0-9_]{4,20}$/;
+      setIsIDValid(regex.test(ID));
+      if (isIDValid === false)
+        setIdError("아이디는 4~20자의 영문, 숫자, 특수문자여야 합니다.")
+      else
+        setIdError("")
+    }
   }, [ID]);
 
   useEffect(() => {
-    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
-    setIsPwValid(regex.test(pw));
+    if (isIdDup === true)
+      setIdError("중복되는 아이디입니다.")
+    else if (isIdDup === false)
+      setIdError("사용 가능한 아이디입니다.")
+  }, [isIdDup]);
+
+  useEffect(() => {
+    if (pw === "") {
+      setPwError("");
+      setIsPwValid(false); // 비밀번호가 비어있을 경우, 유효하지 않음
+    } else {
+      // 비밀번호 길이 검증
+      if (pw.length < 8 || pw.length > 20) {
+        setPwError("비밀번호는 8~20자리여야 합니다.");
+        setIsPwValid(false);
+        return; // 이후 조건 검사를 중단
+      }
+      // 영문자 포함 검증
+      if (!/[a-zA-Z]/.test(pw)) {
+        setPwError("비밀번호에는 하나 이상의 영문자가 포함되어야 합니다.");
+        setIsPwValid(false);
+        return; // 이후 조건 검사를 중단
+      }
+      // 숫자 포함 검증
+      if (!/\d/.test(pw)) {
+        setPwError("비밀번호에는 하나 이상의 숫자가 포함되어야 합니다.");
+        setIsPwValid(false);
+        return; // 이후 조건 검사를 중단
+      }
+      // 특수문자 포함 검증
+      if (!/[!@#$%^&*]/.test(pw)) {
+        setPwError("비밀번호에는 하나 이상의 특수문자가 포함되어야 합니다.");
+        setIsPwValid(false);
+        return; // 이후 조건 검사를 중단
+      }
+      // 모든 조건을 만족하면 에러 메시지를 비움 및 유효성 상태를 true로 설정
+      setPwError("");
+      setIsPwValid(true);
+    }
   }, [pw]);
 
   useEffect(() => {
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
-    setIsEmailValid(regex.test(email));
+    setIsDup(null);
+  }, [nickname]);
+  
+  useEffect(() => {
+    if (email === ""){
+      setEmailError("");
+      setIsEmailValid(false);
+    }
+    else {
+      const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
+      if (regex.test(email)){
+        setIsEmailValid(true)
+        setEmailError("")
+      }
+      else{
+        setIsEmailValid(false)
+        setEmailError("이메일 형식이 잘못되었습니다.")
+      }
+    }
   }, [email]);
+
+  useEffect(() => {
+    if (certNum === ""){
+      setCertError("");
+      setIsCertValid(false);
+    }
+    else {
+      const regex = /^\d{6}$/;
+      if (regex.test(certNum)){
+        setIsCertValid(true);
+        setCertError("");
+      }
+      else {
+        setIsCertValid(false);
+        setCertError("인증번호는 6자리의 자연수입니다.")
+      }
+    }
+  }, [certNum]);
 
   useEffect(() => {
     // 타이머가 동작 중일 때만 작동
@@ -92,6 +234,14 @@ const Signup = () => {
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
+
+  const checkIdDuplication = () => {
+    setIsIdDup(false);
+  }
+
+  const checkNicknameDuplication = () => {
+    setIsDup(true);
+  }
 
   return (<>
     <HeaderWrapper>
@@ -144,8 +294,15 @@ const Signup = () => {
               input={ID}
               setInput={setID}
               width="310px"/>
-            <SignupButton  isDisabled={isIDValid === false}/>
+            <SignupButton  
+              isDisabled={isIDValid === false}
+              onClick={checkIdDuplication}/>
           </InputWithButtonWrapper>
+          { ( idError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color= { isIdDup === false ? "ok_message" : "warning_red"}
+            size="body_sub_title">
+              {idError}
+            </Typography></div>}
         </InputWrapper>
       </div>
       <InputWrapper>
@@ -159,6 +316,11 @@ const Signup = () => {
           input={pw}
           setInput={setPw}
           isPassword={true}/>
+        { ( pwError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color="warning_red"
+            size="body_sub_title">
+              {pwError}
+            </Typography></div>}
       </InputWrapper>
       <InputWrapper>
         <Typography
@@ -172,8 +334,15 @@ const Signup = () => {
             input={nickname}
             setInput={setNickname}
             width="310px"/>
-          <SignupButton  isDisabled={nickname.trim().length === 0}/>
+          <SignupButton  
+            isDisabled={nickname.trim().length === 0}
+            onClick={checkNicknameDuplication}/>
         </InputWithButtonWrapper>
+        { ( nickname !== "" && isDup !== null ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color= { isDup === false ? "ok_message" : "warning_red"}
+            size="body_sub_title">
+              {isDup ? "중복되는 닉네임입니다." : "사용 가능한 닉네임입니다."}
+            </Typography></div>}
       </InputWrapper>
       <InputWrapper>
         <Typography
@@ -192,6 +361,11 @@ const Signup = () => {
             text="인증요청"
             onClick={handleStartTimer}/>
         </InputWithButtonWrapper>
+        { ( emailError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color="warning_red"
+            size="body_sub_title">
+              {emailError}
+            </Typography></div>}
       </InputWrapper>
       <div>
         <InputWrapper>
@@ -204,11 +378,11 @@ const Signup = () => {
             placeholder="인증번호를 입력하세요" 
             input={certNum}
             setInput={setCertNum}/>
-          <TimerWrapper>
-          {timer && <Typography color="timer_red" size="body_sub_title">
-              {formatTime(timeLeft)}
-            </Typography>}
-          </TimerWrapper>
+            { ( certError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
+            color="warning_red"
+            size="body_sub_title">
+              {certError}
+            </Typography></div>}
         </InputWrapper>
       </div>
       <InputWrapper>
@@ -222,13 +396,19 @@ const Signup = () => {
             <YakgwanCheckBox 
               isChecked={yakgwan1Checked} src={CheckMark}
               onClick={() => setYakgwan1Checked(!yakgwan1Checked)}/>
-            <Link style={{ textDecoration: 'none', cursor: 'pointer' }}>
+            <div 
+              style={{ textDecoration: 'none', cursor: 'pointer' }}
+              onClick={() => setIsModal1Open(true)}>
               <Typography 
                 color={yakgwan1Checked ? "black_gray" : "gray"}  
                 size="body_sub_title" >
                 (필수) 에듀맥스 이용약관
               </Typography>
-            </Link>
+            </div>
+            <SignupModal 
+                isOpen={isModal1Open} 
+                onClose={() => setIsModal1Open(false)}
+                modalNum={1}/>
             <Typography 
               color={yakgwan1Checked ? "black_gray" : "gray"}  
               size="body_sub_title" >
@@ -255,12 +435,20 @@ const Signup = () => {
         </YakgwanBox>
       </InputWrapper>
       <SignupButton 
-        isDisabled={!(isIDValid && isPwValid && yakgwan1Checked && yakgwan2Checked)} 
+        isDisabled={
+          !(isIDValid && isPwValid && isEmailValid && yakgwan1Checked 
+          && yakgwan2Checked && isCertValid && !isIdDup && !isDup && timer)
+        } 
         isBigButton={true} 
         text="회원가입 완료" 
         width="100%"
         onClick={() => moveTo('/')}/>
     </ContentWrapper>
+    <TimerWrapper>
+      {timer && <Typography color="timer_red" size="body_sub_title">
+          {formatTime(timeLeft)}
+        </Typography>}
+    </TimerWrapper>
   </>);
 }
 
@@ -337,10 +525,10 @@ const CertifyButton = styled.button`
 `;
 
 const TimerWrapper = styled.div`
-  position: relative;
+  position: absolute;
   height: 30px;
-  bottom: 52px;
-  left: 400px;
+  bottom: 43px;
+  left: 850px;
 `;
 
 const YakgwanBox = styled.div`
@@ -373,3 +561,68 @@ const YakgwanCheckBox = styled.div`
   border: ${(props) => props.isChecked ? "none" : "1px solid #A8AAAE"};
   background: ${(props) => props.isChecked ? `url(${props.src}) center/cover` : "#FFFFFF"};
 `;
+
+const SignupModalBackdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+// 모달 창 스타일
+const SignupModalView = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  width: 620px;
+  height: 445px;
+  padding: 30px 30px 40px;
+  flex-direction: column;
+  align-items: start;
+  gap: 20px;
+  border-radius: 20px;
+  background: #FFF;
+`;
+
+const ScrollbarContainer = styled.div`
+  height: 280px;  // 높이 설정
+  box-sizing: border-box;
+  width: 100%;   // 너비 설정
+  overflow: auto; // 스크롤바가 필요할 때 나타나도록 설정
+  padding: 10px 20px; // 내부 패딩
+  border-radius: 20px; // 테두리 둥글게
+  border: 1px solid #B6C0D5; // 테두리 색상과 스타일
+
+  // 스크롤바 스타일 커스터마이징
+  &::-webkit-scrollbar {
+    width: 4px; // 스크롤바 너비
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent; // 스크롤바 트랙 색상
+    border-radius: 10px; // 트랙 둥글게
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888; // 스크롤바 색상
+    border-radius: 10px; // 스크롤바 둥글게
+    &:hover {
+      background: #555; // 호버 시 스크롤바 색상 변경
+    }
+  }
+`;
+
+const ContentContainer = styled.div`
+  word-wrap: break-word;
+  color: #393E46;
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
