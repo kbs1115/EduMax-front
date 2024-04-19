@@ -24,6 +24,35 @@ const FindModal = ({ isOpen, isPassword = false, onClose }) => {
 
 	const [step, setStep] = useState(1);
 
+	const [timer, setTimer] = useState(false); // 타이머를 위한 상태
+  	const [timeLeft, setTimeLeft] = useState(300); // 초기 시간 5분 설정
+
+	useEffect(() => {
+	// 타이머가 동작 중일 때만 작동
+	if (timeLeft > 0 && timer) {
+		const intervalId = setInterval(() => {
+		setTimeLeft(timeLeft - 1);
+		}, 1000);
+
+		return () => clearInterval(intervalId);
+	} else {
+		clearInterval(timer);
+		setTimer(null);
+	}
+	}, [timeLeft, timer]);
+
+	const handleStartTimer = () => {
+		setTimeLeft(300); // 5분으로 재설정
+		setTimer(true); // 타이머 시작
+	};
+	
+	// 타이머 포맷 변경 함수
+	const formatTime = (time) => {
+		const minutes = Math.floor(time / 60);
+		const seconds = time % 60;
+		return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+	};
+
 	const handleEmailChange = (event) => {
 		setEmail(event.target.value);
 	};
@@ -178,7 +207,9 @@ const FindModal = ({ isOpen, isPassword = false, onClose }) => {
 							placeholder="이메일을 입력하세요"
 						/>
 					</EmailWrapper>
-					<StyledButton disabled={!isEmailValid}>
+					<StyledButton 
+						disabled={!isEmailValid}
+						onClick={handleStartTimer}>
 						<Typography 
 							size='body_sub_title' 
 							color={isEmailValid ? 'white' : 'gray'}>인증요청</Typography>
@@ -198,6 +229,11 @@ const FindModal = ({ isOpen, isPassword = false, onClose }) => {
 						onChange={handleCertNumChange} 
 						placeholder="인증번호를 입력하세요"
 					/>
+					<TimerWrapper>
+						{timer && <Typography color="timer_red" size="body_sub_title">
+							{formatTime(timeLeft)}
+						</Typography>}
+					</TimerWrapper>
 				</CertNumWrapper>
 				{ ( certError !== "" ) && <div style={{ marginLeft: "10px" }}><Typography 
 					color="warning_red"
@@ -397,5 +433,12 @@ const Backdrop = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 10;
+`;
+
+const TimerWrapper = styled.div`
+  position: relative;
+  height: 0px;
+  bottom: 45px;
+  left: 510px;
 `;
 

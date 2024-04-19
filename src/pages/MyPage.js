@@ -151,11 +151,11 @@ const InfoPage = () => {
 	</BodyOuterWrapper>);
 }
 
-const CommentPage = ({page = 1, setPage}) => {
+const CommentPage = ({page = 1, setPage, category}) => {
 	return (<BodyOuterWrapper>
 		<InnerCommentMenuWrapper>
 			<Typography color="black_bright_gray" size="h2">
-				내가 쓴 댓글
+				{mypageMapping[category]}
 			</Typography>
 			<InnerRightWrapper>
 				<PostDropDown />
@@ -169,31 +169,16 @@ const CommentPage = ({page = 1, setPage}) => {
 
 function MyPage() {
   const [page, setPage] = useState(1);
-	const [category, setCategory] = useState("info")
+  const [category, setCategory] = useState("info")
 
   return (
     <Wrapper>
       <MyPageSideBar 
-				category={category} 
-				setCategory={setCategory}
-				setPage={setPage}/>
+		category={category} 
+		setCategory={setCategory}
+		setPage={setPage}/>
       {category === "info" ? <InfoPage /> : 
-			category === "comments" ? <CommentPage page={page} setPage={setPage}/> :
-			<BodyOuterWrapper>
-				<Typography color="black_bright_gray" size="h2">
-					{mypageMapping[category]}
-				</Typography>
-        <BodyInnerWrapper>
-          <InnerMenuWrapper>
-            <PostOrder />
-            <InnerRightWrapper>
-              <PostDropDown />
-              <PostSearchBar />
-            </InnerRightWrapper>
-          </InnerMenuWrapper>
-          <PostTable page={page} setPage={setPage} itemNum={5}/>
-        </BodyInnerWrapper>
-			</BodyOuterWrapper>}
+			 <CommentPage page={page} setPage={setPage} category={category}/>}
     </Wrapper>  
   );
 }

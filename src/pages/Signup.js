@@ -71,16 +71,9 @@ const SignupModal = ({ isOpen, onClose, modalNum }) => {
           {title}
         </Typography>
         <ScrollbarContainer>
-          <Scrollbars
-            autoHide
-            style={{ width: '100%', height: '258px' }}
-            renderThumbVertical={props => <div {...props} style={{ backgroundColor: '#888', borderRadius: '4px' }} />}
-            renderTrackVertical={props => <div {...props} style={{ right: '2px', bottom: '2px', top: '2px', borderRadius: '3px', backgroundColor: '#f1f1f1' }} />}
-          >
-            <ContentContainer>
-              {content}
-            </ContentContainer>
-          </Scrollbars>
+          <ContentContainer>
+            {content}
+          </ContentContainer>
         </ScrollbarContainer>
       </SignupModalView>
     </SignupModalBackdrop>
@@ -247,7 +240,7 @@ const Signup = () => {
   }
 
   const checkNicknameDuplication = () => {
-    setIsDup(false);
+    setIsDup(true);
   }
 
   return (<>
@@ -390,11 +383,6 @@ const Signup = () => {
             size="body_sub_title">
               {certError}
             </Typography></div>}
-          <TimerWrapper>
-          {timer && <Typography color="timer_red" size="body_sub_title">
-              {formatTime(timeLeft)}
-            </Typography>}
-          </TimerWrapper>
         </InputWrapper>
       </div>
       <InputWrapper>
@@ -456,6 +444,11 @@ const Signup = () => {
         width="100%"
         onClick={() => moveTo('/')}/>
     </ContentWrapper>
+    <TimerWrapper>
+      {timer && <Typography color="timer_red" size="body_sub_title">
+          {formatTime(timeLeft)}
+        </Typography>}
+    </TimerWrapper>
   </>);
 }
 
@@ -532,10 +525,10 @@ const CertifyButton = styled.button`
 `;
 
 const TimerWrapper = styled.div`
-  position: relative;
+  position: absolute;
   height: 30px;
-  bottom: 52px;
-  left: 400px;
+  bottom: 43px;
+  left: 850px;
 `;
 
 const YakgwanBox = styled.div`
@@ -595,6 +588,34 @@ const SignupModalView = styled.div`
   background: #FFF;
 `;
 
+const ScrollbarContainer = styled.div`
+  height: 280px;  // 높이 설정
+  box-sizing: border-box;
+  width: 100%;   // 너비 설정
+  overflow: auto; // 스크롤바가 필요할 때 나타나도록 설정
+  padding: 10px 20px; // 내부 패딩
+  border-radius: 20px; // 테두리 둥글게
+  border: 1px solid #B6C0D5; // 테두리 색상과 스타일
+
+  // 스크롤바 스타일 커스터마이징
+  &::-webkit-scrollbar {
+    width: 4px; // 스크롤바 너비
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent; // 스크롤바 트랙 색상
+    border-radius: 10px; // 트랙 둥글게
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888; // 스크롤바 색상
+    border-radius: 10px; // 스크롤바 둥글게
+    &:hover {
+      background: #555; // 호버 시 스크롤바 색상 변경
+    }
+  }
+`;
+
 const ContentContainer = styled.div`
   word-wrap: break-word;
   color: #393E46;
@@ -603,14 +624,5 @@ const ContentContainer = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-`;
-
-const ScrollbarContainer = styled.div`
-  height: 280px;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: 1px solid #B6C0D5;
 `;
 

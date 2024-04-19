@@ -149,7 +149,7 @@ const PostTable = ({page, setPage, itemNum = 10}) => {
                 <PageNumber key={pageNumber} onClick={() => setPage(pageNumber)}>
                   <Typography
                     size="h3_medium"
-                    color={pageNumber === page ? 'black' : '#A8AAAE'}>
+                    color={pageNumber === page ? 'black_gray' : 'gray'}>
                     {pageNumber}
                   </Typography>
                 </PageNumber>
