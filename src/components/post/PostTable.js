@@ -18,7 +18,7 @@ const StyledTable = styled.table`
 `;
 
 const StyledHead = styled.thead`
-  background-color: #F3F4F8;
+  background-color: #F7F7F8;
   height: 55px;
   border-top: 1px solid #393E46;
   border-bottom: 1px solid #DFE5EE;
@@ -96,7 +96,7 @@ const PostTable = ({page, setPage, itemNum = 10}) => {
               <NumCell>
                 <PostListButton width="50px" 
                 height="30px" 
-                buttonColor="#4B4F59"
+                buttonColor="#4D4E52"
                 textColor="white"
                 size="body_content_medium">공지</PostListButton>
               </NumCell>

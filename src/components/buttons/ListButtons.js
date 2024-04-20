@@ -11,11 +11,11 @@ justify-content: center;
 align-items: center;
 gap: 5px;
 border-radius: 5px;
-border: 1px solid ${colorMapping.navy};
-background-color: ${colorMapping.navy};
+border: 1px solid ${colorMapping.bright_blue};
+background-color: ${colorMapping.bright_blue};
 cursor: pointer;
 &:hover {
-    background: ${colorMapping.brignt_navy};
+    background: ${colorMapping.hover_blue};
   }
 `;
 

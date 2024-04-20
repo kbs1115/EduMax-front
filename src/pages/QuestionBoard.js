@@ -50,10 +50,10 @@ function QuestionBoard() {
       <SideBar setPage={setPage}/>
       <BodyOuterWrapper>
         <PostListButton 
-          width="98px" 
+          width="92px" 
           height="43px" 
-          size="body_content_medium" 
-          buttonColor="#4A5BAB" 
+          size="body_content_bold" 
+          buttonColor="#4C6BFF" 
           textColor="white"
         >
           글쓰기

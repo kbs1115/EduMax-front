@@ -32,10 +32,10 @@ const PostOrder = () => {
   return (
     <ToggleContainer>
       <Section selected={isSelected} onClick={() => setIsSelected(true)}>
-        <Typography color={isSelected ? 'white' : '#393E46'} size='body_sub_title'>최신순</Typography>
+        <Typography color={isSelected ? 'white' : '#393E46'} size='body_content_medium'>최신순</Typography>
       </Section>
       <Section selected={!isSelected} onClick={() => setIsSelected(false)}>
-        <Typography color={!isSelected ? 'white' : '#393E46'} size='body_sub_title'>추천순</Typography>
+        <Typography color={!isSelected ? 'white' : '#393E46'} size='body_content_medium'>추천순</Typography>
       </Section>
     </ToggleContainer>
   );

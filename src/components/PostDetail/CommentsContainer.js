@@ -117,7 +117,7 @@ const Comment = ({
     childComments,
     showChildComments,
     setShowChildComments,
-    user_nickname = "asd",   // 로그인 토큰으로부터 nickname 추출할예정, 로그인 상태는 전역임 고로 여기서 받기 가능
+    user_nickname = "김병수",   // 로그인 토큰으로부터 nickname 추출할예정, 로그인 상태는 전역임 고로 여기서 받기 가능
     isParent // Add this prop to determine if the comment is a parent
 }) => {
     // Ensure user_nickname is not undefined before calling toLowerCase

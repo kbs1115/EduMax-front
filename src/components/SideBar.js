@@ -37,11 +37,12 @@ const BoardWrapper = styled.div`
 
 const CategoryWrapper = styled.div`
   display: flex;
-  height: 40px;
-  padding: 0px 8px;
+  padding: 5px 15px;
   align-items: center;
+  gap: 10px;
   align-self: stretch;
-  background-color: ${(props) => (props.isActive ? "#4A5BAB" : "transparent")};
+  border-radius: 10px;
+  background-color: ${(props) => (props.isActive ? "#4C6BFF" : "transparent")};
   cursor: pointer;
 
   & > div {

@@ -45,7 +45,7 @@ justify-content: space-between;
 
 const DeleteButton = styled.button`
   background: ${colorMapping.white};
-  color: ${colorMapping.navy};
+  color: ${colorMapping.bright_blue};
   border: none;
   padding: 5px 5px;
   border-radius: 5px;
@@ -117,7 +117,7 @@ const FileUploader = ({files, setFiles }) => {
             <FileWrapperrFirstRow>
                 <Typography size="h3_medium" color="black_gray">파일 업로드</Typography>
                 <Typography size="body_content_small_thin" color="black_gray" style={{ opacity: 0.8 }}>
-                    <span style={{ color: '#4A5BAB' }}>최대 20MB</span> 의 파일을 업로드 할 수 있어요
+                    <span style={{ color: '#4C6BFF' }}>최대 20MB</span> 의 파일을 업로드 할 수 있어요
                 </Typography>
             </FileWrapperrFirstRow>
             <FileWrapperSecondRow
@@ -138,7 +138,7 @@ const FileUploader = ({files, setFiles }) => {
                     <FileImage src={file_image} />
                     <Textwrapper>
                         <Typography size="body_content_regular" color="gray">
-                            드래그 앤 드롭 또는 <span style={{ color: '#4A5BAB' }}>클릭</span>하여 파일을 업로드 하세요
+                            드래그 앤 드롭 또는 <span style={{ color: '#4C6BFF' }}>클릭</span>하여 파일을 업로드 하세요
                         </Typography>
                     </Textwrapper>
                     {error && <Typography size="body_content_regular" color="red">{error}</Typography>}
