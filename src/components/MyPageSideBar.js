@@ -54,25 +54,26 @@ const MyPageSideBar = ({
 `;
 
 const BoardWrapper = styled.div`
-  display: flex;
-  height: 63px;
-  padding: 0px 5px 10px 5px;
-  align-items: center;
-  gap: 10px;
-  align-self: stretch;
-  border-bottom: 1px solid #dfe5ee;
+display: flex;
+height: 63px;
+padding: 0px 5px 10px 5px;
+align-items: center;
+gap: 10px;
+align-self: stretch;
+border-bottom: 1px solid #dfe5ee;
 `;
 
 const CategoryWrapper = styled.div`
-  display: flex;
-  height: 40px;
-  padding: 0px 8px;
-  align-items: center;
-  align-self: stretch;
-  background-color: ${(props) => (props.isActive ? "#91A5FF" : "transparent")};
-  cursor: pointer;
+display: flex;
+padding: 5px 15px;
+align-items: center;
+gap: 10px;
+align-self: stretch;
+border-radius: 10px;
+background-color: ${(props) => (props.isActive ? "#4C6BFF" : "transparent")};
+cursor: pointer;
 
-  & > div {
-    color: ${(props) => (props.isActive ? "white" : "black")};
-  }
+& > div {
+  color: ${(props) => (props.isActive ? "white" : "black")};
+}
 `;
