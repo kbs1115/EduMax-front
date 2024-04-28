@@ -525,10 +525,11 @@ const CertifyButton = styled.button`
 `;
 
 const TimerWrapper = styled.div`
-  position: absolute;
+  position: relative;
   height: 30px;
-  bottom: 43px;
-  left: 850px;
+  bottom: 420px;
+  left: 1130px;
+  z-index: 0;
 `;
 
 const YakgwanBox = styled.div`
