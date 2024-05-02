@@ -304,7 +304,18 @@ const FindModal = ({ isOpen, isPassword = false, onClose }) => {
             </Typography></div>}
 			</CertNumWrapper>
 		</div>
-		<div>
+		<div style={{ width: "100%" ,display: "flex", justifyContent : "space-between"}}>
+			<StyledButton onClick={() => {
+				setStep(1);
+				setCertNum("");
+				setIsCertValid(false);
+				setTimer(null);
+			}
+			}>
+				<Typography 
+					size='body_sub_title' 
+					color='white'>이전</Typography>
+			</StyledButton>
 			<StyledButton disabled={!isPwValid || isPwNotSame} onClick={() => setStep(3)}>
 				<Typography 
 					size='body_sub_title' 
