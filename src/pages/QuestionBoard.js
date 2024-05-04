@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { useQuery } from 'react-query';
+
 import SideBar from "../components/SideBar";
 import PostListButton from "../components/buttons/PostListButton";
 import PostTable from "../components/post/PostTable";
 import PostOrder from "../components/post/PostOrder";
 import PostSearchBar from "../components/post/PostSearchBar";
 import PostDropDown from "../components/post/PostDropdown";
+import { getPostData } from "../apifetchers/fetcher";
 
 
 function QuestionBoard() {
@@ -20,6 +23,24 @@ function QuestionBoard() {
   // AUTHOR, TITLE, CONTENT, TOTAL
   const [searchOption, setSearchOption] = useState("TOTAL")
   const [searchWord, setSearchWord] = useState("")
+
+  const { data, error, isLoading } = useQuery(
+    ['posts', category, searchOption, searchWord, page, order],
+    () => getPostData(category, searchOption, searchWord, page, order),
+    {
+      onSuccess: (data) => {
+        // 데이터 로드 성공 시 콘솔에 데이터 출력
+        console.log('Fetched data:', data);
+      },
+      onError: (error) => {
+        // 에러 발생 시 콘솔에 에러 메시지 출력
+        console.error('Error fetching data:', error);
+      }
+    }
+  );
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>An error occurred: {error.message}</div>;
 
   return (
     <Wrapper>
