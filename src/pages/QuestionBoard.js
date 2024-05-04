@@ -25,7 +25,7 @@ function QuestionBoard() {
   const [searchWord, setSearchWord] = useState("")
 
   const { data, error, isLoading } = useQuery(
-    ['posts', category, searchOption, searchWord, page, order],
+    ['posts', category, page, order, searchWord],
     () => getPostData(category, searchOption, searchWord, page, order),
     {
       onSuccess: (data) => {
@@ -48,6 +48,9 @@ function QuestionBoard() {
         setPage={setPage} 
         category={category} 
         setCategory={setCategory}
+        setSearchOption={setSearchOption}
+        setSearchWord={setSearchWord}
+        setOrder={setOrder}
         board="question"/>
       <BodyOuterWrapper>
         <PostListButton 
@@ -68,10 +71,11 @@ function QuestionBoard() {
                 setSearchOption={setSearchOption}/>
               <PostSearchBar 
                 searchWord={searchWord}
-                setSearchWord={setSearchWord}/>
+                setSearchWord={setSearchWord}
+                setPage={setPage}/>
             </InnerRightWrapper>
           </InnerMenuWrapper>
-          <PostTable page={page} setPage={setPage}/>
+          <PostTable page={page} setPage={setPage} data={data}/>
         </BodyInnerWrapper>
       </BodyOuterWrapper>
     </Wrapper>  

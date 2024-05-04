@@ -33,16 +33,21 @@ const IconWrapper = styled.div`
   background-repeat: no-repeat;
 `;
 
-const PostSearchBar = ({ searchWord, setSearchWord }) => {
+const PostSearchBar = ({ searchWord, setSearchWord, setPage }) => {
+  const [innerWord, setInnerWord] = useState("")
+
   return (
     <SearchBarContainer>
       <Input
         type="text"
-        value={searchWord}
-        onChange={(e) => setSearchWord(e.target.value)}
+        value={innerWord}
+        onChange={(e) => setInnerWord(e.target.value)}
         placeholder="Search..."
       />
-      <IconWrapper onClick={() => console.log(searchWord)} />
+      <IconWrapper onClick={() => {
+        setPage(1);
+        setSearchWord(innerWord);
+      }} />
     </SearchBarContainer>
   );
 };
