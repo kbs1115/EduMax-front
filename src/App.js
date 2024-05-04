@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
@@ -16,11 +17,13 @@ import EmailModal from './components/modals/FindModal';
 import PostDetailPage from './pages/PostDetail';
 import MyPage from './pages/MyPage';
 
+const queryClient = new QueryClient()
+
 function App() {
   const location = useLocation(); // 현재 경로를 얻기 위해 useLocation 훅 사용
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       {location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/find' &&<NavBar />}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -37,7 +40,7 @@ function App() {
         <Route path="/find" element={<EmailModal isPassword={true}/>} />
         <Route path="/post/:postId" element={<PostDetailPage />} />
       </Routes>
-    </>
+    </QueryClientProvider>
   );
 }
 

@@ -5,10 +5,10 @@ import Typography from "./Typography";
 import { boardMapping } from "./NavBar";
 
 export const SubjectMapping = {
-  korean: "국어",
-  math: "수학",
-  english: "영어",
-  etc: "탐구",
+  KQ: "국어",
+  MQ: "수학",
+  EQ: "영어",
+  TQ: "탐구",
 };
 
 const SideBarWrapper = styled.div`
@@ -50,9 +50,8 @@ const CategoryWrapper = styled.div`
   }
 `;
 
-const SideBar = ({ board = "question", category = "english" , setPage}) => {
+const SideBar = ({ board = "question", category = "EQ" , setPage, setCategory }) => {
   // 나중에는 이 state를 props로 받아야 함.
-  const [activeCategory, setActiveCategory] = useState(category);
 
   return (
     <SideBarWrapper>
@@ -62,9 +61,9 @@ const SideBar = ({ board = "question", category = "english" , setPage}) => {
       {Object.entries(SubjectMapping).map(([key, value]) => (
         <CategoryWrapper
           key={key}
-          isActive={key === activeCategory}
+          isActive={key === category}
           onClick={() => {
-            setActiveCategory(key);
+            setCategory(key);
             setPage(1);
           }}
         >

@@ -43,30 +43,35 @@ const DropdownItem = styled.div`
   }
 `;
 
-const options = ["전체", "제목", "내용", "제목 + 내용", "글쓴이"];
+const options = ["TOTAL", "TITLE", "CONTENT", "AUTHOR"];
+const optionMapping = {
+  TOTAL : "전체",
+  TITLE : "제목",
+  CONTENT : "내용",
+  AUTHOR : "글쓴이"
+}
 
-const PostDropDown = () => {
+const PostDropDown = ({ searchOption, setSearchOption }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("전체");
 
   const toggling = () => setIsOpen(!isOpen);
 
   const onOptionClicked = value => () => {
-    setSelectedOption(value);
+    setSearchOption(value);
     setIsOpen(false);
   };
 
   return (
     <DropdownContainer>
       <DropdownHeader onClick={toggling}>
-        <Typography size="body_content_medium">{selectedOption}</Typography>
+        <Typography size="body_content_medium">{optionMapping[searchOption]}</Typography>
         <DropdownArrow src={dropdownclick}/>
       </DropdownHeader>
       {isOpen && (
         <DropdownList>
           {options.map(option => (
             <DropdownItem key={option} onClick={onOptionClicked(option)}>
-              <Typography size="body_content_medium">{option}</Typography>
+              <Typography size="body_content_medium">{optionMapping[option]}</Typography>
             </DropdownItem>
           ))}
         </DropdownList>

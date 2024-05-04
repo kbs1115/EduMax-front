@@ -26,16 +26,14 @@ const Section = styled.div`
   }
 `;
 
-const PostOrder = () => {
-  const [isSelected, setIsSelected] = useState(true); // true for left side selected
-
+const PostOrder = ({order, setOrder}) => {
   return (
     <ToggleContainer>
-      <Section selected={isSelected} onClick={() => setIsSelected(true)}>
-        <Typography color={isSelected ? 'white' : '#393E46'} size='body_content_medium'>최신순</Typography>
+      <Section selected={order == "created_at"} onClick={() => setOrder("created_at")}>
+        <Typography color={order === "created_at" ? 'white' : '#393E46'} size='body_content_medium'>최신순</Typography>
       </Section>
-      <Section selected={!isSelected} onClick={() => setIsSelected(false)}>
-        <Typography color={!isSelected ? 'white' : '#393E46'} size='body_content_medium'>추천순</Typography>
+      <Section selected={order == "MOST_LIKE"} onClick={() => setOrder("MOST_LIKE")}>
+        <Typography color={order === "MOST_LIKE" ? 'white' : '#393E46'} size='body_content_medium'>추천순</Typography>
       </Section>
     </ToggleContainer>
   );
