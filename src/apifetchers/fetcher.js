@@ -11,3 +11,11 @@ export const getPostData = async (category, search_option, q, page, sort) => {
   });
   return response.data; // 응답 객체에서 data 속성만 반환
 };
+
+export const fetchLogin = async ({ login_id, password }) => {
+  const { data } = await axios.post("http://127.0.0.1:8000/auth/token/", {
+    login_id,
+    password
+  });
+  return data;
+};
