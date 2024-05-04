@@ -15,6 +15,7 @@ import PostCreatePage from './pages/PostCreatePage';
 import EmailModal from './components/modals/FindModal';
 import PostDetailPage from './pages/PostDetail';
 import MyPage from './pages/MyPage';
+import AlarmModal from './components/modals/AlarmModal';
 
 
 
