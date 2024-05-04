@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import QuestionBoard from './pages/QuestionBoard';
-import { DataBoard } from './pages/DataBoard';
+import DataBoard from './pages/DataBoard';
 import NoticeBoard from './pages/NoticeBoard';
 import FreeBoard from './pages/FreeBoard';
 import LectureBoard from './pages/LectureBoard';
