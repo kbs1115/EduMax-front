@@ -66,8 +66,15 @@ const PageNumber = styled.div`
   cursor: pointer;
 `;
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toISOString().split('T')[0];
+}
+
 // PostTable component
-const PostTable = ({page, setPage, itemNum = 10}) => {
+const PostTable = ({page, setPage, itemNum = 10, data }) => {
+  const post_list = data.data.post_list;
+  
   return (
     <>
       <Wrapper>
@@ -113,33 +120,31 @@ const PostTable = ({page, setPage, itemNum = 10}) => {
                 <Typography size="body_content_thin" color="#A8AAAE">13</Typography>
               </StyledCell>
             </StyledRow>
-            {/* undefined array 대신에 data array가 들어가면 된다. setData를 써야할듯? */}
-            {[...Array(itemNum)].map((_, index) => (
+            {post_list.map((post, index) => (
               <StyledRow key={index}>
                 <NumCell>
                   <Typography size="body_content_medium" color="#393E46">{page * 10 + index - 9}</Typography>
                 </NumCell>
                 <SubjectCell>
                   <StyledLink to="/some-path">
-                    <Typography size="body_content_thin">공지사항{page * 10 + index - 9}입니다</Typography>
+                    <Typography size="body_content_thin">{post.title}</Typography>
                   </StyledLink>
                 </SubjectCell>
                 <StyledCell>
-                <Typography size="body_content_thin" color="#A8AAAE">윤규민</Typography>
+                <Typography size="body_content_thin" color="#A8AAAE">{post.author}</Typography>
               </StyledCell>
               <StyledCell>
-                <Typography size="body_content_thin" color="#A8AAAE">2024-03-18</Typography>
+                <Typography size="body_content_thin" color="#A8AAAE">{formatDate(post.created_at)}</Typography>
               </StyledCell>
               <StyledCell>
-                <Typography size="body_content_thin" color="#A8AAAE">13</Typography>
+                <Typography size="body_content_thin" color="#A8AAAE">{post.likes_count}</Typography>
               </StyledCell>
-                {/* Additional cells */}
-              </StyledRow>
+             </StyledRow>
             ))}
           </StyledBody>
         </StyledTable>
         <PaginationWrapper>
-          {[...Array(10)].map((_, index) => {
+          {[...Array(data.data.total_page_count)].map((_, index) => {
             const pageNumber = index + 1;
             if (
               pageNumber >= page - 2 &&

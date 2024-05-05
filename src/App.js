@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import QuestionBoard from './pages/QuestionBoard';
-import { DataBoard } from './pages/DataBoard';
+import DataBoard from './pages/DataBoard';
 import NoticeBoard from './pages/NoticeBoard';
 import FreeBoard from './pages/FreeBoard';
 import LectureBoard from './pages/LectureBoard';
@@ -19,13 +20,15 @@ import AlarmModal from './components/modals/AlarmModal';
 
 
 
+const queryClient = new QueryClient()
+
 function App() {
   const location = useLocation(); // 현재 경로를 얻기 위해 useLocation 훅 사용
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      {location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/find' &&<NavBar />}
 
-      {location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/find' && <NavBar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post/question" element={<QuestionBoard />} />
@@ -41,7 +44,7 @@ function App() {
         <Route path="/find" element={<EmailModal isPassword={true} />} />
         <Route path="/post/:postId" element={<PostDetailPage />} />
       </Routes>
-    </>
+    </QueryClientProvider>
   );
 }
 

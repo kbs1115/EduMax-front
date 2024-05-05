@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useMutation } from "react-query";
 
+import AuthContext from "../context/AuthProvider";
 import LoginInput from "../components/LoginInput";
 import Typography from "../components/Typography";
 import GoogleIcon from "../assets/googleicon.png"
 import Kakaoicon from "../assets/kakaoicon.png"
+import { fetchLogin } from "../apifetchers/fetcher";
 
 
 const SocialLoginButton = ({ onClick, imagePath, margin, children }) => (
@@ -19,6 +22,25 @@ const SocialLoginButton = ({ onClick, imagePath, margin, children }) => (
 const LoginPage = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+
+  const loginMutation = useMutation(fetchLogin);
+  const { login, logout } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const data = await loginMutation.mutateAsync({ login_id: id, password });
+      console.log('로그인 성공:', data);
+      login(data.token.access, data.token.refresh);
+      navigate("/");
+    } catch (error) {
+      console.error('로그인 실패:', error);
+      alert("로그인에 실패하였습니다.")
+      logout();
+      // 에러 처리
+    }
+  };
 
   return (
     <Wrapper>
@@ -35,7 +57,7 @@ const LoginPage = () => {
           input={password}
           setInput={setPassword}
         />
-        <LoginButton>로그인</LoginButton>
+        <LoginButton onClick={handleLogin}>로그인</LoginButton>
         <LoginTextWrapper>
           <SignupTextWrapper>
             <Link style={{ textDecoration: 'none' }}>
