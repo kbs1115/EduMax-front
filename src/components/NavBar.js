@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-
+import AlarmModal from "./modals/AlarmModal";
 import SearchBar from "./SearchBar";
 import logo from "../assets/logo.png";
 import { colorMapping } from "./Typography";
@@ -98,6 +98,11 @@ const NavBar = () => {
     setHoveredLink(null);
   };
 
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
   return (
     <Header>
       <TopRow>
@@ -111,7 +116,7 @@ const NavBar = () => {
         <SecondaryNavigation>
           <NavItem size="body_content_medium" color="black_gray" to={`/login`}>로그인</NavItem>
           <NavItem size="body_content_medium" color="black_gray" to={`/signup`}>회원가입</NavItem>
-          <NavItem size="body_content_medium" color="black_gray" to={`/alarm`}>알림</NavItem>
+          <NavItem onClick={toggleModal}>알림</NavItem>
           <NavItem size="body_content_medium" color="black_gray" to={`/mypage`}>마이페이지</NavItem>
         </SecondaryNavigation>
       </TopRow>
@@ -135,6 +140,7 @@ const NavBar = () => {
           ))}
         </InnerMenuItems>
       </MenuItems>
+      {showModal && <AlarmModal onClose={toggleModal} />}
     </Header>
   );
 };

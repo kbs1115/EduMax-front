@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { colorMapping } from "../Typography";
 import Typography from "../Typography";
 import listIcon from "../../assets/listIcon.png"
+
 const ButtonContainer = styled.button`
 display: flex;
 padding: 8px 12px;

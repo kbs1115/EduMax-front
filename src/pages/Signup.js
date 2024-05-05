@@ -6,7 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import Typography from "../components/Typography";
 import SignupInput from "../components/SignupInput";
 import CheckMark from "../assets/check_mark.png"
-
+import NotificationPermissionButton from "../components/NotificationPermissionButton"
 
 const SignupButton = ({ 
   isDisabled, 
@@ -443,12 +443,14 @@ const Signup = () => {
         text="회원가입 완료" 
         width="100%"
         onClick={() => moveTo('/')}/>
+      <NotificationPermissionButton/>
     </ContentWrapper>
     <TimerWrapper>
       {timer && <Typography color="timer_red" size="body_sub_title">
           {formatTime(timeLeft)}
         </Typography>}
     </TimerWrapper>
+
   </>);
 }
 
@@ -626,4 +628,3 @@ const ContentContainer = styled.div`
   font-weight: 400;
   line-height: normal;
 `;
-
