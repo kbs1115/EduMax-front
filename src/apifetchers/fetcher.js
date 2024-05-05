@@ -11,23 +11,18 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     // 토큰 만료 에러 코드 확인 (예: 401)
     if (error.response.status === 401) {
-      originalRequest._retry = true; // 무한 재시도 방지
       const refreshToken = localStorage.getItem('refresh_token'); // 리프레시 토큰 가져오기
       if (refreshToken) {
-        try {
-          const response = await api.post('auth/token/refresh/', {
-            refresh: refreshToken
-          });
-          const { access } = response.data;
-          localStorage.setItem('access_token', access); // 새 액세스 토큰 저장
-          originalRequest.headers['Authorization'] = `Bearer ${access}`; // 새 토큰으로 요청 헤더 설정
-          return api(originalRequest); // 원래 요청 재시도
-        } catch (refreshError) {
-          console.error('Unable to refresh token', refreshError);
-          return Promise.reject(refreshError);
-        }
+        const response = await api.post('auth/token/refresh/', {
+          refresh: refreshToken
+        });
+        const { access } = response.data;
+        localStorage.setItem('access_token', access); // 새 액세스 토큰 저장
+        originalRequest.headers['Authorization'] = `Bearer ${access}`; // 새 토큰으로 요청 헤더 설정
+        return api(originalRequest); // 원래 요청 재시도
       }
     }
+
     return Promise.reject(error);
   }
 );

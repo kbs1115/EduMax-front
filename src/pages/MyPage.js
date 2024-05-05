@@ -1,8 +1,10 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 import MyPageSideBar, { mypageMapping } from "../components/MyPageSideBar";
+import AuthContext from "../context/AuthProvider";
 import PostListButton from "../components/buttons/PostListButton";
 import PostTable from "../components/post/PostTable";
 import PostOrder from "../components/post/PostOrder";
@@ -170,6 +172,16 @@ const CommentPage = ({page = 1, setPage, category}) => {
 function MyPage() {
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("info")
+
+  const { isAuthenticated, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+	  if (!isAuthenticated) {
+		  alert("로그인이 필요한 페이지입니다. 로그인을 먼저 진행해 주세요.")
+		  navigate('/login');
+	  }
+  }, [isAuthenticated, navigate]);
 
   return (
     <Wrapper>

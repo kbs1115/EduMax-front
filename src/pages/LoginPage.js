@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useMutation } from "react-query";
 
+import AuthContext from "../context/AuthProvider";
 import LoginInput from "../components/LoginInput";
 import Typography from "../components/Typography";
 import GoogleIcon from "../assets/googleicon.png"
@@ -23,6 +24,9 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
 
   const loginMutation = useMutation(fetchLogin);
+  const { login, logout } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -32,8 +36,12 @@ const LoginPage = () => {
       // 로그인 성공 후 필요한 작업 수행, 예를 들어 토큰 저장
       localStorage.setItem('access_token', data.token.access);
       localStorage.setItem('refresh_token', data.token.refresh);
+      login();
+
+      navigate("/");
     } catch (error) {
       console.error('로그인 실패:', error);
+      logout();
       // 에러 처리
     }
   };
