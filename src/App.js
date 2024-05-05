@@ -16,6 +16,9 @@ import PostCreatePage from './pages/PostCreatePage';
 import EmailModal from './components/modals/FindModal';
 import PostDetailPage from './pages/PostDetail';
 import MyPage from './pages/MyPage';
+import AlarmModal from './components/modals/AlarmModal';
+
+
 
 const queryClient = new QueryClient()
 
@@ -25,6 +28,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       {location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/find' &&<NavBar />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post/question" element={<QuestionBoard />} />
@@ -37,7 +41,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/create-post" element={<PostCreatePage />} />
-        <Route path="/find" element={<EmailModal isPassword={true}/>} />
+        <Route path="/find" element={<EmailModal isPassword={true} />} />
         <Route path="/post/:postId" element={<PostDetailPage />} />
       </Routes>
     </QueryClientProvider>
