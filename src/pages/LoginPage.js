@@ -32,15 +32,11 @@ const LoginPage = () => {
     try {
       const data = await loginMutation.mutateAsync({ login_id: id, password });
       console.log('로그인 성공:', data);
-
-      // 로그인 성공 후 필요한 작업 수행, 예를 들어 토큰 저장
-      localStorage.setItem('access_token', data.token.access);
-      localStorage.setItem('refresh_token', data.token.refresh);
-      login();
-
+      login(data.token.access, data.token.refresh);
       navigate("/");
     } catch (error) {
       console.error('로그인 실패:', error);
+      alert("로그인에 실패하였습니다.")
       logout();
       // 에러 처리
     }

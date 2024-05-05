@@ -7,11 +7,15 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const login = useCallback(() => {
+    const login = useCallback((access, refresh) => {
+        localStorage.setItem('access_token', access);
+        localStorage.setItem('refresh_token', refresh);
         setIsAuthenticated(true);
     }, []);
 
     const logout = useCallback(() => {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
         setIsAuthenticated(false);
     }, []);
 
