@@ -12,6 +12,7 @@ import PostLinkShareButton from "../buttons/PostLinkShareButton";
 import PostDeleteButton from "../buttons/PostDeleteButton";
 import PostModifyButton from "../buttons/PostModifyButton";
 import ListButtons from "../buttons/ListButtons";
+import { votePost } from "../../apifetchers/fetcher";
 
 const PostWrapper = styled.div`
 display: flex;
@@ -146,13 +147,13 @@ gap: 10px;
 const PostContainer = (
     {
         category, title, author, modified_date, views,
-        filesdata, html_content, voter_nicknames, user_nickname}
+        filesdata, html_content, voter_nicknames, user_nickname, post_id }
 ) => {
+
     const Files = () => {
         if (!filesdata || filesdata.length === 0) {
             return null;
         }
-
         return (
             <FilesWrapper>
                 {filesdata.map((file, index) => (
@@ -173,7 +174,7 @@ const PostContainer = (
     const [hasVoted, setHasVoted] = useState(voters.includes(user_nickname));
     const navigate = useNavigate();
 
-    const PostCategorymapping ={
+    const PostCategorymapping = {
         FR: "자유게시판",
         NO: "공지사항",
         KQ: "질문게시판-국어",
@@ -185,18 +186,31 @@ const PostContainer = (
         ED: "자료게시판-영어",
         OD: "자료게시판-탐구",
     }
-    
-    const handleVote = () => {
+
+    const handleVote = (post_id) => {
         if (!user_nickname) {
             if (window.confirm("로그인이 필요한 작업입니다. 로그인 페이지로 이동하시겠습니까?")) {
                 navigate('/login'); // Redirect the user to the login page if they click "Yes"
             }
         } else if (!hasVoted) {
             const updatedVoters = [...voters, user_nickname];
-            setVoters(updatedVoters);
-            setVoteCount(updatedVoters.length);
-            setHasVoted(true);
-            console.log("api호출도 보내야합니다") // page에게 request 요청
+            console.log(post_id, "id입니다")
+            // API 호출로 댓글에 좋아요를 등록합니다.
+            votePost(post_id) // id는 해당 댓글의 고유 ID입니다.
+                .then(response => {
+                    console.log('post 좋아요 성공:', response);
+                    setVoters(updatedVoters);
+                    setVoteCount(updatedVoters.length);
+                    setHasVoted(true);
+                })
+                .catch(error => {
+                    console.error(';post 좋아요 실패:', error);
+                    // 좋아요 실패 시, 좋아요 상태와 카운트를 원래대로 돌립니다.
+                    setHasVoted(false);
+                    setVoters(voters);
+                    setVoteCount(voters.length);
+
+                });
         }
     };
     return (
@@ -230,7 +244,7 @@ const PostContainer = (
             </ContentWrapper>
 
             <VoteButtonWrapper>
-                <PostVoteButton votes={voteCount} isVoted={hasVoted} onVote={handleVote} />
+                <PostVoteButton votes={voteCount} isVoted={hasVoted} onVote={() => handleVote(post_id)} />
                 <PostLinkShareButton />
             </VoteButtonWrapper>
             <ButtonListWrapper>

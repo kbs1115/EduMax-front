@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components"
 import Typography, { colorMapping } from "../Typography";
 import CkeditorBox from "../PostCreate/CkeditorBox"
@@ -7,9 +7,12 @@ import CommentVoteButton from "../buttons/CommentVoteButton";
 import plus from "../../assets/plus.png";
 import minus from "../../assets/minus.png";
 import { useNavigate } from "react-router-dom";
-import { SamplehtmlContent } from "../../TestData/TestPostDetail";
-import { CommentsList } from "../../TestData/TestPostDetail";
-import { ChildCommentsList } from "../../TestData/TestPostDetail";
+import { getChildCommentsData } from "../../apifetchers/fetcher";
+import AuthContext from "../../context/AuthProvider";
+import { createChildComment, createParentComment } from "../../apifetchers/fetcher";
+import { voteComment } from "../../apifetchers/fetcher";
+
+
 const CommentBoxWrapper = styled.div`
 display: flex;
 flex-direction: column;
@@ -117,7 +120,7 @@ const Comment = ({
     childComments,
     showChildComments,
     setShowChildComments,
-    user_nickname = "김병수",   // 로그인 토큰으로부터 nickname 추출할예정, 로그인 상태는 전역임 고로 여기서 받기 가능
+    user_nickname,   // 로그인 토큰으로부터 nickname 추출할예정, 로그인 상태는 전역임 고로 여기서 받기 가능
     isParent // Add this prop to determine if the comment is a parent
 }) => {
     // Ensure user_nickname is not undefined before calling toLowerCase
@@ -128,14 +131,25 @@ const Comment = ({
     const [votes, setVotes] = useState(vote_list.length);
 
     //댓글 추천
-    const handleVote = () => {
+    const handleVote = (user_nickname) => {
         if (!user_nickname) {
             window.alert("로그인이 필요한 작업입니다. 로그인 해주세요.");
         } else if (!hasVoted) {
             setHasVoted(true);
             setVotes(votes + 1);
-            // api 호출해야함 (likes POST)
-            console.log("'" + user_nickname + "'" + "가'" + author_username + "'에게 좋아요 누름")
+
+
+            // API 호출로 댓글에 좋아요를 등록합니다.
+            voteComment(id) // id는 해당 댓글의 고유 ID입니다.
+                .then(response => {
+                    console.log('댓글 좋아요 성공:', response);
+                })
+                .catch(error => {
+                    console.error('댓글 좋아요 실패:', error);
+                    // 좋아요 실패 시, 좋아요 상태와 카운트를 원래대로 돌립니다.
+                    setHasVoted(false);
+                    setVotes(votes);
+                });
         }
     };
     // 댓글 수정
@@ -153,6 +167,7 @@ const Comment = ({
 
     const toggleChildCommentsVisibility = () => {
         if (!showChildComments && !childComments) {
+            console.log(id)
             fetchChildComments(id);
         }
         setShowChildComments(!showChildComments); // Toggle visibility state
@@ -164,7 +179,7 @@ const Comment = ({
                 <FirstRowWrapper>
                     <Typography size="body_sub_title" color="bright_black_gray">{author_username}</Typography>
                     <Typography size="body_sub_title" color="gray">{modified_date}</Typography>
-                    <CommentVoteButton votes={votes} isVoted={hasVoted} onVote={handleVote} />
+                    <CommentVoteButton votes={votes} isVoted={hasVoted} onVote={() =>handleVote(user_nickname)} />
                 </FirstRowWrapper>
                 {user_nickname == author_username && (
                     <>
@@ -188,39 +203,42 @@ const Comment = ({
                 </PlusOrMinusButtonWrapper>
             )}
             {childComments && showChildComments &&
-                <Comments comments={childComments} isParent={false} />
+                <Comments comments={childComments} isParent={false} parentId={id} user_nickname={user_nickname}/>
             }
         </CommentWrapper>
     );
 };
 
 
-const Comments = ({ comments, isParent }) => {
+const Comments = ({ comments, isParent, user_nickname, parentId = null, postId }) => {
     // State to keep track of which comments have their child comments expanded
     const [expandedComments, setExpandedComments] = useState({});
     const [childCommentsData, setChildCommentsData] = useState({});
     const [showChildComments, setShowChildComments] = useState({});
+
+
     // Function to fetch child comments from the API
     const fetchChildComments = async (commentId) => {
+
+        console.log(commentId)
         if (!expandedComments[commentId]) {
-            // api호출 여기서 하면됩니다.
-            // const response = await fetch(`/api/comments/${commentId}/child-comments`);
-            // const data = await response.json();
-            console.log("자식 comments 호출했음 부모 comment id:" + commentId)
-            const data = ChildCommentsList
-            setChildCommentsData({
-                ...childCommentsData,
-                [commentId]: data
-            });
+            const data = await getChildCommentsData(commentId);
+            setChildCommentsData(prevData => ({
+                ...prevData,
+                [commentId]: data.data
+            }));
         }
         // Toggle visibility of child comments
-        setExpandedComments({
-            ...expandedComments,
-            [commentId]: !expandedComments[commentId]
-        });
-        setShowChildComments((prevState) => ({
-            ...prevState,
-            [commentId]: true, // Set to true when child comments are fetched
+        if (!showChildComments[commentId]) {
+            setShowChildComments(prevShowChildComments => ({
+                ...prevShowChildComments,
+                [commentId]: true
+            }));
+        }
+        // Toggle visibility of child comments
+        setExpandedComments(prevExpandedComments => ({
+            ...prevExpandedComments,
+            [commentId]: !prevExpandedComments[commentId]
         }));
     };
     return (
@@ -228,7 +246,7 @@ const Comments = ({ comments, isParent }) => {
             {comments.map(comment => (
                 <Comment
                     setShowChildComments={(value) => setShowChildComments({ ...showChildComments, [comment.id]: value })}
-                    showChildComments={showChildComments[comment.id] ?? false}
+                    showChildComments={showChildComments[comment.id] ?? false}  // 자식댓글들이 보여지고있는지
                     key={comment.id}
                     id={comment.id}
                     vote_list={comment.likes}
@@ -238,18 +256,26 @@ const Comments = ({ comments, isParent }) => {
                     fetchChildComments={fetchChildComments}
                     childComments={childCommentsData[comment.id]}
                     isParent={isParent}
+                    user_nickname={user_nickname}
+                    parentId={comment.id}
                 />
             ))}
-            <CommentSubmit />
+            <CommentSubmit parentId={parentId} postId={postId} />
         </CommentsWrapper>
     )
 }
 
-const CommentSubmit = ({ Islogin = true, username }) => {
+const CommentSubmit = ({ parentId, postId }) => {
     const navigate = useNavigate();
     const [content, setContent] = useState('');
     const [contentError, setContentError] = useState(false);
 
+    const { isAuthenticated } = useContext(AuthContext);
+    const [Islogin, setIsLogin] = useState(false);
+
+    useEffect(() => {
+        setIsLogin(isAuthenticated);
+    }, [isAuthenticated]); // isAuthenticated 값이 변경될 때마다 isLogin 업데이트
 
     const handleContentChange = (newContent) => {
         setContent(newContent);
@@ -264,15 +290,32 @@ const CommentSubmit = ({ Islogin = true, username }) => {
         return true;
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!Islogin) {
             navigate('/login');
         } else if (validateInputs()) {
-            const postData = { html_content: content };
-            console.log(postData);
-            // api 호출. Create Comment
+            try {
+                let response;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(content, "text/html");
+                const textContent = doc.body.textContent || "";
+                if (parentId) {
+
+                    console.log(content)
+                    console.log(textContent)
+                    response = await createChildComment(parentId, content, textContent);
+                } else {
+                    response = await createParentComment(postId, content, textContent);
+                }
+                console.log('댓글 생성 성공:', response.data);
+                // 성공적인 댓글 생성 후 필요한 상태 업데이트 또는 UI 반응
+                window.location.reload()
+            } catch (error) {
+                console.error('댓글 생성 실패:', error);
+            }
         }
     };
+
     const buttonContent = Islogin ? "제출하기" : "EdunMax 로그인 바로가기";
 
     return (
@@ -286,14 +329,14 @@ const CommentSubmit = ({ Islogin = true, username }) => {
     );
 };
 
-const CommentsContainer = ({ comments_list }) => {
+const CommentsContainer = ({ comments_list, user_nickname, postId }) => {
     const comment_count = comments_list.length;
     return (
         <CommentBoxWrapper>
             <CommentCountWrapper>
                 <Typography size="h3_medium" color="bright_black_gray">댓글 {comment_count}개</Typography>
             </CommentCountWrapper>
-            <Comments comments={comments_list} isParent={true} />
+            <Comments comments={comments_list} isParent={true} user_nickname={user_nickname} postId={postId} />
         </CommentBoxWrapper>
     )
 }
