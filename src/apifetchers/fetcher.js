@@ -47,3 +47,77 @@ export const fetchLogin = async ({ login_id, password }) => {
   localStorage.setItem('access_token', data.access_token);
   return data;
 };
+
+export const getPostDetailData = async (postId) => {
+  const response = await api.get(`post/${postId}`, {
+  });
+  return response.data;
+};
+
+// 부모댓글 데이터를 가져오는 함수 추가
+export const getCommentsData = async (postId) => {
+  const response = await api.get(`comment/post/${postId}`, {
+
+  });
+  return response.data;
+};
+
+// 대댓글 데이터를 가져오는 함수 추가
+export const getChildCommentsData = async (commentId) => {
+  try {
+    const response = await api.get(`comment/comment/${commentId}`);
+    return response.data;
+    
+  } catch (error) {
+    // 404 Not Found 에러가 발생할 경우 빈 배열 반환
+    if (error.response && error.response.status === 404) {
+      return [];
+    }
+    throw error; // 다른 종류의 에러는 계속해서 throw
+  }
+};
+
+export const createParentComment = async (postId, content, textContent) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.post(`post/${postId}/comment/`, {
+      html_content: content,
+      content: textContent
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
+
+export const createChildComment = async (parentId, content, textContent) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.post(`comment/${parentId}`, {
+      html_content: content,
+      content: textContent
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
+
+export const voteComment = async (commentId ) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.post(`comment/${commentId}/like`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
+
+export const votePost = async (postId ) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.post(`post/${postId}/like`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
+
