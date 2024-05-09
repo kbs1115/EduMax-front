@@ -54,6 +54,17 @@ export const getPostDetailData = async (postId) => {
   return response.data;
 };
 
+
+export const DeletePost = async (postId) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.delete(`post/${postId}`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
+
 // 부모댓글 데이터를 가져오는 함수 추가
 export const getCommentsData = async (postId) => {
   const response = await api.get(`comment/post/${postId}`, {
@@ -101,6 +112,17 @@ export const createChildComment = async (parentId, content, textContent) => {
   });
 };
 
+export const DeleteComment = async (commentId) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.delete(`comment/${commentId}`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
+
+
 export const voteComment = async (commentId ) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.post(`comment/${commentId}/like`, {
@@ -121,3 +143,13 @@ export const votePost = async (postId ) => {
   });
 };
 
+export const getLecture = async (lectureId ) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.get(`lecture/${lectureId}`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+  
+};

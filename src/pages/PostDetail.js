@@ -7,6 +7,9 @@ import CommentsContainer from "../components/PostDetail/CommentsContainer";
 import { getPostDetailData, getCommentsData } from "../apifetchers/fetcher";
 import AuthContext from "../context/AuthProvider";
 import { ChildCommentsList, CommentsList } from "../TestData/TestPostDetail";
+import LoadingSpinner from "../components/spinner";
+
+
 const MainWrapper = styled.div`
 display: flex;
 justify-content: center;
@@ -30,7 +33,6 @@ border-top: 2px solid #393E46;
 function PostDetailPage() {
 
     const auth = useContext(AuthContext);
-    console.log(auth.isAuthenticated)
     const [postData, setPostData] = useState(null);
     const [commentsData, setCommentsData] = useState([]);
     // 라우터로부터 postId 추출
@@ -62,7 +64,7 @@ function PostDetailPage() {
     };
 
     if (!postData) {
-        return console.log("이미 삭제");
+        return <LoadingSpinner />;
     }
 
 
@@ -76,7 +78,6 @@ function PostDetailPage() {
 
     // Mapping likes to voter_nicknames
     const voter_nicknames = likes.map(like => like.user);
-    console.log(id)
     // Using the extracted and mapped data as props for PostContainer
     return (
         <MainWrapper>
