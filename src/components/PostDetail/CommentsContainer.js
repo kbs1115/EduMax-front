@@ -1,17 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components"
+import { useNavigate } from "react-router-dom";
 import Typography, { colorMapping } from "../Typography";
 import CkeditorBox from "../PostCreate/CkeditorBox"
 import CommentSubmitButton from "../buttons/CommentSubmitButton";
 import CommentVoteButton from "../buttons/CommentVoteButton";
 import plus from "../../assets/plus.png";
 import minus from "../../assets/minus.png";
-import { useNavigate } from "react-router-dom";
 import { getChildCommentsData } from "../../apifetchers/fetcher";
 import AuthContext from "../../context/AuthProvider";
 import { createChildComment, createParentComment } from "../../apifetchers/fetcher";
 import { voteComment } from "../../apifetchers/fetcher";
-
+import { DeleteComment } from "../../apifetchers/fetcher";
 
 const CommentBoxWrapper = styled.div`
 display: flex;
@@ -157,14 +157,19 @@ const Comment = ({
         console.log("Edit comment with ID:", id);
         // Implement further edit logic or navigation here
     };
-    // 댓글 삭제
-    const handleDelete = () => {
-        if (window.confirm("정말로 댓글을 삭제하시겠습니까?")) {
-            console.log("Delete comment with ID:", id);
-            // Call an API to delete the comment or update the state to remove the comment
+
+    const handleDelete = async () => {
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            try {
+                const response = await DeleteComment(id); // DeletePost 함수를 호출하여 API 요청
+                console.log("comment 삭제 성공:", response);
+                window.location.reload()
+            } catch (error) {
+                console.error("comment 삭제 실패:", error);
+                alert("삭제에 실패하였습니다."); // 사용자에게 실패를 알림
+            }
         }
     };
-
     const toggleChildCommentsVisibility = () => {
         if (!showChildComments && !childComments) {
             console.log(id)
@@ -300,21 +305,21 @@ const CommentSubmit = ({ parentId, postId }) => {
                 const doc = parser.parseFromString(content, "text/html");
                 const textContent = doc.body.textContent || "";
                 if (parentId) {
-
-                    console.log(content)
-                    console.log(textContent)
                     response = await createChildComment(parentId, content, textContent);
                 } else {
                     response = await createParentComment(postId, content, textContent);
                 }
                 console.log('댓글 생성 성공:', response.data);
                 // 성공적인 댓글 생성 후 필요한 상태 업데이트 또는 UI 반응
-                window.location.reload()
+                // window.location.reload()
             } catch (error) {
                 console.error('댓글 생성 실패:', error);
             }
         }
     };
+
+
+
 
     const buttonContent = Islogin ? "제출하기" : "EdunMax 로그인 바로가기";
 

@@ -1,3 +1,5 @@
+import { uploadFilesToS3 } from "../../apifetchers/fetcher";
+
 class CustomUploadAdapter {
     constructor(loader) {
         this.loader = loader;
@@ -5,23 +7,19 @@ class CustomUploadAdapter {
 
     upload() {
         return this.loader.file.then(file => new Promise((resolve, reject) => {
-            const data = new FormData();
-            data.append('upload', file);
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'YOUR_SERVER_ENDPOINT', true);     // 아직 서버와 연결안함
-            xhr.responseType = 'json';
-
-            xhr.onload = () => {
-                if (xhr.status === 200 && xhr.response) {
-                    resolve({ default: xhr.response.url });
+            const formData = new FormData();
+            formData.append('files', file); // Ensure that the key matches what the backend expects
+            console.log(formData)
+            uploadFilesToS3(formData).then(response => {
+                console.log("Server response:", response); // 서버 응답 확인
+                if (response && response.data && response.data.length > 0) {
+                    resolve({ default: response.data[0] }); // 첫 번째 파일 URL을 사용
                 } else {
-                    reject(`Error: ${xhr.response ? xhr.response.message : 'Unknown error'}`);
+                    reject('No files uploaded.');
                 }
-            };
-
-            xhr.onerror = () => reject('Network error.');
-            xhr.send(data);
+            }).catch(error => {
+                reject(`Error: ${error.message || 'Unknown error'}`);
+            });
         }));
     }
 }

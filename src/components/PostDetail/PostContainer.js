@@ -13,6 +13,9 @@ import PostDeleteButton from "../buttons/PostDeleteButton";
 import PostModifyButton from "../buttons/PostModifyButton";
 import ListButtons from "../buttons/ListButtons";
 import { votePost } from "../../apifetchers/fetcher";
+import { DeletePost } from "../../apifetchers/fetcher";
+
+
 
 export const PostWrapper = styled.div`
 display: flex;
@@ -213,6 +216,21 @@ const PostContainer = (
                 });
         }
     };
+
+
+    const handleDelete = async () => {
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            try {
+                const response = await DeletePost(post_id); // DeletePost 함수를 호출하여 API 요청
+                console.log("Post 삭제 성공:", response);
+                navigate('/post/'); // 상태 업데이트 후 페이지 리다이렉트
+            } catch (error) {
+                console.error("Post 삭제 실패:", error);
+                alert("삭제에 실패하였습니다."); // 사용자에게 실패를 알림
+            }
+        }
+    };
+
     return (
         <PostWrapper>
             <CategoryWrapper>
@@ -252,7 +270,7 @@ const PostContainer = (
                     {user_nickname && user_nickname === author && (
                         <>
                             <PostModifyButton />
-                            <PostDeleteButton />
+                            <PostDeleteButton onClick={handleDelete} /> {/* handleDelete 함수를 props로 전달 */}
                         </>
                     )}
                 </DeleteOrModifyWrapper>
