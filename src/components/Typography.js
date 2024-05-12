@@ -8,6 +8,7 @@ export const sizeMapping = {
   h3_bold: ["18px", "700"],
   h3_medium: ["18px", "500"],
   h1: ["32px", "500"],
+  light_h1 : ["32px", "400"],
   logo: ["26px", "500"],
   body_content_regular: ["13px", "500"],
   body_content_bold:["14px", "700"],
@@ -29,7 +30,7 @@ export const colorMapping = {
   blue_gray: "#F3F4F8", // 사이트배경색
   container: "#DFE5EE", // 컨테이너색
   timer_red: "#ED6E6E",
-  bright_gray:"#95A0B1", //회색보다 밝은
+  bright_gray:"#95A0B1", //회색보다 연한
   middle_gray:"#B6C0D5", //회원가입
   purple_blue: "#91A5FF", //신기한색
   bright_black_gray: "#4D4E52", //회색

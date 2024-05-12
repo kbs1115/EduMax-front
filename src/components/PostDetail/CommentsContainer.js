@@ -311,9 +311,10 @@ const CommentSubmit = ({ parentId, postId }) => {
                 }
                 console.log('댓글 생성 성공:', response.data);
                 // 성공적인 댓글 생성 후 필요한 상태 업데이트 또는 UI 반응
-                // window.location.reload()
+                window.location.reload()
             } catch (error) {
                 console.error('댓글 생성 실패:', error);
+                window.alert("댓글 생성 실패",error);
             }
         }
     };

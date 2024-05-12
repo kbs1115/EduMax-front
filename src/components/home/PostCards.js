@@ -13,6 +13,7 @@ flex-direction: column;
 align-items: flex-start;
 border-radius: 20px;
 background: #FFF;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const TitleWrapper = styled.div`

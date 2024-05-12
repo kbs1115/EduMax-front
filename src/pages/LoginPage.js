@@ -32,7 +32,7 @@ const LoginPage = () => {
     try {
       const data = await loginMutation.mutateAsync({ login_id: id, password });
       console.log('로그인 성공:', data);
-      login(data.token.access, data.token.refresh, data.user.nickname);
+      login(data.token.access, data.token.refresh, data.user.nickname, data.user.is_staff);
       navigate("/");
     } catch (error) {
       console.error('로그인 실패:', error);

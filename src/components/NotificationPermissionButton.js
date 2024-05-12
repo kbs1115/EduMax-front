@@ -1,6 +1,7 @@
 import React from 'react';
 import { requestNotificationPermission } from '../firebase-messaging';
 import { registerFCMToken } from '../apifetchers/fetcher';
+
 function NotificationPermissionButton() {
     
   const handleRequestPermission = () => {

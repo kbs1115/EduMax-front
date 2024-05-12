@@ -54,6 +54,14 @@ export const getPostDetailData = async (postId) => {
   return response.data;
 };
 
+export const createPost = async (postData) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.post('post/', postData, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
 
 export const DeletePost = async (postId) => {
   const accessToken = localStorage.getItem('access_token');
@@ -146,6 +154,16 @@ export const votePost = async (postId ) => {
 export const getLecture = async (lectureId ) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.get(`lecture/${lectureId}`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+  
+};
+export const DeleteLecture = async (lectureId ) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.delete(`lecture/${lectureId}`, {
   }, {
       headers: {
           Authorization: `Bearer ${accessToken}`

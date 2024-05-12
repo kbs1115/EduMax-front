@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import Typography, { colorMapping } from "../components/Typography";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import {
     PostWrapper, CategoryWrapper,
@@ -17,7 +17,7 @@ import homeIcon from "../assets/homeIcon.png"
 import SideBar from "../components/SideBar";
 import YouTube from 'react-youtube'; // YouTube 컴포넌트를 임포트합니다
 import LoadingSpinner from "../components/spinner";
-
+import { DeleteLecture } from "../apifetchers/fetcher";
 
 
 const MainContainer = styled.div`
@@ -58,6 +58,8 @@ const VideoContainer = styled.div`
 const LectureDetial = () => {
     const auth = useContext(AuthContext);
     const user_nickname = auth.isAuthenticated ? auth.username : ""
+    
+    const navigate = useNavigate();
 
     const { lectureId } = useParams();
     const [lectureDetail, setLectureData] = useState(null);
@@ -84,6 +86,18 @@ const LectureDetial = () => {
         MA: "선생님강의-수학",
         TM: "선생님강의-탐구",
     }
+    const handleDelete = async () => {
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            try {
+                const response = await DeleteLecture(lectureId); // DeletePost 함수를 호출하여 API 요청
+                console.log("lecture 삭제 성공:", response);
+                navigate(`/lecture/`); // 상태 업데이트 후 페이지 리다이렉트
+            } catch (error) {
+                console.error("lecture 삭제 실패:", error);
+                alert("삭제에 실패하였습니다."); // 사용자에게 실패를 알림
+            }
+        }
+    };
 
     if (!lectureDetail) {
         return <LoadingSpinner />;  // 데이터가 없을 경우 로딩 스피너를 표시
@@ -137,7 +151,7 @@ const LectureDetial = () => {
                         <DeleteOrModifyWrapper>
                             {user_nickname && user_nickname === author && (
                                 <>
-                                    <PostDeleteButton />
+                                    <PostDeleteButton onClick={handleDelete}/>
                                 </>
                             )}
                         </DeleteOrModifyWrapper>
