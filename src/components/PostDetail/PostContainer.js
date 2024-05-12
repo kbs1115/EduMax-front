@@ -157,13 +157,14 @@ const PostContainer = (
         if (!filesdata || filesdata.length === 0) {
             return null;
         }
+        const baseUrl = "https://edumaxbucket.s3.ap-northeast-2.amazonaws.com/";
         return (
             <FilesWrapper>
                 {filesdata.map((file, index) => (
-                    <a key={index} href={file.file_location} download style={{ textDecoration: 'none' }}>
+                    <a key={index} href={`${baseUrl}${file.file_location}`} download={file.name} style={{ textDecoration: 'none' }}>
                         <FileContainer>
                             <FileIconWrapper src={file_image} alt="File Icon" />
-                            <FilenameWrapper>{file.file_name}</FilenameWrapper>
+                            <FilenameWrapper>{file.name}</FilenameWrapper>
                             <FileDownLoadWrapper src={file_downloadIcon} alt="Download Icon" />
                         </FileContainer>
                     </a>

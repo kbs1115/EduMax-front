@@ -9,6 +9,8 @@ import FileUploader from "./Fileupload";
 import { createPost } from "../../apifetchers/fetcher";
 import AuthContext from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../spinner";
+
 const MainContainer = styled.div`
     display: flex;
     height: 902px;
@@ -145,7 +147,8 @@ const PostCreateForm = () => {
     const [titleError, setTitleError] = useState(false);
     const [contentError, setContentError] = useState(false);
     const [categoryError, setCategoryError] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
+    
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
         if (event.target.value.trim() !== '') setTitleError(false);
@@ -202,47 +205,44 @@ const PostCreateForm = () => {
         }
     }, [isAuthenticated, navigate]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!validateInputs()) return;
-
-        if (!validateInputs()) return;
-
-        // 로그인 상태가 아니면 로그인 페이지로 리다이렉트
         if (!isAuthenticated) {
             alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
             navigate('/login');
-            return; // 함수 실행 종료
+            return;
         }
     
-        // 폼 데이터 생성
+        setIsLoading(true);
+    
+        const formData = new FormData();
+        formData.append('category', categoryMapping[category]);
+        formData.append('title', title);
         const parser = new DOMParser();
         const doc = parser.parseFromString(content, "text/html");
-        const textContent = doc.body.textContent || "";
-        const postData = {
-            category: categoryMapping[category],
-            title,
-            html_content: content,
-            content: textContent,
-            files,
-        };
+        const text_content = doc.body.textContent || "";
+        formData.append('html_content', content);
+        formData.append('content', text_content);
+        files.forEach(file => formData.append('files', file));
     
-        // 게시글 생성 API 호출
-        createPost(postData)
-            .then(response => {
-                console.log('Post created successfully', response.data);
-                alert('게시글이 생성되었습니다');
-                navigate('/'); // 성공 후 홈으로 이동
-            })
-            .catch(error => {
-                console.error('Failed to create post', error);
-                alert('게시글 생성이 실패하였습니다');
-                navigate('/'); // 실패 후 홈으로 이동
-            });
+        try {
+            const response = await createPost(formData);
+            console.log('게시글이 성공적으로 생성되었습니다', response.data);
+            setIsLoading(false);  // API 호출 성공 직후 로딩 상태 해제
+            alert('게시글이 생성되었습니다');  // 상태 업데이트 후 alert 표시
+            navigate('/');
+        } catch (error) {
+            setIsLoading(false);  // API 호출 실패 직후 로딩 상태 해제
+            console.error('게시글 생성 실패', error);
+            alert('게시글 생성이 실패하였습니다');  // 상태 업데이트 후 alert 표시
+        }
     };
+    
 
     const isFormValid = title.trim() && content.trim() && category.trim();
     return (
         <MainContainer>
+            {isLoading && <LoadingSpinner />}
             <Wrapper>
                 <TitleWrapper>
                     <Typography size="light_h1" color="black_gray">게시글 생성</Typography>

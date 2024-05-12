@@ -33,10 +33,11 @@ const SpinnerContainer = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5); // Semi-transparent background
+  background-color: rgba(0, 0, 0, 0.5); // 반투명 배경
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 15000; // 높은 z-index로 설정
 `;
 
 // Text style for error message

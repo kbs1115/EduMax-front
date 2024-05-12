@@ -54,11 +54,12 @@ export const getPostDetailData = async (postId) => {
   return response.data;
 };
 
-export const createPost = async (postData) => {
+export const createPost = async (formData) => {
   const accessToken = localStorage.getItem('access_token');
-  return await api.post('post/', postData, {
+  return await api.post('post/', formData, {
       headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data'
       }
   });
 };
@@ -103,7 +104,8 @@ export const createParentComment = async (postId, content, textContent) => {
       content: textContent
   }, {
       headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data'
       }
   });
 };
@@ -115,7 +117,8 @@ export const createChildComment = async (parentId, content, textContent) => {
       content: textContent
   }, {
       headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data'
       }
   });
 };

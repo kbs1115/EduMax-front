@@ -87,15 +87,38 @@ const FileUploader = ({files, setFiles }) => {
     };
 
     const addFiles = (newFiles) => {
-        let updatedFiles = [...files, ...newFiles];
-        let totalSize = updatedFiles.reduce((acc, file) => acc + file.size, 0);
+        const allowedMimeTypes = [
+            'audio/',  // 오디오 파일
+            'image/',  // 이미지 파일
+            'video/',  // 비디오 파일
+            'application/pdf',  // PDF 파일
+            'application/msword',  // Microsoft Word 파일
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',  // Microsoft Word 2007 이상
+            'application/vnd.hancom.hwp',  // 한글(HWP) 파일
+            'application/vnd.ms-powerpoint',  // Microsoft PowerPoint 파일
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation'  // Microsoft PowerPoint 2007 이상
+        ];
     
-        if (totalSize > 20 * 1024 * 1024) {
+        let updatedFiles = [...files];
+        let totalSize = 0;
+        let invalidFile = false;
+    
+        for (let file of newFiles) {
+            if (allowedMimeTypes.some(type => file.type.startsWith(type))) {
+                updatedFiles.push(file);
+                totalSize += file.size;
+            } else {
+                setError('지원하지 않는 파일 확장자입니다.');
+                invalidFile = true;
+                break;  // 첫 번째 지원하지 않는 파일에서 오류를 표시하고 중단
+            }
+        }
+    
+        if (!invalidFile && totalSize > 20 * 1024 * 1024) {
             setError('최대 20MB 의 파일을 업로드 할 수 있습니다.');
-            // Don't set the files to updatedFiles if the total exceeds 20MB
-        } else {
+        } else if (!invalidFile) {
             setFiles(updatedFiles);
-            setError(''); // Clear the error if the total size is within the limit
+            setError(''); // 오류가 없으면 오류 메시지를 지웁니다
         }
     };
 
