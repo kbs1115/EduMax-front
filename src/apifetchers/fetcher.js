@@ -54,6 +54,25 @@ export const getPostDetailData = async (postId) => {
   return response.data;
 };
 
+export const createPost = async (postData) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.post('post/', postData, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
+
+export const DeletePost = async (postId) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.delete(`post/${postId}`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
+
 // 부모댓글 데이터를 가져오는 함수 추가
 export const getCommentsData = async (postId) => {
   const response = await api.get(`comment/post/${postId}`, {
@@ -101,6 +120,17 @@ export const createChildComment = async (parentId, content, textContent) => {
   });
 };
 
+export const DeleteComment = async (commentId) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.delete(`comment/${commentId}`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+};
+
+
 export const voteComment = async (commentId ) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.post(`comment/${commentId}/like`, {
@@ -121,3 +151,58 @@ export const votePost = async (postId ) => {
   });
 };
 
+export const getLecture = async (lectureId ) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.get(`lecture/${lectureId}`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+  
+};
+export const DeleteLecture = async (lectureId ) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.delete(`lecture/${lectureId}`, {
+  }, {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+  });
+  
+};
+
+export const registerFCMToken = async (token) => {
+  const accessToken = localStorage.getItem('access_token');
+  try {
+      const response = await api.post('auth/fcm_token/', {
+          token
+      }, {
+          headers: {
+              Authorization: `Bearer ${accessToken}`
+          }
+      });
+      console.log('Token registered successfully:', response.data);
+      return response.data;
+  } catch (error) {
+      console.error('Failed to register FCM token:', error);
+      throw error;
+  }
+};
+
+export const uploadFilesToS3 = async (formData) => {
+  const accessToken = localStorage.getItem('access_token');
+  try {
+      const response = await api.post('s3_files/', formData, {
+          headers: {
+              'Authorization': `Bearer ${accessToken}`,
+              'Content-Type': 'multipart/form-data' // This header is important for file uploads
+          }
+      });
+      console.log('Files uploaded successfully:', response.data);
+      return response.data; // Returning the response data, possibly URLs of the uploaded files
+  } catch (error) {
+      console.error('Failed to upload files:', error);
+      throw error;
+  }
+};

@@ -13,34 +13,37 @@ import PostDeleteButton from "../buttons/PostDeleteButton";
 import PostModifyButton from "../buttons/PostModifyButton";
 import ListButtons from "../buttons/ListButtons";
 import { votePost } from "../../apifetchers/fetcher";
+import { DeletePost } from "../../apifetchers/fetcher";
 
-const PostWrapper = styled.div`
+
+
+export const PostWrapper = styled.div`
 display: flex;
 flex-direction: column;
 align-items: flex-start;
 gap: 5px;
 align-self: stretch;
 `;
-const CategoryWrapper = styled.div`
+export const CategoryWrapper = styled.div`
 display: flex;
 padding: 30px 0px 10px 5px;
 align-items: center;
 align-self: stretch;
 border-bottom: 1px solid ${colorMapping.container}
 `;
-const CategoryContainer = styled(Link)`
+export const CategoryContainer = styled(Link)`
 display: flex;
 align-items: center;
 gap: 10px;
 text-decoration: none;
 `;
 
-const HomeIconImage = styled.img`
+export const HomeIconImage = styled.img`
 width: 18px;
 height: 18px;
 `;
 
-const PostTitleWrapper = styled.div`
+export const PostTitleWrapper = styled.div`
 display: flex;
 padding: 10px 0 10px 5px;
 align-items: center;
@@ -49,7 +52,7 @@ border-bottom: 1px solid ${colorMapping.black_gray};
 
 `
 
-const AuthorAndViewerWrapper = styled.div`
+export const AuthorAndViewerWrapper = styled.div`
 display: flex;
 padding: 10px;
 justify-content: space-between;
@@ -57,7 +60,7 @@ align-items: center;
 align-self: stretch;
 border-bottom: 1px solid ${colorMapping.container};
 `
-const AuthorAndDateContainer = styled.div`
+export const AuthorAndDateContainer = styled.div`
 display: flex;
 width: 349px;
 padding-right: 10px;
@@ -65,18 +68,18 @@ align-items: center;
 gap: 10px;
 `;
 
-const ViewsContainer = styled.div`
+export const ViewsContainer = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
 gap: 8px;
 `
-const ViewIconWrapper = styled.img`
+export const ViewIconWrapper = styled.img`
 width: 25px;
 height: 18px;
 `
 
-const FilesWrapper = styled.div`
+export const FilesWrapper = styled.div`
 display: flex;
 padding: 20px 10px 10px 10px;
 flex-direction: column;
@@ -85,7 +88,7 @@ gap: 10px;
 align-self: stretch;
 `
 
-const FileContainer = styled.div`
+export const FileContainer = styled.div`
 display: flex;
 padding: 10px;
 align-items: center;
@@ -95,16 +98,16 @@ border-radius: 5px;
 border: 1px solid #B6C0D5;
 `
 
-const FileIconWrapper = styled.img`
+export const FileIconWrapper = styled.img`
 width: 18px;
 height: 18px;
 `;
 
-const FileDownLoadWrapper = styled.img`
+export const FileDownLoadWrapper = styled.img`
 width: 25px;
 height: 25px;
 `
-const FilenameWrapper = styled(Typography)`
+export const FilenameWrapper = styled(Typography)`
 overflow: hidden;
 color: ${colorMapping.black_gray};
 text-overflow: ellipsis;
@@ -115,7 +118,7 @@ flex-direction: column;
 justify-content: center;
 align-self: stretch;
 `
-const ContentWrapper = styled.div`
+export const ContentWrapper = styled.div`
 display: flex;
 padding: 0px 10px;
 flex-direction: column;
@@ -123,7 +126,7 @@ align-items: flex-start;
 align-self: stretch;
 `
 
-const VoteButtonWrapper = styled.div`
+export const VoteButtonWrapper = styled.div`
 display: flex;
 padding: 40px 0px 20px 0px;
 justify-content: center;
@@ -131,14 +134,14 @@ align-items: center;
 gap: 10px;
 align-self: stretch;
 `
-const ButtonListWrapper = styled.div`
+export const ButtonListWrapper = styled.div`
 display: flex;
 padding: 10px;
 justify-content: space-between;
 align-items: center;
 align-self: stretch;
 `
-const DeleteOrModifyWrapper = styled.div`
+export const DeleteOrModifyWrapper = styled.div`
 display: flex;
 align-items: center;
 gap: 10px;
@@ -213,6 +216,21 @@ const PostContainer = (
                 });
         }
     };
+
+
+    const handleDelete = async () => {
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            try {
+                const response = await DeletePost(post_id); // DeletePost 함수를 호출하여 API 요청
+                console.log("Post 삭제 성공:", response);
+                navigate('/post/'); // 상태 업데이트 후 페이지 리다이렉트
+            } catch (error) {
+                console.error("Post 삭제 실패:", error);
+                alert("삭제에 실패하였습니다."); // 사용자에게 실패를 알림
+            }
+        }
+    };
+
     return (
         <PostWrapper>
             <CategoryWrapper>
@@ -252,11 +270,11 @@ const PostContainer = (
                     {user_nickname && user_nickname === author && (
                         <>
                             <PostModifyButton />
-                            <PostDeleteButton />
+                            <PostDeleteButton onClick={handleDelete} /> {/* handleDelete 함수를 props로 전달 */}
                         </>
                     )}
                 </DeleteOrModifyWrapper>
-                <ListButtons category={category} />
+                <ListButtons category={category} mainContent="post" />
             </ButtonListWrapper>
         </PostWrapper>
     )

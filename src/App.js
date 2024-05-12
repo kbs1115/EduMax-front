@@ -17,6 +17,7 @@ import EmailModal from './components/modals/FindModal';
 import PostDetailPage from './pages/PostDetail';
 import MyPage from './pages/MyPage';
 import AlarmModal from './components/modals/AlarmModal';
+import LectureDetial from './pages/LectureDetail';
 
 
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/create-post" element={<PostCreatePage />} />
         <Route path="/find" element={<EmailModal isPassword={true} />} />
         <Route path="/post/:postId" element={<PostDetailPage />} />
+        <Route path="/lecture/:lectureId" element={<LectureDetial />} />
       </Routes>
     </QueryClientProvider>
   );

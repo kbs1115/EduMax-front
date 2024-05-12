@@ -12,7 +12,7 @@ import PostOrder from "../components/post/PostOrder";
 import PostSearchBar from "../components/post/PostSearchBar";
 import PostDropDown from "../components/post/PostDropdown";
 import { getPostData } from "../apifetchers/fetcher";
-
+import LoadingSpinner from "../components/spinner";
 
 function QuestionBoard() {
   const { logout } = useContext(AuthContext);
@@ -49,7 +49,7 @@ function QuestionBoard() {
     }
   );
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner/>;
   if (error) return <div>An error occurred: {error.message}</div>;
 
   return (

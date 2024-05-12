@@ -10,7 +10,7 @@ import PostSearchBar from "../components/post/PostSearchBar";
 import PostDropDown from "../components/post/PostDropdown";
 import { getPostData } from "../apifetchers/fetcher";
 import Typography from "../components/Typography";
-
+import LoadingSpinner from "../components/spinner";
 
 function FreeBoard() {
   const [page, setPage] = useState(1);
@@ -37,7 +37,7 @@ function FreeBoard() {
     }
   );
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (error) return <div>An error occurred: {error.message}</div>;
 
   return (

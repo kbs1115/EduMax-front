@@ -14,22 +14,14 @@ background-color: white;
 cursor: pointer;
 &:hover {
     border: 1px solid ${colorMapping.brignt_navy};
-  }
+  } 
 `;
 
-const PostDeleteButton = () => {
-    const handleClick = () => {
-        if(window.confirm("정말 삭제하시겠습니까?")){
-            // do something
-        }
-    };
-
+const PostDeleteButton = ({ onClick }) => { // onClick prop 추가
     return (
-      <ButtonContainer onClick={handleClick}>
-
-          <Typography size="body_content_medium" color="black_gray">삭제하기</Typography>
-
-      </ButtonContainer>
+        <ButtonContainer onClick={onClick}> {/* 내부 handleClick 대신 onClick 사용 */}
+            <Typography size="body_content_medium" color="black_gray">삭제하기</Typography>
+        </ButtonContainer>
     );
 };
   

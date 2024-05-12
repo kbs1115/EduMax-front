@@ -25,11 +25,11 @@ width: 12px;
 height: 12px;
 flex-shrink: 0;
 `
-const ListButton = ({ category }) => {
+const ListButton = ({mainContent, category }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/post/?category=${category}`); // 매핑된거에 맞게 url 보내면될듯합니다.
+        navigate(`/${mainContent}/?category=${category}`); // 매핑된거에 맞게 url 보내면될듯합니다.
     };
 
     return (

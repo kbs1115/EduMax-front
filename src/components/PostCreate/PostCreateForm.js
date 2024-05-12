@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { colorMapping } from "../Typography";
 import Typography from "../Typography";
@@ -6,6 +6,9 @@ import PostCreateDropdown from "./PostCreateDropdown";
 import PostCreateButton from "../buttons/PostCreateButton";
 import CkeditorBox from "./CkeditorBox";
 import FileUploader from "./Fileupload";
+import { createPost } from "../../apifetchers/fetcher";
+import AuthContext from "../../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 const MainContainer = styled.div`
     display: flex;
     height: 902px;
@@ -27,7 +30,7 @@ display: flex;
 padding: 20px 0px 10px 0px;
 align-items: center;
 align-self: stretch;
-border-bottom: 2px solid ${colorMapping.black_gray};
+border-bottom: 1px solid ${colorMapping.bright_gray};
 `;
 
 const SelectCategoryWrapper = styled.div`
@@ -131,6 +134,9 @@ align-self: stretch;
 
 
 const PostCreateForm = () => {
+
+
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
@@ -171,19 +177,67 @@ const PostCreateForm = () => {
         }
         return isValid;
     };
+    const categoryMapping = {
+        '자유게시판': 'FR',
+        '공지사항': 'NO',
+        '질문게시판-국어': 'KQ',
+        '질문게시판-영어': 'EQ',
+        '질문게시판-수학': 'MQ',
+        '질문게시판-탐구': 'TQ',
+        '자료게시판-국어': 'KD',
+        '자료게시판-영어': 'ED',
+        '자료게시판-수학': 'MD',
+        '자료게시판-탐구': 'TD'
+    };
+
+    const { isAuthenticated } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (!isAuthenticated) { // isAuthenticated를 통해 로그인 상태 확인
+            if (window.confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+                navigate('/login');
+            } else {
+                navigate('/');
+            }
+        }
+    }, [isAuthenticated, navigate]);
 
     const handleSubmit = () => {
         if (!validateInputs()) return;
 
+        if (!validateInputs()) return;
+
+        // 로그인 상태가 아니면 로그인 페이지로 리다이렉트
+        if (!isAuthenticated) {
+            alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+            navigate('/login');
+            return; // 함수 실행 종료
+        }
+    
+        // 폼 데이터 생성
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, "text/html");
+        const textContent = doc.body.textContent || "";
         const postData = {
-            category,
+            category: categoryMapping[category],
             title,
             html_content: content,
-            files, 
-
+            content: textContent,
+            files,
         };
-        console.log(postData);
-        // 서버 api로 보내야함
+    
+        // 게시글 생성 API 호출
+        createPost(postData)
+            .then(response => {
+                console.log('Post created successfully', response.data);
+                alert('게시글이 생성되었습니다');
+                navigate('/'); // 성공 후 홈으로 이동
+            })
+            .catch(error => {
+                console.error('Failed to create post', error);
+                alert('게시글 생성이 실패하였습니다');
+                navigate('/'); // 실패 후 홈으로 이동
+            });
     };
 
     const isFormValid = title.trim() && content.trim() && category.trim();
@@ -191,7 +245,7 @@ const PostCreateForm = () => {
         <MainContainer>
             <Wrapper>
                 <TitleWrapper>
-                    <Typography size="h1" color="black_gray">게시글 생성</Typography>
+                    <Typography size="light_h1" color="black_gray">게시글 생성</Typography>
                 </TitleWrapper>
 
                 <SelectCategoryWrapper>
@@ -216,7 +270,7 @@ const PostCreateForm = () => {
                             placeholder="e.g: 미적분 과목의 도함수관련 질문입니다."
                             value={title}
                             onChange={handleTitleChange}
-                            maxLength="30"  
+                            maxLength="30"
                         />
                     </InputTitleSecondRow>
                     {titleError && <Typography size="body_content_medium" color="timer_red">제목을 입력해주세요</Typography>}

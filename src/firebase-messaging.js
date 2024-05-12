@@ -11,6 +11,7 @@ export const requestNotificationPermission = async () => {
       return getToken(messaging, { vapidKey: 'BIyzBwOzmE2HPCCfl9qmp4LTS-pPArQd56E3n3M_GyNMjIczroPQRmiHz7rVgQanGnb3zC27piLTlljnrlcbMcc' }).then((currentToken) => {
         if (currentToken) {
           console.log('FCM Token:', currentToken);
+          //서버로 보내줌.
           return currentToken;
         } else {
           console.log('No registration token available. Request permission to generate one.');

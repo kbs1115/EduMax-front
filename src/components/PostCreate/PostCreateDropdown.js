@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState ,useContext} from 'react';
 import styled from 'styled-components';
 import Typography from '../Typography';
 import dropdown from '../../assets/dropdown.png';
+import AuthContext from '../../context/AuthProvider';
 
 const Container = styled.div`
   display: flex;
@@ -44,33 +45,41 @@ const ArrowWrapper = styled.img`
 `;
 
 const PostCreateDropdown = ({ onCategorySelect }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('게시판을 선택해주세요');
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('게시판을 선택해주세요');
+  const { isStaff } = useContext(AuthContext); // isStaff 상태 가져오기
 
-    const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleDropdown = () => setIsOpen(!isOpen);
 
-    const onOptionClicked = value => () => {
-      setSelectedOption(value);
-      setIsOpen(false);
-      onCategorySelect(value); // Lift state up
-  };
+  const onOptionClicked = value => () => {
+    setSelectedOption(value);
+    setIsOpen(false);
+    onCategorySelect(value); // Lift state up
+};
 
-    return (
-        <Container onClick={toggleDropdown}>
-            <ButtonWrapper>
-                <Typography size="body_content_thin" color="gray">{selectedOption}</Typography>
-                <ArrowWrapper src={dropdown} />
-            </ButtonWrapper>
-            <DropdownContent isOpen={isOpen}>
-                {['질문게시판-국어', '질문게시판-수학', '질문게시판-영어', '질문게시판-탐구',
-                    '자료게시판-국어', '자료게시판-수학', '자료게시판-영어', '자료게시판-탐구', '자유게시판'].map(option => (
-                        <DropdownItem key={option} onClick={onOptionClicked(option)}>
-                            <Typography size="body_content_thin" color="black_gray">{option}</Typography>
-                        </DropdownItem>
-                    ))}
-            </DropdownContent>
-        </Container>
-    );
+  const options = [
+      '질문게시판-국어', '질문게시판-수학', '질문게시판-영어', '질문게시판-탐구',
+      '자료게시판-국어', '자료게시판-수학', '자료게시판-영어', '자료게시판-탐구', '자유게시판'
+  ];
+  if (isStaff) {
+      options.push('공지사항'); // 관리자인 경우에만 공지사항 추가
+  }
+
+  return (
+      <Container onClick={toggleDropdown}>
+          <ButtonWrapper>
+              <Typography size="body_content_thin" color="gray">{selectedOption}</Typography>
+              <ArrowWrapper src={dropdown} />
+          </ButtonWrapper>
+          <DropdownContent isOpen={isOpen}>
+              {options.map(option => (
+                  <DropdownItem key={option} onClick={onOptionClicked(option)}>
+                      <Typography size="body_content_thin" color="black_gray">{option}</Typography>
+                  </DropdownItem>
+              ))}
+          </DropdownContent>
+      </Container>
+  );
 };
 
 export default PostCreateDropdown;
