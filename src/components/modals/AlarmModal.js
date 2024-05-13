@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import { colorMapping } from "../Typography";
 import Typography from "../Typography";
@@ -7,6 +7,8 @@ import close_button from "../../assets/close_button.svg"
 import { ResponseAlarmListA1, ResponseAlarmListA2, ResponseAlarmListA3, ResponseAlarmListB1 } from '../../TestData/AlarmListTestData';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { GetAlarms } from "../../apifetchers/fetcher";
+import AuthContext from "../../context/AuthProvider";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -71,7 +73,14 @@ padding: 0px 20px;
 flex-direction: column;
 align-items: flex-start;
 cursor: pointer;
+border-radius: 20px;
+transition: background-color 0.1s ease; // Optional: Smooth transition for background color change
+
+&:hover {
+  background-color: #CBDFFF; // Set background color on hover
+}
 `
+
 
 const SubjectAndDateWrapper = styled.div`
 display: flex;
@@ -93,10 +102,10 @@ border-bottom: 1px solid ${colorMapping.middle_gray};
 const EmptyMessageWrapper = styled.div`
 display: flex;
 width: 402px;
-padding: 0px 10px 8px 10px;
-flex-direction: column;
+padding: 60px 10px;
 justify-content: center;
-align-items: flex-start;
+align-items: center;
+gap: 20px;
 `
 const PageNumWrapper = styled.div`
 display: inline-flex;
@@ -106,22 +115,36 @@ gap: 15px;
 `
 const PageNum = styled.div`
 display: inline-flex;
-padding: 0px 10px;
+padding: 10px 10px 10px 10px;
 justify-content: center;
 align-items: center;
 gap: 10px;
 user-select: none;
+border-radius: 10px;
+cursor: pointer;
+transition: background-color 0.2s ease; // Optional: Smooth transition for background color change
+
+&:hover {
+  background-color: #CBDFFF; // Set background color on hover
+}
 `;
 
-
-const AlarmModal = ({ response = ResponseAlarmListA1, onClose }) => {
+const EmptyContentWrapper = styled.div`
+display: flex;
+padding: 10px 5px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`
+const AlarmModal = ({ onClose }) => {
 
     const truncateNickname = (nickname) => {
         return nickname.length > 10 ? `${nickname.substring(0, 20)}...` : nickname;
     };
-
-    const [currentPage, setCurrentPage] = useState(response.data.page);
+    const [alarms, setAlarms] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate(); // Use useNavigate here
+
     useEffect(() => {
         // Prevent scrolling on mount
         document.body.style.overflow = 'hidden';
@@ -130,13 +153,47 @@ const AlarmModal = ({ response = ResponseAlarmListA1, onClose }) => {
             document.body.style.overflow = 'unset';
         };
     }, []);
+
+    const { isAuthenticated } = useContext(AuthContext);
+
+    useEffect(() => {
+        // Check if user is authenticated
+        if (!isAuthenticated) {
+            // Show confirmation dialog
+            const userChoice = window.confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?');
+            if (userChoice) {
+                // If user clicks 'OK', navigate to login page
+                navigate('/login');
+            } else {
+                // If user clicks 'Cancel', do nothing and exit
+                onClose();
+            }
+        } else {
+            // User is authenticated, proceed to fetch alarms
+            const fetchAlarms = async () => {
+                try {
+                    const response = await GetAlarms(currentPage);
+                    setAlarms(response.data);
+                } catch (error) {
+                    console.error('Failed to fetch alarms:', error);
+                }
+            };
+
+            fetchAlarms();
+        }
+    }, [isAuthenticated, navigate, currentPage]);
+
+
+
     const handlePostRedirect = (postId) => {
         onClose(); // Close the modal first
         navigate(`/post/${postId}`); // Then navigate to the post
     };
 
-    const totalPages = Math.ceil(response.data.total_alarms_size / response.data.page_size);
+    const totalPages = alarms ? alarms.total_page_count : 0;
     const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+
 
     return (
         <Backdrop onClick={onClose}> {/* Clicking outside the modal will close it */}
@@ -146,8 +203,8 @@ const AlarmModal = ({ response = ResponseAlarmListA1, onClose }) => {
                     <CloseBtn src={close_button} onClick={onClose} />
                 </TitleWrapper>
                 <ContentsWrapper>
-                    {response.data.item_list.length > 0 ? (
-                        response.data.item_list.map((item, index) => (
+                {alarms && alarms.alarm_list.length > 0 ? (
+                        alarms.alarm_list.map((item, index) => (
                             <ContentWrapper key={index} onClick={() => handlePostRedirect(item.post_id)}>
                                 <SubjectAndDateWrapper>
                                     <Typography size="body_content_regular" color="black_gray">
@@ -157,7 +214,7 @@ const AlarmModal = ({ response = ResponseAlarmListA1, onClose }) => {
                                 </SubjectAndDateWrapper>
                                 <MessageWrapper>
                                     <Typography size="body_content_regular" color="black_gray">
-                                        <span style={{ color: '#4C6BFF',  fontWeight: "700" }}>{truncateNickname(item.sender_nickname)}</span> 님이 회원님의
+                                        <span style={{ color: '#4C6BFF',  fontWeight: "700" }}>{truncateNickname(item.comment_author)}</span> 님이 회원님의
                                     </Typography>
                                     <Typography size="body_content_regular" color="black_gray">
                                         <span style={{ width: '900px',  fontWeight: "700" }}>{truncateNickname(item.post_title)}</span> 게시글에 댓글을 달았습니다.
@@ -166,11 +223,11 @@ const AlarmModal = ({ response = ResponseAlarmListA1, onClose }) => {
                             </ContentWrapper>
                         ))
                     ) : (
-                        <ContentWrapper>
+                        <EmptyContentWrapper>
                             <EmptyMessageWrapper>
                                 <Typography size="h3_medium" color="gray">알림이 도착한게 아직 없어요</Typography>
                             </EmptyMessageWrapper>
-                        </ContentWrapper>
+                        </EmptyContentWrapper>
 
                     )}
                 </ContentsWrapper>

@@ -249,7 +249,7 @@ const Signup = () => {
         <LogoWrapper>
           <Typography
             size="logo"
-            color="navy"
+            color="bright_blue"
             font="symbol">
             EduMax
           </Typography>
