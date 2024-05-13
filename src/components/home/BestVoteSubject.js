@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled, { css } from "styled-components";
+import { Link, useNavigate } from 'react-router-dom'; // Import Link
+import { useQuery } from "react-query";
+
 import { colorMapping } from "../Typography";
 import Typography from "../Typography";
-import { Link } from 'react-router-dom'; // Import Link
+import { categoryDict } from "../../pages/Home";
+import AuthContext from "../../context/AuthProvider";
+import { getPostData } from "../../apifetchers/fetcher";
+
 
 const ContainerWrapper = styled.div`
 display: flex;
@@ -106,37 +112,9 @@ justify-content: space-between;
 align-items: flex-start;
 padding: 100px 0px;
 `
-const sampleData = {
-    국어: Array.from({ length: 5 }, (_, i) => ({
-      content: `국어 Post ${i + 1}`,
-      author: `Author ${i + 1}`,
-      date: `2020-12-${i + 1}`,
-      id: `1` 
-    })),
-    수학: Array.from({ length: 5 }, (_, i) => ({
-      content: `수학 Post ${i + 1}`,
-      author: `Author ${i + 1}`,
-      date: `2020-12-${i + 1}`,
-      id: `1` 
-    })),
-    영어: Array.from({ length: 5 }, (_, i) => ({
-      content: `영어 Post ${i + 1}`,
-      author: `Author ${i + 1}`,
-      date: `2020-12-${i + 1}`,
-      id: `1` 
-    })),
-    탐구: Array.from({ length: 5 }, (_, i) => ({
-      content: `탐구 Post ${i + 1}`,
-      author: `Author ${i + 1}`,
-      date: `2020-12-${i + 1}`,
-      id: `1` 
-    })),
-  };
 
-const CategoryContainer = ({ onSelectCategory }) => {
-    // Set the initial selected category to '국어'
-    const [selectedCategory, setSelectedCategory] = useState('국어'); // Default to Korean
-    const categories = Object.keys(sampleData);
+const CategoryContainer = ({ selectedCategory, setSelectedCategory }) => {
+    const categories = Object.keys(categoryDict);
 
     return (
         <ContainerWrapper>
@@ -144,10 +122,7 @@ const CategoryContainer = ({ onSelectCategory }) => {
                 <ContainerItemWrapper
                     key={category}
                     isSelected={selectedCategory === category} // This will apply the selected styles if true
-                    onClick={() => {
-                        setSelectedCategory(category);
-                        onSelectCategory(category);
-                    }}
+                    onClick={() => setSelectedCategory(category)}
                 >
                     <Typography size="h3_medium" color={selectedCategory === category ? "white" : "black_gray"}>
                         {category}
@@ -158,27 +133,41 @@ const CategoryContainer = ({ onSelectCategory }) => {
     );
 };
 
-const CategoryPostList = ({ category }) => (
+const CategoryPostList = ({ post_list, category }) => {
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  }
+  
+  return (
     <ListWrapper>
-      {sampleData[category].map((post, index) => (
-        <PostItemWrapper key={index}>
-          <ContentWrapper to={`/post/${post.id}`}>
-            <Typography size="body_content_regular" color="black_gray">
-              {post.content}
-            </Typography>
-          </ContentWrapper>
-          <AuthorWrapper>
-            <Typography size="body_content_small" color="gray">
-              {post.author}
-            </Typography>
-            <Typography size="body_content_small" color="gray">
-              {post.date}
-            </Typography>
-          </AuthorWrapper>
-        </PostItemWrapper>
-      ))}
+      {post_list ? (
+        post_list.slice(0, 5).map((post, index) => (
+          <PostItemWrapper key={index}>
+            <ContentWrapper to={`/post/${post.id}`}>
+              <Typography size="body_content_regular" color="black_gray">
+                {post.content}
+              </Typography>
+            </ContentWrapper>
+            <AuthorWrapper>
+              <Typography size="body_content_small" color="gray">
+                {post.author}
+              </Typography>
+              <Typography size="body_content_small" color="gray">
+                {formatDate(post.created_at)}
+              </Typography>
+            </AuthorWrapper>
+          </PostItemWrapper>
+        ))
+      ) : (
+        <Typography size="body_content_regular" color="gray">
+          No posts available.
+        </Typography>
+      )}
     </ListWrapper>
   );
+}
+
 
 const QuickMenu = () => {
     return (
@@ -200,11 +189,42 @@ const QuickMenu = () => {
 };
 
 const BestVoteSubject = () => {
-    const [selectedCategory, setSelectedCategory] = useState('국어');
+  const [selectedCategory, setSelectedCategory] = useState('영어');
+
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate()
+  
+  const { data, error, isLoading } = useQuery(
+    ['home_posts', categoryDict[selectedCategory]],
+    () => getPostData(categoryDict[selectedCategory], "TOTAL", "", 1, "created_at"),
+    {
+      onSuccess: (data) => {
+        // 데이터 로드 성공 시 콘솔에 데이터 출력
+        console.log('Fetched data:', data.data.post_list.length);
+      },
+      onError: (error) => {
+        // 에러 발생 시 콘솔에 에러 메시지 출력
+        console.error('Error fetching data:', error);
+        if (error.response.status === 401){
+          alert("로그인이 필요합니다. 로그인을 진행해 주세요")
+          logout();
+          navigate("/login")
+        }
+      }
+    }
+  );
+
+  if (isLoading) return <></>;
+  if (error) return <div>An error occurred: {error.message}</div>;
+
     return (
         <BestVoteSubjectWrapper>
-            <CategoryContainer onSelectCategory={setSelectedCategory} />
-            <CategoryPostList category={selectedCategory} />
+            <CategoryContainer 
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory} />
+            <CategoryPostList 
+              post_list={data.data.post_list}
+              category={selectedCategory} />
             <QuickMenu/>
         </BestVoteSubjectWrapper>
     );
