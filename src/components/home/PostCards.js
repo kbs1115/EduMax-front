@@ -133,9 +133,6 @@ const PostCard = ({ posts, title }) => {
 };
 
 const PostCards = () => {
-    const { logout } = useContext(AuthContext);
-    const navigate = useNavigate()
-
     const best = useQuery(
         ['best_posts', 'AL'],
         () => getPostData('AL', "TOTAL", "", 1, "MOST_LIKE")
