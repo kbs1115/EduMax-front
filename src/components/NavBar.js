@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import AlarmModal from "./modals/AlarmModal";
@@ -6,6 +6,7 @@ import SearchBar from "./SearchBar";
 import logo from "../assets/logo.png";
 import { colorMapping } from "./Typography";
 import CustomLink from "./CustomLink";
+import AuthContext from "../context/AuthProvider";
 
 export const boardMapping = {
   question: "질문게시판",
@@ -88,6 +89,10 @@ const NavItem = styled(CustomLink)`
 `;
 
 const NavBar = () => {
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated'))
   const [hoveredLink, setHoveredLink] = useState(null);
 
   const handleMouseEnter = (link) => {
@@ -97,6 +102,12 @@ const NavBar = () => {
   const handleMouseLeave = () => {
     setHoveredLink(null);
   };
+
+  const handleLogOut = () => {
+    logout();
+    setIsAuthenticated("false");
+    navigate('/');
+  }
 
   const [showModal, setShowModal] = useState(false);
 
@@ -114,7 +125,8 @@ const NavBar = () => {
           </LogoContainer>
         </InnerTopRow>
         <SecondaryNavigation>
-          <NavItem size="body_content_medium" color="black_gray" to={`/login`}>로그인</NavItem>
+          {isAuthenticated === "true" ? <div onClick={handleLogOut}><NavItem size="body_content_medium" color="black_gray">로그아웃</NavItem></div> :
+          <NavItem size="body_content_medium" color="black_gray" to={`/login`}>로그인</NavItem>}
           <NavItem size="body_content_medium" color="black_gray" to={`/signup`}>회원가입</NavItem>
           <NavItem onClick={toggleModal}>알림</NavItem>
           <NavItem size="body_content_medium" color="black_gray" to={`/mypage`}>마이페이지</NavItem>

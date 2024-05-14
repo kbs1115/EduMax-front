@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { Link, useNavigate } from 'react-router-dom'; // Import Link
+import { useQuery } from "react-query";
+
 import { colorMapping } from "../Typography";
 import Typography from "../Typography";
-import { Link } from 'react-router-dom'; // Import Link
+import AuthContext from "../../context/AuthProvider";
+import { getPostData } from "../../apifetchers/fetcher";
+import { categoryDict } from "../../pages/Home";
 
 
 const CardWrapper = styled.div`
 display: flex;
 width: 370px;
+height: 350px;
 padding: 10px 0px;
 flex-direction: column;
 align-items: flex-start;
@@ -126,36 +132,30 @@ const PostCard = ({ posts, title }) => {
     );
 };
 
-const  Bestposts = [
-    { content: "예시 내용1", author: "author1", date: "2020-08-26", id:'1'},
-    { content: "예시 내용2", author: "author2", date: "2020-08-27", id:'2'},
-    { content: "예시 내용3", author: "author3", date: "2020-08-28", id:'3'},
-    { content: "예시 내용4", author: "author4", date: "2020-08-29", id:'4'},
-    { content: "예시 내용5", author: "author5", date: "2020-08-30", id:'5' }
-];
-const  noticeposts = [
-    { content: "예시 공지내용1", author: "author1", date: "2020-08-26", id:'1'},
-    { content: "예시 공지내용1", author: "author2", date: "2020-08-27", id:'2'},
-    { content: "예시 공지내용1", author: "author3", date: "2020-08-28", id:'3'},
-    { content: "예시 공지내용1", author: "author4", date: "2020-08-29", id:'4'},
-    { content: "예시 공지내용1", author: "author5", date: "2020-08-30", id:'5' }
-];
-const  dataposts = [
-    { content: "예시 자료", author: "author1", date: "2020-08-26", id:'1'},
-    { content: "예시 자료", author: "author2", date: "2020-08-27", id:'2'},
-    { content: "예시 자료", author: "author3", date: "2020-08-28", id:'3'},
-    { content: "예시 자료", author: "author4", date: "2020-08-29", id:'4'},
-    { content: "예시 자료", author: "author5", date: "2020-08-30", id:'5' }
-];
+const PostCards = () => {
+    const best = useQuery(
+        ['best_posts', 'AL'],
+        () => getPostData('AL', "TOTAL", "", 1, "MOST_LIKE")
+    );
+    const notice = useQuery(
+        ['best_posts', 'NO'],
+        () => getPostData('NO', "TOTAL", "", 1, "MOST_LIKE")
+    );
+    const data = useQuery(
+        ['best_posts', 'DA'],
+        () => getPostData('DA', "TOTAL", "", 1, "MOST_LIKE")
+    );
 
-const PostCardsRow = () => {
+    if (best.isLoading || notice.isLoading || data.isLoading) return <></>;
+    if (best.error || notice.error || data.error) return <RowWrapper>Data Fetching Error</RowWrapper>;
+
     return (
         <RowWrapper>
-            <PostCard posts={Bestposts} title="Best 추천글"/>
-            <PostCard posts={noticeposts} title="공지사항"/>
-            <PostCard posts={dataposts} title="자료게시판"/>
+            <PostCard posts={best.data.data.post_list.slice(0, 5)} title="Best 추천글"/>
+            <PostCard posts={notice.data.data.post_list.slice(0, 5)} title="공지사항"/>
+            <PostCard posts={data.data.data.post_list.slice(0, 5)} title="자료게시판"/>
         </RowWrapper>
     )
 }
 
-export default PostCardsRow;
+export default PostCards;
