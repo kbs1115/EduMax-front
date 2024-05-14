@@ -30,11 +30,7 @@ api.interceptors.response.use(
 export const getPostData = async (category, search_option, q, page, sort) => {
   // 로컬 스토리지에서 토큰을 가져옵니다.
   const accessToken = localStorage.getItem('access_token');
-  const response = await api.get(`posts/?category=${encodeURIComponent(category)}&search_filter=${encodeURIComponent(search_option)}&q=${encodeURIComponent(q)}&page=${encodeURIComponent(page)}&sort=${encodeURIComponent(sort)}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
+  const response = await api.get(`posts/?category=${encodeURIComponent(category)}&search_filter=${encodeURIComponent(search_option)}&q=${encodeURIComponent(q)}&page=${encodeURIComponent(page)}&sort=${encodeURIComponent(sort)}`);
   return response.data; // 응답 객체에서 data 속성만 반환
 };
 
