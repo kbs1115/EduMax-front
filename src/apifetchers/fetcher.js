@@ -160,6 +160,12 @@ export const getLecture = async (lectureId) => {
   });
 
 };
+
+export const getLectureList = async (category, page, search_filter, q) => {
+  const response = await api.get(`lectures/?category=${encodeURIComponent(category)}&search_filter=${encodeURIComponent(search_filter)}&q=${encodeURIComponent(q)}&page=${encodeURIComponent(page)}`);
+  return response.data  
+}; 
+
 export const DeleteLecture = async (lectureId) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.delete(`lecture/${lectureId}`, {

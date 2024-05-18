@@ -9,7 +9,7 @@ gap: 10px;
 align-self: stretch;
 `;
 const Image = styled.img`
-height: 500px;
+height: 600px;
 align-self: stretch;
 `;
 function MainImage() {

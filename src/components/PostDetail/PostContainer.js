@@ -45,7 +45,7 @@ height: 18px;
 
 export const PostTitleWrapper = styled.div`
 display: flex;
-padding: 10px 0 10px 5px;
+padding: 20px 0 20px 5px;
 align-items: center;
 align-self: stretch;
 border-bottom: 1px solid ${colorMapping.black_gray};

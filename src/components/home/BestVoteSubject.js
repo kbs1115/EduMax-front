@@ -17,7 +17,23 @@ padding: 1px;
 flex-direction: column;
 align-items: flex-start;
 gap: 1px;
-background: ${colorMapping.container};
+border-radius: 15px;
+border: 1px solid ${colorMapping.container};
+box-shadow: 0px 2px 2px 0px rgba(0.15, 0.15, 0.15, 0.15);
+`;
+const SubjectContainerWrapper = styled.div`
+display: flex;
+height: 290px;
+padding: 1px;
+flex-direction: column;
+align-items: flex-start;
+gap: 1px;
+border-radius: 15px;
+border: 1px solid ${colorMapping.container};
+&:hover {
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.15);
+}
+
 `;
 
 const ContainerItemWrapper = styled.div`
@@ -29,6 +45,7 @@ const ContainerItemWrapper = styled.div`
   flex: 1 0 0;
   background: #FFF;
   cursor: pointer;
+  border-radius: 15px;
   ${props => props.isSelected && css`
     background: ${colorMapping.bright_blue};
     color: white;
@@ -36,7 +53,7 @@ const ContainerItemWrapper = styled.div`
 `;
 const RightContainerItemWrapper = styled(Link)`
 display: flex;
-width: 169px;
+width: 170px;
 justify-content: center;
 align-items: center;
 gap: 10px;
@@ -48,24 +65,51 @@ text-decoration: none;
 // Apply hover styles to the container
 &:hover {
   background: ${colorMapping.bright_blue};
-
-
   & > div {
     color: white;
   }
 }
-
-${props => props.$isSelected && css`
+`
+const PostCreateItemWrapper  = styled(Link)`
+display: flex;
+width: 170px;
+justify-content: center;
+border-radius: 15px 15px 0px 0px;
+align-items: center;
+gap: 10px;
+flex: 1 0 0;
+background: #FFF;
+cursor: pointer;
+transition: background-color 0.3s; // Smooth transition for background
+text-decoration: none;
+// Apply hover styles to the container
+&:hover {
   background: ${colorMapping.bright_blue};
-  color: white;
-
-  // Ensure the Typography component inside also changes color
   & > div {
     color: white;
   }
-`}
-`;
-
+}
+`
+const YouTubeGoItemWrapper  = styled(Link)`
+display: flex;
+width: 170px;
+justify-content: center;
+align-items: center;
+border-radius:  0px 0px 15px 15px;
+gap: 10px;
+flex: 1 0 0;
+background: #FFF;
+cursor: pointer;
+transition: background-color 0.3s; // Smooth transition for background
+text-decoration: none;
+// Apply hover styles to the container
+&:hover {
+  background: ${colorMapping.bright_blue};
+  & > div {
+    color: white;
+  }
+}
+`
 const AuthorWrapper = styled.div`
 display: flex;
 flex-direction: column;
@@ -75,8 +119,6 @@ align-items: flex-end;
 const ContentWrapper = styled(Link)`
 display: flex;
 width: 660px;
-
-
 align-items: center;
 gap: 10px;
 flex-shrink: 0;
@@ -94,7 +136,7 @@ const PostItemWrapper = styled.div`
   transition: border-color 0.3s; 
 
   &:hover {
-    border-bottom: 2px solid ${colorMapping.gray}; 
+    border-bottom: 1px solid ${colorMapping.black_gray}; 
   }
 `;
 
@@ -117,7 +159,7 @@ const CategoryContainer = ({ selectedCategory, setSelectedCategory }) => {
     const categories = Object.keys(categoryDict);
 
     return (
-        <ContainerWrapper>
+        <SubjectContainerWrapper>
             {categories.map(category => (
                 <ContainerItemWrapper
                     key={category}
@@ -129,7 +171,7 @@ const CategoryContainer = ({ selectedCategory, setSelectedCategory }) => {
                     </Typography>
                 </ContainerItemWrapper>
             ))}
-        </ContainerWrapper>
+        </SubjectContainerWrapper>
     );
 };
 
@@ -172,18 +214,18 @@ const CategoryPostList = ({ post_list, category }) => {
 const QuickMenu = () => {
     return (
         <ContainerWrapper>
-            <RightContainerItemWrapper to={"/create-post"}>
+            <PostCreateItemWrapper to={"/create-post"}>
                 <Typography size="body_sub_title" color="black_gray">글쓰기</Typography>
-            </RightContainerItemWrapper>
+            </PostCreateItemWrapper>
             <RightContainerItemWrapper to={"/mypage-posts"}>
                 <Typography size="body_sub_title" color="black_gray">내가 쓴 게시물</Typography>
             </RightContainerItemWrapper>
             <RightContainerItemWrapper to={"/mypage-user"}>
                 <Typography size="body_sub_title" color="black_gray">마이페이지</Typography>
             </RightContainerItemWrapper>
-            <RightContainerItemWrapper to={"https://www.youtube.com/@sunggjun"}>
+            <YouTubeGoItemWrapper to={"https://www.youtube.com/@sunggjun"}>
                 <Typography size="body_sub_title" color="black_gray">유튜브 바로가기</Typography>
-            </RightContainerItemWrapper>
+            </YouTubeGoItemWrapper>
         </ContainerWrapper>
     )
 };

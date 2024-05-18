@@ -55,10 +55,18 @@ const VideoContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
   margin: auto;             
 `;
+
+const Categorymapping = {
+    "EN": "영어",
+    "KO": "국어",
+    "TM": "탐구",
+    "MA": "수학"
+};
+
 const LectureDetial = () => {
     const auth = useContext(AuthContext);
     const user_nickname = auth.isAuthenticated ? auth.username : ""
-    
+
     const navigate = useNavigate();
 
     const { lectureId } = useParams();
@@ -87,7 +95,7 @@ const LectureDetial = () => {
         TM: "선생님강의-탐구",
     }
     const handleDelete = async () => {
-        if(window.confirm("정말 삭제하시겠습니까?")){
+        if (window.confirm("정말 삭제하시겠습니까?")) {
             try {
                 const response = await DeleteLecture(lectureId); // DeletePost 함수를 호출하여 API 요청
                 console.log("lecture 삭제 성공:", response);
@@ -104,13 +112,13 @@ const LectureDetial = () => {
     }
     const { title, youtube_id, category_d1, category_d2, category_d3, category_d4, modified_at, author } = lectureDetail
     return (
-        
+
         <MainContainer>
             <SideBar />
             <MainContentwrapper>
                 <PostWrapper>
                     <CategoryWrapper>
-                        <CategoryContainer to={`/lectures/?category=${category_d1}`}>
+                        <CategoryContainer to={`/post/lecture/?category=${Categorymapping[category_d1]}`}>
                             <HomeIconImage src={homeIcon} />
                             <Typography size="body_sub_title" color="gray">{SubjectCategorymapping[category_d1]}</Typography>
                         </CategoryContainer>
@@ -133,8 +141,8 @@ const LectureDetial = () => {
                                 <YouTube
                                     videoId={youtube_id}
                                     opts={{
-                                        width: 640,         
-                                        height: 390,  
+                                        width: 640,
+                                        height: 390,
                                         playerVars: {
                                             autoplay: 1,
                                             modestbranding: 1,
@@ -151,11 +159,11 @@ const LectureDetial = () => {
                         <DeleteOrModifyWrapper>
                             {user_nickname && user_nickname === author && (
                                 <>
-                                    <PostDeleteButton onClick={handleDelete}/>
+                                    <PostDeleteButton onClick={handleDelete} />
                                 </>
                             )}
                         </DeleteOrModifyWrapper>
-                        <ListButton category={category_d1} mainContent="lectures" />
+                        <ListButton category={Categorymapping[category_d1]} mainContent="post/lecture" />
                     </ButtonListWrapper>
                 </PostWrapper>
             </MainContentwrapper>

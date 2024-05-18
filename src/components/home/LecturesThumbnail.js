@@ -34,9 +34,10 @@ const LectureContainer = styled.div`
   gap: 10px;
   border-bottom: 1px solid transparent; /* Initial border set to transparent */
   transition: border-color 0.3s; /* Transition effect applied to border color */
-
+  border-radius: 8px;
   &:hover {
-    border-bottom: 2px solid ${colorMapping.navy}; /* Border color changes on hover */
+ 
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
 `;
 
@@ -55,7 +56,7 @@ const DiscriptionWrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   gap: 5px;
-  padding: 0 0 10px 0;
+  padding: 0 0 10px 5px;
 `;
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -172,7 +173,7 @@ const LecturesThumbnail = () => {
                 <Thumbnail src={lecture.img}></Thumbnail>
                 <DiscriptionWrapper>
                   <Typography size="body_content_regular" color="#000000">{lecture.title}</Typography>
-                  <Typography size="body_content_small" color="navy">{lecture.instructor}</Typography>
+                  <Typography size="body_content_small" color="bright_blue">{lecture.instructor}</Typography>
                 </DiscriptionWrapper>
               </LectureContainer>
             </StyledLink>

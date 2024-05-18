@@ -39,7 +39,7 @@ const PostVoteButton = ({ votes, isVoted, onVote }) => {
       <ButtonContainer isVoted={isVoted} onClick={!isVoted ? onVote : undefined} disabled={isVoted}>
         <VoteIconWrapper src={isVoted ? voteIcon : voteIcon_gray} />
         <TypoWrapper>
-          <Typography size="h3_medium" color="black_gray">추천{votes}</Typography>
+          <Typography size="h3_medium" color="black_gray">추천 {votes}</Typography>
         </TypoWrapper>
       </ButtonContainer>
     );
