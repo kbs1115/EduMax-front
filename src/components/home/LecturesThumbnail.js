@@ -44,7 +44,7 @@ const LectureContainer = styled.div`
 const Thumbnail = styled.img`
   width: 246px; 
   height: 139px;
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0;
   border: 1px solid var(--${colorMapping.navy});
   background: url(${props => props.src}) lightgray -5.467px -2.343px / 103.81% 141.573% no-repeat;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);

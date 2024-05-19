@@ -6,12 +6,11 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import Typography from "../components/Typography";
 import SignupInput from "../components/SignupInput";
 import CheckMark from "../assets/check_mark.png"
-import NotificationPermissionButton from "../components/NotificationPermissionButton"
 
-const SignupButton = ({ 
-  isDisabled, 
-  onClick, 
-  width = "128px", 
+const SignupButton = ({
+  isDisabled,
+  onClick,
+  width = "128px",
   text = "중복확인",
   isBigButton = false }) => {
   return (
@@ -21,7 +20,7 @@ const SignupButton = ({
       isDisabled={isDisabled} // styled-components에 isDisabled prop 전달
       onClick={isDisabled ? null : onClick} // isDisabled가 true일 경우, onClick 이벤트 비활성화
     >
-      <Typography 
+      <Typography
         color={isDisabled ? "#B3BCC3" : "white"}
         size={isBigButton ? "h3_medium" : "body_sub_title"}>
         {text}
@@ -29,7 +28,6 @@ const SignupButton = ({
     </CertifyButton>
   );
 };
-
 
 const SignupModal = ({ isOpen, onClose, modalNum }) => {
   const [content, setContent] = useState("");
@@ -62,9 +60,9 @@ const SignupModal = ({ isOpen, onClose, modalNum }) => {
   return (
     <SignupModalBackdrop onClick={onClose}>
       <SignupModalView onClick={e => e.stopPropagation()}>
-        <div style={{ display: "flex", width: "100%", justifyContent: "end", cursor: "pointer"}}>
+        <div style={{ display: "flex", width: "100%", justifyContent: "end", cursor: "pointer" }}>
           <svg onClick={onClose} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.3687 0.477142C18.7325 -0.159051 17.7011 -0.159052 17.0649 0.477141L9.92301 7.61902L2.93527 0.631269C2.29908 -0.00492373 1.26761 -0.00492402 0.631419 0.631269C-0.00477254 1.26746 -0.00477366 2.29893 0.631418 2.93513L7.61915 9.92287L0.477118 17.0649C-0.159074 17.7011 -0.159074 18.7326 0.477118 19.3688C1.11331 20.005 2.14478 20.005 2.78097 19.3688L9.92301 12.2267L17.2192 19.5229C17.8554 20.1591 18.8868 20.1591 19.523 19.5229C20.1592 18.8867 20.1592 17.8552 19.523 17.2191L12.2269 9.92287L19.3687 2.781C20.0049 2.14481 20.0049 1.11334 19.3687 0.477142Z" fill="#B6C0D5"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.3687 0.477142C18.7325 -0.159051 17.7011 -0.159052 17.0649 0.477141L9.92301 7.61902L2.93527 0.631269C2.29908 -0.00492373 1.26761 -0.00492402 0.631419 0.631269C-0.00477254 1.26746 -0.00477366 2.29893 0.631418 2.93513L7.61915 9.92287L0.477118 17.0649C-0.159074 17.7011 -0.159074 18.7326 0.477118 19.3688C1.11331 20.005 2.14478 20.005 2.78097 19.3688L9.92301 12.2267L17.2192 19.5229C17.8554 20.1591 18.8868 20.1591 19.523 19.5229C20.1592 18.8867 20.1592 17.8552 19.523 17.2191L12.2269 9.92287L19.3687 2.781C20.0049 2.14481 20.0049 1.11334 19.3687 0.477142Z" fill="#B6C0D5" />
           </svg>
         </div>
         <Typography color="#000" size="h2">
@@ -79,7 +77,6 @@ const SignupModal = ({ isOpen, onClose, modalNum }) => {
     </SignupModalBackdrop>
   );
 };
-
 
 const Signup = () => {
   const moveTo = useNavigate();
@@ -103,7 +100,6 @@ const Signup = () => {
   const [certNum, setCertNum] = useState("");
   const [isCertValid, setIsCertValid] = useState(false);
   const [certError, setCertError] = useState("");
-  const [isCertifyed, setIsCertified] = useState(false);
 
   const [timer, setTimer] = useState(false); // 타이머를 위한 상태
   const [timeLeft, setTimeLeft] = useState(300); // 초기 시간 5분 설정
@@ -172,19 +168,19 @@ const Signup = () => {
   useEffect(() => {
     setIsDup(null);
   }, [nickname]);
-  
+
   useEffect(() => {
-    if (email === ""){
+    if (email === "") {
       setEmailError("");
       setIsEmailValid(false);
     }
     else {
       const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
-      if (regex.test(email)){
+      if (regex.test(email)) {
         setIsEmailValid(true)
         setEmailError("")
       }
-      else{
+      else {
         setIsEmailValid(false)
         setEmailError("이메일 형식이 잘못되었습니다.")
       }
@@ -192,13 +188,13 @@ const Signup = () => {
   }, [email]);
 
   useEffect(() => {
-    if (certNum === ""){
+    if (certNum === "") {
       setCertError("");
       setIsCertValid(false);
     }
     else {
       const regex = /^\d{6}$/;
-      if (regex.test(certNum)){
+      if (regex.test(certNum)) {
         setIsCertValid(true);
         setCertError("");
       }
@@ -261,17 +257,17 @@ const Signup = () => {
           </Typography>
         </LogoWrapper>
         <HomeWrapper onClick={() => moveTo('/')}>
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="18" height="17" 
-          viewBox="0 0 18 17" fill="none">
-          <path d="M9 0.625L0 7.375H2.25V16.375H6.75V11.875H11.25V16.375H15.75V7.3075L18 7.375L9 0.625Z" 
-            fill="#4A5BAB"/>
-        </svg>
-        <Typography
-          size="body_sub_title">
-          에듀맥스 홈
-        </Typography>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18" height="17"
+            viewBox="0 0 18 17" fill="none">
+            <path d="M9 0.625L0 7.375H2.25V16.375H6.75V11.875H11.25V16.375H15.75V7.3075L18 7.375L9 0.625Z"
+              fill="#4A5BAB" />
+          </svg>
+          <Typography
+            size="body_sub_title">
+            에듀맥스 홈
+          </Typography>
         </HomeWrapper>
       </HeaderItems>
     </HeaderWrapper>
@@ -281,174 +277,173 @@ const Signup = () => {
         color="black_gray">
         회원정보를 입력해주세요
       </Typography>
-      <div style={{ marginTop: "60px"}}>
+      <div style={{ marginTop: "60px" }}>
         <InputWrapper>
           <Typography
-              size="h3_bold"
-              color="black_gray">
+            size="h3_bold"
+            color="black_gray">
             아이디
           </Typography>
           <InputWithButtonWrapper>
-            <SignupInput 
-              placeholder="4~20자리 / 영문, 숫자, '_' 사용가능" 
+            <SignupInput
+              placeholder="4~20자리 / 영문, 숫자, '_' 사용가능"
               input={ID}
               setInput={setID}
-              width="310px"/>
-            <SignupButton  
+              width="310px" />
+            <SignupButton
               isDisabled={isIDValid === false}
-              onClick={checkIdDuplication}/>
+              onClick={checkIdDuplication} />
           </InputWithButtonWrapper>
-          { ( idError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
-            color= { isIdDup === false ? "ok_message" : "warning_red"}
+          {(idError !== "") && <div style={{ marginLeft: "20px" }}><Typography
+            color={isIdDup === false ? "ok_message" : "warning_red"}
             size="body_sub_title">
-              {idError}
-            </Typography></div>}
+            {idError}
+          </Typography></div>}
         </InputWrapper>
       </div>
       <InputWrapper>
         <Typography
-            size="h3_bold"
-            color="black_gray">
+          size="h3_bold"
+          color="black_gray">
           비밀번호
         </Typography>
-        <SignupInput 
-          placeholder="8~20자리 / 영문, 숫자, 특수문자 반드시 하나 이상 포함" 
+        <SignupInput
+          placeholder="8~20자리 / 영문, 숫자, 특수문자 반드시 하나 이상 포함"
           input={pw}
           setInput={setPw}
-          isPassword={true}/>
-        { ( pwError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
-            color="warning_red"
-            size="body_sub_title">
-              {pwError}
-            </Typography></div>}
+          isPassword={true} />
+        {(pwError !== "") && <div style={{ marginLeft: "20px" }}><Typography
+          color="warning_red"
+          size="body_sub_title">
+          {pwError}
+        </Typography></div>}
       </InputWrapper>
       <InputWrapper>
         <Typography
-            size="h3_bold"
-            color="black_gray">
+          size="h3_bold"
+          color="black_gray">
           닉네임
         </Typography>
         <InputWithButtonWrapper>
-          <SignupInput 
-            placeholder="닉네임을 입력하세요" 
+          <SignupInput
+            placeholder="닉네임을 입력하세요"
             input={nickname}
             setInput={setNickname}
-            width="310px"/>
-          <SignupButton  
+            width="310px" />
+          <SignupButton
             isDisabled={nickname.trim().length === 0}
-            onClick={checkNicknameDuplication}/>
+            onClick={checkNicknameDuplication} />
         </InputWithButtonWrapper>
-        { ( nickname !== "" && isDup !== null ) && <div style={{ marginLeft: "20px" }}><Typography 
-            color= { isDup === false ? "ok_message" : "warning_red"}
-            size="body_sub_title">
-              {isDup ? "중복되는 닉네임입니다." : "사용 가능한 닉네임입니다."}
-            </Typography></div>}
+        {(nickname !== "" && isDup !== null) && <div style={{ marginLeft: "20px" }}><Typography
+          color={isDup === false ? "ok_message" : "warning_red"}
+          size="body_sub_title">
+          {isDup ? "중복되는 닉네임입니다." : "사용 가능한 닉네임입니다."}
+        </Typography></div>}
       </InputWrapper>
       <InputWrapper>
         <Typography
-            size="h3_bold"
-            color="black_gray">
+          size="h3_bold"
+          color="black_gray">
           이메일
         </Typography>
         <InputWithButtonWrapper>
-          <SignupInput 
-            placeholder="이메일을 입력하세요" 
+          <SignupInput
+            placeholder="이메일을 입력하세요"
             input={email}
             setInput={setEmail}
-            width="310px"/>
-          <SignupButton  
-            isDisabled={!isEmailValid} 
+            width="310px" />
+          <SignupButton
+            isDisabled={!isEmailValid}
             text="인증요청"
-            onClick={handleStartTimer}/>
+            onClick={handleStartTimer} />
         </InputWithButtonWrapper>
-        { ( emailError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
-            color="warning_red"
-            size="body_sub_title">
-              {emailError}
-            </Typography></div>}
+        {(emailError !== "") && <div style={{ marginLeft: "20px" }}><Typography
+          color="warning_red"
+          size="body_sub_title">
+          {emailError}
+        </Typography></div>}
       </InputWrapper>
       <div>
         <InputWrapper>
           <Typography
-              size="h3_bold"
-              color="black_gray">
-              인증번호
+            size="h3_bold"
+            color="black_gray">
+            인증번호
           </Typography>
-          <SignupInput 
-            placeholder="인증번호를 입력하세요" 
+          <SignupInput
+            placeholder="인증번호를 입력하세요"
             input={certNum}
-            setInput={setCertNum}/>
-            { ( certError !== "" ) && <div style={{ marginLeft: "20px" }}><Typography 
+            setInput={setCertNum} />
+          {(certError !== "") && <div style={{ marginLeft: "20px" }}><Typography
             color="warning_red"
             size="body_sub_title">
-              {certError}
-            </Typography></div>}
+            {certError}
+          </Typography></div>}
         </InputWrapper>
       </div>
       <InputWrapper>
         <Typography
-            size="h3_bold"
-            color="black_gray">
+          size="h3_bold"
+          color="black_gray">
           약관
         </Typography>
         <YakgwanBox>
           <YakgwanWrapper>
-            <YakgwanCheckBox 
+            <YakgwanCheckBox
               isChecked={yakgwan1Checked} src={CheckMark}
-              onClick={() => setYakgwan1Checked(!yakgwan1Checked)}/>
-            <div 
+              onClick={() => setYakgwan1Checked(!yakgwan1Checked)} />
+            <div
               style={{ textDecoration: 'none', cursor: 'pointer' }}
               onClick={() => setIsModal1Open(true)}>
-              <Typography 
-                color={yakgwan1Checked ? "black_gray" : "gray"}  
+              <Typography
+                color={yakgwan1Checked ? "black_gray" : "gray"}
                 size="body_sub_title" >
                 (필수) 에듀맥스 이용약관
               </Typography>
             </div>
-            <SignupModal 
-                isOpen={isModal1Open} 
-                onClose={() => setIsModal1Open(false)}
-                modalNum={1}/>
-            <Typography 
-              color={yakgwan1Checked ? "black_gray" : "gray"}  
+            <SignupModal
+              isOpen={isModal1Open}
+              onClose={() => setIsModal1Open(false)}
+              modalNum={1} />
+            <Typography
+              color={yakgwan1Checked ? "black_gray" : "gray"}
               size="body_sub_title" >
-                에 동의
-              </Typography>
+              에 동의
+            </Typography>
           </YakgwanWrapper>
           <YakgwanWrapper>
-            <YakgwanCheckBox 
+            <YakgwanCheckBox
               isChecked={yakgwan2Checked} src={CheckMark}
-              onClick={() => setYakgwan2Checked(!yakgwan2Checked)}/>
+              onClick={() => setYakgwan2Checked(!yakgwan2Checked)} />
             <Link style={{ textDecoration: 'none', cursor: 'pointer' }}>
-              <Typography 
-                color={yakgwan2Checked ? "black_gray" : "gray"} 
+              <Typography
+                color={yakgwan2Checked ? "black_gray" : "gray"}
                 size="body_sub_title" >
                 (필수) 개인정보 수집 및 이용
               </Typography>
             </Link>
-            <Typography 
-              color={yakgwan2Checked ? "black_gray" : "gray"} 
+            <Typography
+              color={yakgwan2Checked ? "black_gray" : "gray"}
               size="body_sub_title" >
               에 동의
             </Typography>
           </YakgwanWrapper>
         </YakgwanBox>
       </InputWrapper>
-      <SignupButton 
+      <SignupButton
         isDisabled={
-          !(isIDValid && isPwValid && isEmailValid && yakgwan1Checked 
-          && yakgwan2Checked && isCertValid && !isIdDup && !isDup && timer)
-        } 
-        isBigButton={true} 
-        text="회원가입 완료" 
+          !(isIDValid && isPwValid && isEmailValid && yakgwan1Checked
+            && yakgwan2Checked && isCertValid && !isIdDup && !isDup && timer)
+        }
+        isBigButton={true}
+        text="회원가입 완료"
         width="100%"
-        onClick={() => moveTo('/')}/>
-      <NotificationPermissionButton/>
+        onClick={() => moveTo('/')} />
     </ContentWrapper>
     <TimerWrapper>
       {timer && <Typography color="timer_red" size="body_sub_title">
-          {formatTime(timeLeft)}
-        </Typography>}
+        {formatTime(timeLeft)}
+      </Typography>}
     </TimerWrapper>
 
   </>);

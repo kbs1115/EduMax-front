@@ -1,12 +1,12 @@
-import React, { useState, useContext } from "react";
-import styled from "styled-components";
+import React, { useState, useContext, useRef, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import AlarmModal from "./modals/AlarmModal";
-import SearchBar from "./SearchBar";
 import logo from "../assets/logo.png";
 import { colorMapping } from "./Typography";
 import CustomLink from "./CustomLink";
 import AuthContext from "../context/AuthProvider";
+import LectureNavBar from "./LectureNavBar"; // Import LectureNavBar
 
 export const boardMapping = {
   question: "질문게시판",
@@ -58,20 +58,19 @@ const MenuItems = styled.nav`
 const InnerMenuItems = styled.div`
   display: flex;
   align-items: center;
-  gap: 53px; // Fixed spacing between items
+  gap: 53px;
 `;
 
 const MenuLink = styled(CustomLink)`
-  transition: color 0.5s ease; // Add this line
+  transition: color 0.5s ease;
   padding: 10px 0 10px 0;
-  &:hover
 `;
 
 const SecondaryNavigation = styled.div`
   display: flex;
   align-items: center;
   margin-right: 10px;
-  gap: 20px; // Spacing between tabs
+  gap: 20px;
 `;
 
 const NavItem = styled(CustomLink)`
@@ -88,19 +87,52 @@ const NavItem = styled(CustomLink)`
   }
 `;
 
+const dropDown = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const ModalWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  animation: ${dropDown} 0.3s ease-out;
+  z-index: 1000;
+`;
+
 const NavBar = () => {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated'))
   const [hoveredLink, setHoveredLink] = useState(null);
+  const [showLectureNavBar, setShowLectureNavBar] = useState(false);
+  const navBarRef = useRef(null);
+  const [navBarHeight, setNavBarHeight] = useState(0);
+
+  useEffect(() => {
+    if (navBarRef.current) {
+      setNavBarHeight(navBarRef.current.offsetHeight);
+    }
+  }, []);
 
   const handleMouseEnter = (link) => {
     setHoveredLink(link);
+    if (link === 'lecture') {
+      setShowLectureNavBar(true);
+    }
   };
 
   const handleMouseLeave = () => {
     setHoveredLink(null);
+    setShowLectureNavBar(false);
   };
 
   const handleLogOut = () => {
@@ -114,8 +146,9 @@ const NavBar = () => {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+
   return (
-    <Header>
+    <Header ref={navBarRef}>
       <TopRow>
         <InnerTopRow>
           <LogoContainer>
@@ -153,6 +186,15 @@ const NavBar = () => {
         </InnerMenuItems>
       </MenuItems>
       {showModal && <AlarmModal onClose={toggleModal} />}
+      {showLectureNavBar && (
+        <ModalWrapper
+          style={{ top: `${navBarHeight-2}px` }}  // Add some extra space
+          onMouseEnter={() => setShowLectureNavBar(true)}
+          onMouseLeave={handleMouseLeave}
+        >
+          <LectureNavBar onClose={() => setShowLectureNavBar(false)} />
+        </ModalWrapper>
+      )}
     </Header>
   );
 };

@@ -125,7 +125,7 @@ const PostCard = ({ posts, title }) => {
             {posts.map((post, index) => (
                 <ContentContainer
                     key={index}
-                    content={post.content}
+                    content={post.title}
                     author={post.author}
                     date={post.date}
                     id={post.id}

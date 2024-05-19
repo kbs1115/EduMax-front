@@ -231,7 +231,7 @@ const QuickMenu = () => {
 };
 
 const BestVoteSubject = () => {
-  const [selectedCategory, setSelectedCategory] = useState('영어');
+  const [selectedCategory, setSelectedCategory] = useState('국어');
 
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate()
