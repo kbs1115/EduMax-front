@@ -53,10 +53,10 @@ export const getPostDetailData = async (postId) => {
 export const createPost = async (formData) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.post('post/', formData, {
-      headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'multipart/form-data'
-      }
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    }
   });
 };
 
@@ -64,9 +64,9 @@ export const DeletePost = async (postId) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.delete(`post/${postId}`, {
   }, {
-      headers: {
-          Authorization: `Bearer ${accessToken}`
-      }
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
   });
 };
 
@@ -83,7 +83,7 @@ export const getChildCommentsData = async (commentId) => {
   try {
     const response = await api.get(`comment/comment/${commentId}`);
     return response.data;
-    
+
   } catch (error) {
     // 404 Not Found 에러가 발생할 경우 빈 배열 반환
     if (error.response && error.response.status === 404) {
@@ -96,26 +96,26 @@ export const getChildCommentsData = async (commentId) => {
 export const createParentComment = async (postId, content, textContent) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.post(`post/${postId}/comment/`, {
-      html_content: content,
-      content: textContent
+    html_content: content,
+    content: textContent
   }, {
-      headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'multipart/form-data'
-      }
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    }
   });
 };
 
 export const createChildComment = async (parentId, content, textContent) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.post(`comment/${parentId}`, {
-      html_content: content,
-      content: textContent
+    html_content: content,
+    content: textContent
   }, {
-      headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'multipart/form-data'
-      }
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    }
   });
 };
 
@@ -123,85 +123,101 @@ export const DeleteComment = async (commentId) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.delete(`comment/${commentId}`, {
   }, {
-      headers: {
-          Authorization: `Bearer ${accessToken}`
-      }
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
   });
 };
 
 
-export const voteComment = async (commentId ) => {
+export const voteComment = async (commentId) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.post(`comment/${commentId}/like`, {
   }, {
-      headers: {
-          Authorization: `Bearer ${accessToken}`
-      }
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
   });
 };
 
-export const votePost = async (postId ) => {
+export const votePost = async (postId) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.post(`post/${postId}/like`, {
   }, {
-      headers: {
-          Authorization: `Bearer ${accessToken}`
-      }
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
   });
 };
 
-export const getLecture = async (lectureId ) => {
+export const getLecture = async (lectureId) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.get(`lecture/${lectureId}`, {
   }, {
-      headers: {
-          Authorization: `Bearer ${accessToken}`
-      }
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
   });
-  
+
 };
-export const DeleteLecture = async (lectureId ) => {
+
+export const getLectureList = async (category, page, search_filter, q) => {
+  const response = await api.get(`lectures/?category=${encodeURIComponent(category)}&search_filter=${encodeURIComponent(search_filter)}&q=${encodeURIComponent(q)}&page=${encodeURIComponent(page)}`);
+  return response.data  
+}; 
+
+export const DeleteLecture = async (lectureId) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.delete(`lecture/${lectureId}`, {
   }, {
-      headers: {
-          Authorization: `Bearer ${accessToken}`
-      }
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
   });
-  
+
 };
 
 export const registerFCMToken = async (token) => {
   const accessToken = localStorage.getItem('access_token');
   try {
-      const response = await api.post('auth/fcm_token/', {
-          token
-      }, {
-          headers: {
-              Authorization: `Bearer ${accessToken}`
-          }
-      });
-      console.log('Token registered successfully:', response.data);
-      return response.data;
+    const response = await api.post('auth/fcm_token/', {
+      token
+    }, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    console.log('Token registered successfully:', response.data);
+    return response.data;
   } catch (error) {
-      console.error('Failed to register FCM token:', error);
-      throw error;
+    console.error('Failed to register FCM token:', error);
+    throw error;
   }
 };
 
 export const uploadFilesToS3 = async (formData) => {
   const accessToken = localStorage.getItem('access_token');
   try {
-      const response = await api.post('s3_files/', formData, {
-          headers: {
-              'Authorization': `Bearer ${accessToken}`,
-              'Content-Type': 'multipart/form-data' // This header is important for file uploads
-          }
-      });
-      console.log('Files uploaded successfully:', response.data);
-      return response.data; // Returning the response data, possibly URLs of the uploaded files
+    const response = await api.post('s3_files/', formData, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data' // This header is important for file uploads
+      }
+    });
+    console.log('Files uploaded successfully:', response.data);
+    return response.data; // Returning the response data, possibly URLs of the uploaded files
   } catch (error) {
-      console.error('Failed to upload files:', error);
-      throw error;
+    console.error('Failed to upload files:', error);
+    throw error;
   }
+};
+
+export const GetAlarms = async (page_num) => {
+  const accessToken = localStorage.getItem('access_token');
+  const response =  await api.get(`alarms/?page=${page_num}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+  return response.data
 };

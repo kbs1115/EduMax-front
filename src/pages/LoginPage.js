@@ -123,7 +123,7 @@ const LogoWrapper = styled.div`
   align-items: center; // 추가
   width: 210px;
   height: 100px;
-  color: #4A5BAB;
+  color: #4C6BFF;
   font-family: "Noto Sans Symbols";
   font-size: 50px;
   font-style: normal;
@@ -164,7 +164,7 @@ const LoginButton = styled.button`
   height: 50px;
   width: 310px;
   border-radius: 20px;
-  background-color: #4A5BAB;
+  background-color: #4C6BFF;
   border: none; // 버튼의 기본 테두리를 제거합니다.
   color: #FFF;
   font-family: "Noto Sans Symbols";
@@ -211,7 +211,7 @@ const SocialLoginStyledButton = styled.button`
   width: 310px; // 가로 310px
   height: 55px; // 세로 55px
   border-radius: 20px; // 모서리 둥글기 20px
-  border: 1px solid #A8AAAE; // 기본 테두리 스타일
+  border: 1px solid #B6C0D5; // 기본 테두리 스타일
   padding: 12px 10px 12px 25px; // padding 설정
   display: flex; // flexbox 레이아웃 사용
   align-items: center; // 가로축(center)을 기준으로 아이템 정렬
@@ -221,11 +221,11 @@ const SocialLoginStyledButton = styled.button`
 
   // 클릭(active) 상태에서의 스타일
   &:active {
-    border: 2px solid #4A5BAB; // 클릭 시 테두리 스타일
+    border: 2px solid #4C6BFF; // 클릭 시 테두리 스타일
   }
 
   &:hover {
-    border: 2px solid #4A5BAB; // 클릭 시 테두리 스타일
+    border: 2px solid #4C6BFF; // 클릭 시 테두리 스타일
     cursor: pointer;
   }
 `;

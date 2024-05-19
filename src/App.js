@@ -18,7 +18,7 @@ import PostDetailPage from './pages/PostDetail';
 import MyPage from './pages/MyPage';
 import AlarmModal from './components/modals/AlarmModal';
 import LectureDetial from './pages/LectureDetail';
-
+import NotFound from './components/NotFound';
 
 
 const queryClient = new QueryClient()
@@ -36,15 +36,16 @@ function App() {
         <Route path="/post/data" element={<DataBoard />} />
         <Route path="/post/notice" element={<NoticeBoard />} />
         <Route path="/post/free" element={<FreeBoard />} />
-        <Route path="/lecture" element={<LectureBoard />} />
+        <Route path="/post/lecture" element={<LectureBoard />} />
         <Route path='/mypage' element={<MyPage />} />
         <Route path="/intro" element={<Introduction />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/create-post" element={<PostCreatePage />} />
+        <Route path="/404" element={<NotFound />} />
         <Route path="/find" element={<EmailModal isPassword={true} />} />
         <Route path="/post/:postId" element={<PostDetailPage />} />
-        <Route path="/lecture/:lectureId" element={<LectureDetial />} />
+        <Route path="/post/lecture/:lectureId" element={<LectureDetial />} />
       </Routes>
     </QueryClientProvider>
   );

@@ -7,6 +7,7 @@ export const sizeMapping = {
   h2: ["24px", "500"],
   h3_bold: ["18px", "700"],
   h3_medium: ["18px", "500"],
+  h3_thin :["18px", "400"],
   h1: ["32px", "500"],
   light_h1 : ["32px", "400"],
   logo: ["26px", "500"],
@@ -40,7 +41,8 @@ export const colorMapping = {
   white :"#FFFFFF",
   red: "#FF0000",
   warning_red: "#FF4747",
-  ok_message: "#5E59FF"
+  ok_message: "#5E59FF",
+  clay: "#BAB9D2" // 선생님강의 네비바 글자색
 };
 
 const Container = styled.div`

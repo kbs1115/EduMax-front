@@ -18,8 +18,11 @@ padding: 10px 0px;
 flex-direction: column;
 align-items: flex-start;
 border-radius: 20px;
-background: #FFF;
-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+background: #FFFFFF;
+box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.15);
+&:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -122,7 +125,7 @@ const PostCard = ({ posts, title }) => {
             {posts.map((post, index) => (
                 <ContentContainer
                     key={index}
-                    content={post.content}
+                    content={post.title}
                     author={post.author}
                     date={post.date}
                     id={post.id}
