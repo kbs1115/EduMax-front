@@ -126,7 +126,7 @@ const PostTable = ({page, setPage, isComment, data }) => {
                   <Typography size="body_content_medium" color="#393E46">{page * 10 + index - 9}</Typography>
                 </NumCell>
                 <SubjectCell>
-                  <StyledLink to="/some-path">
+                  <StyledLink to={`/post/${post.id}`}>
                     <Typography size="body_content_thin">{isComment ? post.content : post.title}</Typography>
                   </StyledLink>
                 </SubjectCell>
