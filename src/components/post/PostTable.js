@@ -72,8 +72,8 @@ function formatDate(dateString) {
 }
 
 // PostTable component
-const PostTable = ({page, setPage, itemNum = 10, data }) => {
-  const post_list = data.data.post_list;
+const PostTable = ({page, setPage, isComment, data }) => {
+  const post_list = isComment ? data.data.comment_list : data.data.post_list
   
   return (
     <>
@@ -85,7 +85,7 @@ const PostTable = ({page, setPage, itemNum = 10, data }) => {
                 <Typography size="body_sub_title">번호</Typography>
               </StyledCell>
               <StyledCell width="460px">
-                <Typography size="body_sub_title">제목</Typography>
+                <Typography size="body_sub_title">{isComment ? "내용" : "제목"}</Typography>
               </StyledCell>
               <StyledCell width="115px">
                 <Typography size="body_sub_title">글쓴이</Typography>
@@ -126,8 +126,8 @@ const PostTable = ({page, setPage, itemNum = 10, data }) => {
                   <Typography size="body_content_medium" color="#393E46">{page * 10 + index - 9}</Typography>
                 </NumCell>
                 <SubjectCell>
-                  <StyledLink to="/some-path">
-                    <Typography size="body_content_thin">{post.title}</Typography>
+                  <StyledLink to={`/post/${post.id}`}>
+                    <Typography size="body_content_thin">{isComment ? post.content : post.title}</Typography>
                   </StyledLink>
                 </SubjectCell>
                 <StyledCell>

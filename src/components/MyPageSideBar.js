@@ -13,7 +13,9 @@ export const mypageMapping = {
 const MyPageSideBar = ({ 
     category, 
     setPage,
-    setCategory 
+    setCategory,
+    setSearchOption,
+    setSearchWord 
 }) => {
   
     return (
@@ -28,6 +30,8 @@ const MyPageSideBar = ({
             onClick={() => {
               setCategory(key);
               setPage(1);
+              setSearchOption("TOTAL");
+              setSearchWord("");
             }}
           >
             <Typography size="h3_medium">{value}</Typography>

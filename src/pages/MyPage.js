@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from "react-query";
 
 import MyPageSideBar, { mypageMapping } from "../components/MyPageSideBar";
 import AuthContext from "../context/AuthProvider";
@@ -12,6 +13,9 @@ import PostSearchBar from "../components/post/PostSearchBar";
 import PostDropDown from "../components/post/PostDropdown";
 import FindModal from "../components/modals/FindModal";
 import Typography from "../components/Typography";
+import { getMyCommentData, getMyPostData, getMyLikePostData } from "../apifetchers/fetcher";
+import LoadingSpinner from "../components/spinner";
+import SearchBar from "../components/SearchBar";
 
 const Wrapper = styled.div`
   margin-top: 60px;
@@ -153,18 +157,50 @@ const InfoPage = () => {
 	</BodyOuterWrapper>);
 }
 
-const CommentPage = ({page = 1, setPage, category}) => {
+const CommentPage = ({page = 1, setPage, category, searchOption, searchWord, setSearchOption, setSearchWord}) => {
+	const { logout } = useContext(AuthContext);
+	const navigate = useNavigate()
+
+	// created_at or MOST_LIKE
+	const [order, setOrder] = useState("created_at")
+
+	const mypost = useQuery(
+		category === 'posts' ? ['posts', category, page, searchWord] :
+		category === 'comments' ? ['comments', page, searchWord] : 
+		['posts_like', category, page, searchWord],
+		category === 'posts' ? () => getMyPostData('AL', searchOption, searchWord, page, order) :
+		category === 'comments' ? () => getMyCommentData(page, searchWord) :
+		() => getMyLikePostData('AL', searchOption, searchWord, page, order),
+		{
+		  onError: (error) => {
+			if (error.response.status === 401){
+			  alert("로그인이 필요합니다. 로그인을 진행해 주세요")
+			  logout();
+			  navigate("/login")
+			}
+		  }
+		}
+	);
+
+	if (mypost.isLoading) return <LoadingSpinner/>;
+
 	return (<BodyOuterWrapper>
 		<InnerCommentMenuWrapper>
 			<Typography color="black_bright_gray" size="h2">
 				{mypageMapping[category]}
 			</Typography>
 			<InnerRightWrapper>
-				<PostDropDown />
-				<PostSearchBar />
+			{category !== "comments" ? <PostDropDown 
+                searchOption={searchOption} 
+                setSearchOption={setSearchOption}/> : <></>}
+			<PostSearchBar 
+				searchWord={searchWord}
+				setSearchWord={setSearchWord}
+				setPage={setPage}
+			/>
 			</InnerRightWrapper>
 		</InnerCommentMenuWrapper>
-		<PostTable page={page} setPage={setPage} itemNum={5}/>
+		<PostTable page={page} setPage={setPage} isComment={category === 'comments'} data={mypost.data}/>
 	</BodyOuterWrapper>);
 }
 
@@ -172,6 +208,11 @@ const CommentPage = ({page = 1, setPage, category}) => {
 function MyPage() {
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("info")
+
+  // AUTHOR, TITLE, CONTENT, TOTAL
+	const [searchOption, setSearchOption] = useState("TOTAL")
+	// 검색어
+	const [searchWord, setSearchWord] = useState("")
 
   const { isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -188,9 +229,18 @@ function MyPage() {
       <MyPageSideBar 
 		category={category} 
 		setCategory={setCategory}
-		setPage={setPage}/>
+		setPage={setPage}
+		setSearchOption={setSearchOption}
+		setSearchWord={setSearchWord}/>
       {category === "info" ? <InfoPage /> : 
-			 <CommentPage page={page} setPage={setPage} category={category}/>}
+			<CommentPage 
+			page={page} 
+			setPage={setPage} 
+			category={category}
+			searchOption={searchOption}
+			searchWord={searchWord}
+			setSearchOption={setSearchOption}
+			setSearchWord={setSearchWord}/>}
     </Wrapper>  
   );
 }
