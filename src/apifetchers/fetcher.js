@@ -264,3 +264,40 @@ export const GetAlarms = async (page_num) => {
   });
   return response.data
 };
+
+export const CheckDuplicate = async (formData) => {
+  try {
+    const response = await api.post('auth/user/duplicate-check/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to check duplication:', error);
+    throw error;
+  }
+};
+export const SendEmail = async (formData) => {
+  try {
+    const response = await api.post('auth/email-send/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const RegisterUser = async (formData) => {
+  try {
+    const response = await api.post('auth/user/', formData, {
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to register user:', error);
+    throw error;
+  }
+};
