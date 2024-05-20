@@ -7,7 +7,7 @@ import Typography from "../components/Typography";
 import SignupInput from "../components/SignupInput";
 import CheckMark from "../assets/check_mark.png";
 import ErrorModal from "../components/modals/ErrorModal";
-
+import LoadingSpinner from "../components/spinner";
 const SignupButton = ({
   isDisabled,
   onClick,
@@ -112,6 +112,8 @@ const Signup = () => {
 
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsIdDup(null);
@@ -285,12 +287,15 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setLoading(true); // 로딩 시작
     const formData = { login_id: ID, password: pw, email: email, nickname: nickname, auth_key: certNum }
 
     try {
       const response = await RegisterUser(formData);
+      setLoading(false); // 로딩 종료
       moveTo('/login');
     } catch (error) {
+      setLoading(false); // 로딩 종료
       console.error('An error occurred during registration:', error);
       if (error.response && error.response.data) {
         handleErrorResponse(error.response.data.errors[0]);
@@ -520,6 +525,7 @@ const Signup = () => {
         )}
       </TimerWrapper>
       {errorModalOpen && <ErrorModal message={errorMessage} onClose={handleCloseErrorModal} />}
+      {loading && <LoadingSpinner />}
     </>
   );
 }
