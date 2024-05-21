@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setUsername(null);
         setIsStaff(false); // isStaff 상태를 초기화
+        window.location.reload();
     }, []);
 
     api.interceptors.response.use(
@@ -58,7 +59,6 @@ export const AuthProvider = ({ children }) => {
                 return api(originalRequest); // 원래 요청 재시도
               } catch (refreshError) {
                 logout();
-                window.location.reload();
                 alert("로그인이 만료되었습니다. 다시 로그인해 주세요.")
                 return Promise.reject(refreshError);
               }
