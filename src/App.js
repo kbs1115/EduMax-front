@@ -19,7 +19,7 @@ import MyPage from './pages/MyPage';
 import AlarmModal from './components/modals/AlarmModal';
 import LectureDetial from './pages/LectureDetail';
 import NotFound from './components/NotFound';
-import ErrorModal from './components/modals/ErrorModal';
+import AlertModal from './components/modals/AlertModal';
 
 
 const queryClient = new QueryClient()
@@ -47,7 +47,7 @@ function App() {
         <Route path="/find" element={<EmailModal isPassword={true} />} />
         <Route path="/post/:postId" element={<PostDetailPage />} />
         <Route path="/post/lecture/:lectureId" element={<LectureDetial />} />
-        <Route path="/error" element={<ErrorModal message={"에러 모달 디자인 샘플입니다."} />} />
+        <Route path="/error" element={<AlertModal message={"에러 모달 디자인 샘플입니다."} />} />
       </Routes>
     </QueryClientProvider>
   );

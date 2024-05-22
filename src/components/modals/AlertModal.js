@@ -68,7 +68,7 @@ const CloseButton = styled.button`
   }
 `;
 
-const ErrorModal = ({ message, onClose }) => {
+const AlertModal = ({ message, onClose }) => {
   return (
     <ModalOverlay>
       <ModalContent>
@@ -86,4 +86,4 @@ const ErrorModal = ({ message, onClose }) => {
   );
 };
 
-export default ErrorModal;
+export default AlertModal;

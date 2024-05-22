@@ -6,7 +6,7 @@ import { CheckDuplicate, SendEmail, RegisterUser } from "../apifetchers/fetcher"
 import Typography from "../components/Typography";
 import SignupInput from "../components/SignupInput";
 import CheckMark from "../assets/check_mark.png";
-import ErrorModal from "../components/modals/ErrorModal";
+import AlertModal from "../components/modals/AlertModal";
 import LoadingSpinner from "../components/spinner";
 const SignupButton = ({
   isDisabled,
@@ -451,7 +451,17 @@ const Signup = () => {
             <Typography size="h3_bold" color="black_gray">
               인증번호
             </Typography>
-            <SignupInput placeholder="인증번호를 입력하세요" input={certNum} setInput={setCertNum} />
+            <TimerAndInpuerContainer>
+              <SignupInput placeholder="인증번호를 입력하세요"
+                input={certNum} setInput={setCertNum} width="295px" border_color="white" padding_left="0px" />
+              <TimerWrapper>
+                {timer && (
+                  <Typography color="timer_red" size="body_sub_title">
+                    {formatTime(timeLeft)}
+                  </Typography>
+                )}
+              </TimerWrapper>
+            </TimerAndInpuerContainer>
             {certError !== "" && (
               <div style={{ marginLeft: "20px" }}>
                 <Typography color="warning_red" size="body_sub_title">
@@ -517,14 +527,7 @@ const Signup = () => {
           onClick={handleSignup}
         />
       </ContentWrapper>
-      <TimerWrapper>
-        {timer && (
-          <Typography color="timer_red" size="body_sub_title">
-            {formatTime(timeLeft)}
-          </Typography>
-        )}
-      </TimerWrapper>
-      {errorModalOpen && <ErrorModal message={errorMessage} onClose={handleCloseErrorModal} />}
+      {errorModalOpen && <AlertModal message={errorMessage} onClose={handleCloseErrorModal} />}
       {loading && <LoadingSpinner />}
     </>
   );
@@ -532,6 +535,25 @@ const Signup = () => {
 
 export default Signup;
 
+
+const TimerAndInpuerContainer = styled.div`
+display: flex;
+width: 450px;
+height: 60px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 10px;
+border: 1px solid #B6C0D5;
+`
+const TimerWrapper = styled.div`
+display: flex;
+width: 105px;
+justify-content: flex-end;
+align-items: center;
+gap: 10px;
+flex-shrink: 0;
+`
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -572,11 +594,10 @@ const ContentWrapper = styled.div`
 `;
 
 const InputWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: start;
-  gap: 10px;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 10px;
 `;
 
 const InputWithButtonWrapper = styled.div`
@@ -601,13 +622,7 @@ const CertifyButton = styled.button`
   }
 `;
 
-const TimerWrapper = styled.div`
-  position: relative;
-  height: 30px;
-  bottom: 420px;
-  left: 1130px;
-  z-index: 0;
-`;
+
 
 const YakgwanBox = styled.div`
   display: flex;
