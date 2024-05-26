@@ -13,6 +13,7 @@ import PostSearchBar from "../components/post/PostSearchBar";
 import PostDropDown from "../components/post/PostDropdown";
 import { getPostData } from "../apifetchers/fetcher";
 import LoadingSpinner from "../components/spinner";
+import Typography from "../components/Typography";
 
 function QuestionBoard() {
   const { logout } = useContext(AuthContext);
@@ -63,6 +64,9 @@ function QuestionBoard() {
         setOrder={setOrder}
         board="question"/>
       <BodyOuterWrapper>
+        <Typography size="h1">
+          자유게시판 / {category === "KQ" ? '국어' : category === "MQ" ? '수학' : category === "EQ" ? "영어" : "탐구"}
+        </Typography>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
             <PostOrder order={order} setOrder={setOrder}/>
@@ -106,7 +110,7 @@ const BodyOuterWrapper = styled.div`
   width: 920px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 const BodyInnerWrapper = styled.div`

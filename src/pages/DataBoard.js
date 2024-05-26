@@ -126,15 +126,9 @@ function DataBoard() {
         setOrder={setOrder}
         board="data"/>
       <BodyOuterWrapper>
-        <PostListButton 
-          width="92px" 
-          height="43px" 
-          size="body_content_bold" 
-          buttonColor="#4C6BFF" 
-          textColor="white"
-        >
-          글쓰기
-        </PostListButton>
+        <Typography size="h1">
+          자료게시판 / {category === "KD" ? '국어' : category === "MD" ? '수학' : category === "ED" ? "영어" : "탐구"}
+        </Typography>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
             <PostOrder order={order} setOrder={setOrder}/>
@@ -147,6 +141,15 @@ function DataBoard() {
                 setSearchWord={setSearchWord}
                 setPage={setPage}/>
             </InnerRightWrapper>
+            <PostListButton 
+              width="92px" 
+              height="43px" 
+              size="body_content_bold" 
+              buttonColor="#4C6BFF" 
+              textColor="white"
+            >
+              글쓰기
+            </PostListButton>
           </InnerMenuWrapper>
           <PostTable page={page} setPage={setPage} data={data}/>
         </BodyInnerWrapper>
@@ -169,7 +172,7 @@ const BodyOuterWrapper = styled.div`
   width: 920px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 const BodyInnerWrapper = styled.div`
