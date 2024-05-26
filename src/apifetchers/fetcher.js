@@ -5,7 +5,6 @@ export const api = axios.create({
 });
 
 
-
 export const getPostData = async (category, search_option, q, page, sort) => {
   // 로컬 스토리지에서 토큰을 가져옵니다.
   const accessToken = localStorage.getItem('access_token');
@@ -64,6 +63,13 @@ export const fetchLogin = async ({ login_id, password }) => {
   // 로그인 성공 시 토큰을 로컬 스토리지에 저장
   localStorage.setItem('access_token', data.access_token);
   return data;
+};
+
+export const fetchSocialLogin = async () => {
+  const { data } = await api.get('auth/user/google/login/');
+  // 로그인 성공 시 토큰을 로컬 스토리지에 저장
+  window.location.href = data.redirect_url;
+  return;
 };
 
 export const getPostDetailData = async (postId) => {

@@ -8,7 +8,7 @@ import LoginInput from "../components/LoginInput";
 import Typography from "../components/Typography";
 import GoogleIcon from "../assets/googleicon.png"
 import Kakaoicon from "../assets/kakaoicon.png"
-import { fetchLogin } from "../apifetchers/fetcher";
+import { fetchLogin, fetchSocialLogin } from "../apifetchers/fetcher";
 
 
 const SocialLoginButton = ({ onClick, imagePath, margin, children }) => (
@@ -24,6 +24,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
 
   const loginMutation = useMutation(fetchLogin);
+  const googleLoginMutation = useMutation(fetchSocialLogin);
   const { login, logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -34,6 +35,20 @@ const LoginPage = () => {
       console.log('로그인 성공:', data);
       login(data.token.access, data.token.refresh, data.user.nickname, data.user.is_staff);
       navigate("/");
+    } catch (error) {
+      console.error('로그인 실패:', error);
+      alert("로그인에 실패하였습니다.")
+      logout();
+      // 에러 처리
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const data = await googleLoginMutation.mutateAsync();
+
+      // login(data.token.access, data.token.refresh, data.user.nickname, data.user.is_staff);
+      // navigate("/");
     } catch (error) {
       console.error('로그인 실패:', error);
       alert("로그인에 실패하였습니다.")
@@ -87,7 +102,8 @@ const LoginPage = () => {
         </LoginTextWrapper>
         <SocialLoginButton
           margin="0 0 10px 0"
-          imagePath={GoogleIcon}>
+          imagePath={GoogleIcon}
+          onClick={handleGoogleLogin}>
           <Typography
             size="body_content_medium">
               Google 계정으로 로그인

@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setUsername(null);
         setIsStaff(false); // isStaff 상태를 초기화
-        window.location.reload();
     }, []);
 
     api.interceptors.response.use(
