@@ -63,15 +63,6 @@ function QuestionBoard() {
         setOrder={setOrder}
         board="question"/>
       <BodyOuterWrapper>
-        <PostListButton 
-          width="92px" 
-          height="43px" 
-          size="body_content_bold" 
-          buttonColor="#4C6BFF" 
-          textColor="white"
-        >
-          글쓰기
-        </PostListButton>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
             <PostOrder order={order} setOrder={setOrder}/>
@@ -83,6 +74,15 @@ function QuestionBoard() {
                 searchWord={searchWord}
                 setSearchWord={setSearchWord}
                 setPage={setPage}/>
+              <PostListButton 
+                width="92px" 
+                height="43px" 
+                size="body_content_bold" 
+                buttonColor="#4C6BFF" 
+                textColor="white"
+              >
+                글쓰기
+              </PostListButton>
             </InnerRightWrapper>
           </InnerMenuWrapper>
           <PostTable page={page} setPage={setPage} data={data}/>
