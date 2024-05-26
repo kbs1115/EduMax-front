@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { useQuery } from 'react-query';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import AuthContext from "../context/AuthProvider";
 import SideBar from "../components/SideBar";
@@ -18,9 +18,10 @@ import Typography from "../components/Typography";
 function QuestionBoard() {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // EQ, KQ, MQ, TQ
-  const [category, setCategory] = useState("EQ")
+  const category = searchParams.get('category') || 'EQ';
   const [page, setPage] = useState(1);
 
   // created_at or MOST_LIKE
@@ -58,14 +59,11 @@ function QuestionBoard() {
       <SideBar 
         setPage={setPage} 
         category={category} 
-        setCategory={setCategory}
-        setSearchOption={setSearchOption}
-        setSearchWord={setSearchWord}
-        setOrder={setOrder}
-        board="question"/>
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}/>
       <BodyOuterWrapper>
         <Typography size="h1">
-          자유게시판 / {category === "KQ" ? '국어' : category === "MQ" ? '수학' : category === "EQ" ? "영어" : "탐구"}
+          질문게시판 / {category === "KQ" ? '국어' : category === "MQ" ? '수학' : category === "EQ" ? "영어" : "탐구"}
         </Typography>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
