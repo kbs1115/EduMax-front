@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { useQuery } from 'react-query';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import AuthContext from "../context/AuthProvider";
 import SideBar from "../components/SideBar";
@@ -13,13 +13,15 @@ import PostSearchBar from "../components/post/PostSearchBar";
 import PostDropDown from "../components/post/PostDropdown";
 import { getPostData } from "../apifetchers/fetcher";
 import LoadingSpinner from "../components/spinner";
+import Typography from "../components/Typography";
 
 function QuestionBoard() {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // EQ, KQ, MQ, TQ
-  const [category, setCategory] = useState("EQ")
+  const category = searchParams.get('category') || 'EQ';
   const [page, setPage] = useState(1);
 
   // created_at or MOST_LIKE
@@ -57,21 +59,12 @@ function QuestionBoard() {
       <SideBar 
         setPage={setPage} 
         category={category} 
-        setCategory={setCategory}
-        setSearchOption={setSearchOption}
-        setSearchWord={setSearchWord}
-        setOrder={setOrder}
-        board="question"/>
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}/>
       <BodyOuterWrapper>
-        <PostListButton 
-          width="92px" 
-          height="43px" 
-          size="body_content_bold" 
-          buttonColor="#4C6BFF" 
-          textColor="white"
-        >
-          글쓰기
-        </PostListButton>
+        <Typography size="h1">
+          질문게시판 / {category === "KQ" ? '국어' : category === "MQ" ? '수학' : category === "EQ" ? "영어" : "탐구"}
+        </Typography>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
             <PostOrder order={order} setOrder={setOrder}/>
@@ -83,6 +76,15 @@ function QuestionBoard() {
                 searchWord={searchWord}
                 setSearchWord={setSearchWord}
                 setPage={setPage}/>
+              <PostListButton 
+                width="92px" 
+                height="43px" 
+                size="body_content_bold" 
+                buttonColor="#4C6BFF" 
+                textColor="white"
+              >
+                글쓰기
+              </PostListButton>
             </InnerRightWrapper>
           </InnerMenuWrapper>
           <PostTable page={page} setPage={setPage} data={data}/>
@@ -106,7 +108,7 @@ const BodyOuterWrapper = styled.div`
   width: 920px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 const BodyInnerWrapper = styled.div`

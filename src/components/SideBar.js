@@ -50,7 +50,7 @@ const CategoryWrapper = styled.div`
   }
 `;
 
-const SideBar = ({ board = "question", category = "EQ" , setPage, setCategory, setSearchOption, setSearchWord, setOrder }) => {
+const SideBar = ({ board = "question", category = "EQ" , searchParams, setSearchParams }) => {
   // 나중에는 이 state를 props로 받아야 함.
 
   return (
@@ -63,11 +63,8 @@ const SideBar = ({ board = "question", category = "EQ" , setPage, setCategory, s
           key={key}
           isActive={key === category}
           onClick={() => {
-            setCategory(key);
-            setSearchOption('TOTAL');
-            setSearchWord('');
-            setOrder("created_at")
-            setPage(1);
+            searchParams.set('category', key);
+	          setSearchParams(searchParams);
           }}
         >
           <Typography size="h3_medium">{value}</Typography>

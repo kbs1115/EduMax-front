@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { useQuery } from 'react-query';
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import PostListButton from "../components/buttons/PostListButton";
 import PostTable from "../components/post/PostTable";
@@ -58,7 +59,7 @@ export const SubjectMapping = {
     }
   `;
   
-  const SideBar = ({ board = "data", category = "EQ" , setPage, setCategory, setSearchOption, setSearchWord, setOrder }) => {
+  const SideBar = ({ board = "data", category = "ED" , setSearchParams, searchParams }) => {
     // 나중에는 이 state를 props로 받아야 함.
   
     return (
@@ -71,11 +72,8 @@ export const SubjectMapping = {
             key={key}
             isActive={key === category}
             onClick={() => {
-              setCategory(key);
-              setSearchOption('TOTAL');
-              setSearchWord('');
-              setOrder("created_at")
-              setPage(1);
+              searchParams.set('category', key);
+              setSearchParams(searchParams);
             }}
           >
             <Typography size="h3_medium">{value}</Typography>
@@ -86,8 +84,10 @@ export const SubjectMapping = {
   };
 
 function DataBoard() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   // ED, KD, MD, TD
-  const [category, setCategory] = useState("ED")
+  const category = searchParams.get('category') || 'ED';
   const [page, setPage] = useState(1);
 
   // created_at or MOST_LIKE
@@ -120,21 +120,12 @@ function DataBoard() {
       <SideBar 
         setPage={setPage} 
         category={category} 
-        setCategory={setCategory}
-        setSearchOption={setSearchOption}
-        setSearchWord={setSearchWord}
-        setOrder={setOrder}
-        board="data"/>
+        setSearchParams={setSearchParams}
+        searchParams={searchParams}/>
       <BodyOuterWrapper>
-        <PostListButton 
-          width="92px" 
-          height="43px" 
-          size="body_content_bold" 
-          buttonColor="#4C6BFF" 
-          textColor="white"
-        >
-          글쓰기
-        </PostListButton>
+        <Typography size="h1">
+          자료게시판 / {category === "KD" ? '국어' : category === "MD" ? '수학' : category === "ED" ? "영어" : "탐구"}
+        </Typography>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
             <PostOrder order={order} setOrder={setOrder}/>
@@ -147,6 +138,15 @@ function DataBoard() {
                 setSearchWord={setSearchWord}
                 setPage={setPage}/>
             </InnerRightWrapper>
+            <PostListButton 
+              width="92px" 
+              height="43px" 
+              size="body_content_bold" 
+              buttonColor="#4C6BFF" 
+              textColor="white"
+            >
+              글쓰기
+            </PostListButton>
           </InnerMenuWrapper>
           <PostTable page={page} setPage={setPage} data={data}/>
         </BodyInnerWrapper>
@@ -169,7 +169,7 @@ const BodyOuterWrapper = styled.div`
   width: 920px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 const BodyInnerWrapper = styled.div`

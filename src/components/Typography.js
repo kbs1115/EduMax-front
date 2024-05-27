@@ -22,6 +22,7 @@ export const sizeMapping = {
 };
 
 export const colorMapping = {
+  black: "#000",
   navy: "#4A5BAB",
   brignt_navy: "#2B42B0",
   nav_tab: "#333437", // 네비바 탭 색깔
