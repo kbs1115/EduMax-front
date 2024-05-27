@@ -104,8 +104,8 @@ height: 18px;
 `;
 
 export const FileDownLoadWrapper = styled.img`
-width: 25px;
-height: 25px;
+width: 18px;
+height: 18px;
 `
 export const FilenameWrapper = styled(Typography)`
 overflow: hidden;

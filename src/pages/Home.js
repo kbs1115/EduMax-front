@@ -7,7 +7,7 @@ import MainImage from "../components/home/MainImage";
 import PostCards from "../components/home/PostCards";
 import { requestNotificationPermission } from '../firebase-messaging';
 import { registerFCMToken } from '../apifetchers/fetcher';
-import AuthContext from "../context/AuthProvider";
+import AuthContexts from "../context/AuthProvider";
 
 export const categoryDict = {
   국어: "KQ",
@@ -17,7 +17,7 @@ export const categoryDict = {
 }
 
 function Home() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContexts);
 
   useEffect(() => {
     if (isAuthenticated) {

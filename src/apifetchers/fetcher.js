@@ -249,3 +249,89 @@ export const GetAlarms = async (page_num) => {
   });
   return response.data
 };
+
+export const CheckDuplicate = async (formData) => {
+  try {
+    const response = await api.post('auth/user/duplicate-check/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to check duplication:', error);
+    throw error;
+  }
+};
+
+export const SendEmail = async (formData) => {
+  try {
+    const response = await api.post('auth/email-send/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const RegisterUser = async (formData) => {
+  try {
+    const response = await api.post('auth/user/', formData, {
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to register user:', error);
+    throw error;
+  }
+};
+
+export const GetMyPageUser = async () => {
+  const accessToken = localStorage.getItem('access_token');
+  try {
+  const response =  await api.get(`auth/user/info?email=true&nickname=true`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+  return response.data
+  } catch (error) {
+    console.error('Failed to GetMyPageUser:', error);
+    throw error;
+  }
+};
+
+export const EmailAuth = async (formData) => {
+  try {
+    const response = await api.post('auth/user/id-find/email-auth/', formData, {
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to auth:', error);
+    throw error;
+  }
+};
+
+export const EmailAuthForPw = async (formData) => {
+  try {
+    const response = await api.post('auth/user/pw-change/email-auth/', formData, {
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to auth:', error);
+    throw error;
+  }
+};
+
+export const PwChange = async (pwUrl, formData) => {
+  try {
+    const response = await api.post(`${pwUrl}`, formData, {
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to auth:', error);
+    throw error;
+  }
+};
