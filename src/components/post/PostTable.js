@@ -37,7 +37,7 @@ const PostItem = ({post_data, isNotice = false}) => {
         <Typography color="gray" size="body_content_small">{formatDate(post_data.created_at)}</Typography>
       </div>
       <div style={{ display: "flex",flexDirection: "row", gap: "10px"}}>
-        <div style={{ display: "flex",flexDirection: "row", gap: "5px", alignItems: 'center'}}>
+        <div style={{ display: "flex",flexDirection: "row", gap: "5px", alignItems: 'center', paddingBottom: '2px'}}>
           <img src={likeIcon} width={15}/>
           <Typography color="bright_black_gray" size="body_content_small">{post_data.likes_count}</Typography>
         </div>
@@ -47,7 +47,7 @@ const PostItem = ({post_data, isNotice = false}) => {
           </svg> 
           <Typography color="bright_black_gray" size="body_content_small">{post_data.views}</Typography>
         </div>
-        <div style={{ display: "flex",flexDirection: "row", gap: "5px", alignItems: 'center'}}>
+        <div style={{ display: "flex",flexDirection: "row", gap: "5px", alignItems: 'center', paddingTop: '1px'}}>
           <img src={wordIcon} width={15}/>
           <Typography color="bright_black_gray" size="body_content_small">{post_data.comments_count}</Typography>
         </div>
