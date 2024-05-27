@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import Typography, { colorMapping } from "../components/Typography";
-import SideBar from "../components/SideBar";
+import LectureSideBar from '../components/LectureSideBar';
 import dropdownclick from "../assets/dropdownclick.png";
 import searchIcon from "../assets/nav_search_icon.png";
 import { getLectureList } from '../apifetchers/fetcher';
@@ -600,7 +600,7 @@ const renderSubCategories = (category) => {
 
   return (
     <MainContainer>
-      <SideBar />
+      <LectureSideBar />
       <MainContentwrapper>
         <SubjectTitleWrapper onClick={resetCategories}>
           <Typography size="h1" color="bright_black_gray">{searchParams.get('category') || '영어'}</Typography>
