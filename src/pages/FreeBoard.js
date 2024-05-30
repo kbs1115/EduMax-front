@@ -87,6 +87,7 @@ const Wrapper = styled.div`
 `;
 
 const BodyOuterWrapper = styled.div`
+  padding-top: 21px;
   width: 920px;
   display: flex;
   flex-direction: column;

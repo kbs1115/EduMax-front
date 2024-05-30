@@ -14,7 +14,7 @@ import ListButton from "../components/buttons/ListButtons";
 import PostDeleteButton from "../components/buttons/PostDeleteButton";
 import PostModifyButton from "../components/buttons/PostDeleteButton";
 import homeIcon from "../assets/homeIcon.png"
-import SideBar from "../components/SideBar";
+import LectureSideBar from "../components/LectureSideBar";
 import YouTube from 'react-youtube'; // YouTube 컴포넌트를 임포트합니다
 import LoadingSpinner from "../components/spinner";
 import { DeleteLecture } from "../apifetchers/fetcher";
@@ -114,7 +114,7 @@ const LectureDetial = () => {
     return (
 
         <MainContainer>
-            <SideBar />
+            <LectureSideBar />
             <MainContentwrapper>
                 <PostWrapper>
                     <CategoryWrapper>

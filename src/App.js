@@ -20,6 +20,7 @@ import AlarmModal from './components/modals/AlarmModal';
 import LectureDetial from './pages/LectureDetail';
 import NotFound from './components/NotFound';
 import AlertModal from './components/modals/AlertModal';
+import Footer from './components/Footer';
 
 
 const queryClient = new QueryClient()
@@ -49,6 +50,7 @@ function App() {
         <Route path="/post/lecture/:lectureId" element={<LectureDetial />} />
         <Route path="/error" element={<AlertModal message={"에러 모달 디자인 샘플입니다."} />} />
       </Routes>
+      <Footer />
     </QueryClientProvider>
   );
 }
