@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import Typography from "./Typography";
 import { SignupModal } from "../pages/Signup";
@@ -24,6 +25,8 @@ const TextContainer = styled.div`
 
 
 const Footer = () => {
+  const navigate = useNavigate();
+
   const [isModal1Open, setIsModal1Open] = useState(false);
   const [isModal2Open, setIsModal2Open] = useState(false);
 
@@ -65,11 +68,13 @@ const Footer = () => {
         </Typography>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row'}}>
-        <TextContainer>
-          <Typography size="body_content_small_thin" color="black_gray">
-            학원소개
-          </Typography>
-        </TextContainer>
+        <div style={{ textDecoration: "none", cursor: "pointer" }} onClick={() => navigate('/intro')}>
+          <TextContainer>
+            <Typography size="body_content_small_thin" color="black_gray">
+              학원소개
+            </Typography>
+          </TextContainer>
+        </div>
         <div style={{ textDecoration: "none", cursor: "pointer" }} onClick={() => setIsModal1Open(true)}>
           <TextContainer>
             <Typography size="body_content_small_thin" color="black_gray">
