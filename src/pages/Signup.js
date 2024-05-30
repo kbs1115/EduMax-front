@@ -8,6 +8,9 @@ import SignupInput from "../components/SignupInput";
 import CheckMark from "../assets/check_mark.png";
 import AlertModal from "../components/modals/AlertModal";
 import LoadingSpinner from "../components/spinner";
+import { Modal1Text, Modal2Text } from "../TestData/signupTexts";
+
+
 const SignupButton = ({
   isDisabled,
   onClick,
@@ -36,11 +39,13 @@ const SignupModal = ({ isOpen, onClose, modalNum }) => {
 
   useEffect(() => {
     if (modalNum === 1) {
-      setContent("modal1content".repeat(200))
+      setContent(Modal1Text)
       setTitle("에듀맥스 서비스 이용 약관")
     }
-    else
-      setContent("modal2content".repeat(200))
+    else {
+      setContent(Modal2Text)
+      setTitle("개인정보 수집 및 이용에 대한 안내")
+    }
   }, []);
 
   // modal 뒤 스크린 활성화/비활성화
@@ -71,7 +76,7 @@ const SignupModal = ({ isOpen, onClose, modalNum }) => {
         </Typography>
         <ScrollbarContainer>
           <ContentContainer>
-            {content}
+            <div dangerouslySetInnerHTML={{ __html: content }} />
           </ContentContainer>
         </ScrollbarContainer>
       </SignupModalView>
@@ -109,6 +114,7 @@ const Signup = () => {
   const [yakgwan1Checked, setYakgwan1Checked] = useState(false);
   const [yakgwan2Checked, setYakgwan2Checked] = useState(false);
   const [isModal1Open, setIsModal1Open] = useState(false);
+  const [isModal2Open, setIsModal2Open] = useState(false);
 
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -498,9 +504,12 @@ const Signup = () => {
                 src={CheckMark}
                 onClick={() => setYakgwan2Checked(!yakgwan2Checked)}
               />
-              <Typography color={yakgwan2Checked ? "black_gray" : "gray"} size="body_sub_title">
-                (필수) 개인정보 수집 및 이용
-              </Typography>
+              <div style={{ textDecoration: "none", cursor: "pointer" }} onClick={() => setIsModal2Open(true)}>
+                <Typography color={yakgwan2Checked ? "black_gray" : "gray"} size="body_sub_title">
+                  (필수) 개인정보 수집 및 이용
+                </Typography>
+              </div>
+              <SignupModal isOpen={isModal2Open} onClose={() => setIsModal2Open(false)} modalNum={2} />
               <Typography color={yakgwan2Checked ? "black_gray" : "gray"} size="body_sub_title">
                 에 동의
               </Typography>
