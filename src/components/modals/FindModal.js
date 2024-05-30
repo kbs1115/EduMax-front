@@ -223,7 +223,7 @@ const FindModal = ({ isOpen, isPassword = false, onClose }) => {
             setStep(3);
         } catch (error) {
             console.error('Failed to change password:', error);
-            setErrorMessage('비밀번호 변경에 실패했습니다.');
+            setErrorMessage('시간이 만료되어 비밀번호 변경에 실패했습니다.');
             setErrorModalOpen(true);
         }
     };
