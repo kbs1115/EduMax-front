@@ -33,7 +33,7 @@ const SignupButton = ({
   );
 };
 
-const SignupModal = ({ isOpen, onClose, modalNum }) => {
+export const SignupModal = ({ isOpen, onClose, modalNum }) => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
 
