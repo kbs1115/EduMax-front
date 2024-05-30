@@ -137,16 +137,16 @@ function DataBoard() {
                 searchWord={searchWord}
                 setSearchWord={setSearchWord}
                 setPage={setPage}/>
+              <PostListButton 
+                width="92px" 
+                height="43px" 
+                size="body_content_bold" 
+                buttonColor="#4C6BFF" 
+                textColor="white"
+              >
+                글쓰기
+              </PostListButton>
             </InnerRightWrapper>
-            <PostListButton 
-              width="92px" 
-              height="43px" 
-              size="body_content_bold" 
-              buttonColor="#4C6BFF" 
-              textColor="white"
-            >
-              글쓰기
-            </PostListButton>
           </InnerMenuWrapper>
           <PostTable page={page} setPage={setPage} data={data}/>
         </BodyInnerWrapper>

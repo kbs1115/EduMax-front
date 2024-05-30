@@ -235,10 +235,10 @@ const QuickMenu = () => {
             <PostCreateItemWrapper to={"/create-post"}>
                 <Typography size="body_sub_title" color="black_gray">글쓰기</Typography>
             </PostCreateItemWrapper>
-            <RightContainerItemWrapper to={"/mypage-posts"}>
+            <RightContainerItemWrapper to={"/mypage?category=posts"}>
                 <Typography size="body_sub_title" color="black_gray">내가 쓴 게시물</Typography>
             </RightContainerItemWrapper>
-            <RightContainerItemWrapper to={"/mypage-user"}>
+            <RightContainerItemWrapper to={"/mypage"}>
                 <Typography size="body_sub_title" color="black_gray">마이페이지</Typography>
             </RightContainerItemWrapper>
             <YouTubeGoItemWrapper to={"https://www.youtube.com/@sunggjun"}>

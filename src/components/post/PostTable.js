@@ -2,24 +2,25 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Typography from "../Typography";
 import PostListButton from "../buttons/PostListButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import wordIcon from "../../assets/word_icon.PNG";
 import likeIcon from "../../assets/goodIcon.PNG"
 
 
-function formatDate(dateString) {
+export function formatDate(dateString) {
   const date = new Date(dateString);
   return date.toISOString().split('T')[0];
 }
 
 const PostItem = ({post_data, isNotice = false}) => {
-  return (<PostItemWrapper>
+  const navigate = useNavigate();
+
+  return (<PostItemWrapper onClick={() => navigate(`/post/${post_data.id}`)}>
     <PostItemBody>
-      <StyledLink to={`/post/${post_data.id}`}>
         <Typography 
           color="black" 
-          size="body_content_thin"
+          size="body_content_medium"
           style={{ display: "flex",flexDirection: "row" ,gap: "10px", alignItems: "center"}}>
           {isNotice ? <PostListButton width="50px" 
             height="30px" 
@@ -28,7 +29,6 @@ const PostItem = ({post_data, isNotice = false}) => {
             size="body_content_medium">공지</PostListButton> : <></>}
           {post_data.title}
         </Typography>
-      </StyledLink>
       <Typography color="gray" size="body_content_small">{post_data.content}</Typography>
     </PostItemBody>
     <div style={{ width: "100%", display: "flex",flexDirection: "row", justifyContent: "space-between"}}>
@@ -227,6 +227,7 @@ const PostItemWrapper = styled.div`
   padding: 10px;
   gap: 10px;
   border-bottom: 1px solid #B6C0D5;
+  cursor: pointer;
 `;
 
 const PostItemBody = styled.div`

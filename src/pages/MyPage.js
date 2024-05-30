@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from "react-query";
 import MyPageSideBar, { mypageMapping } from "../components/MyPageSideBar";
 import AuthContext from "../context/AuthProvider";
@@ -220,8 +220,10 @@ const CommentPage = ({page = 1, setPage, category, searchOption, searchWord, set
 }
 
 function MyPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get('category') || 'info';
+
   const [page, setPage] = useState(1);
-  const [category, setCategory] = useState("info")
 
   // AUTHOR, TITLE, CONTENT, TOTAL
   const [searchOption, setSearchOption] = useState("TOTAL")
@@ -242,10 +244,8 @@ function MyPage() {
     <Wrapper>
       <MyPageSideBar 
         category={category} 
-        setCategory={setCategory}
-        setPage={setPage}
-        setSearchOption={setSearchOption}
-        setSearchWord={setSearchWord}/>
+        setSearchParams={setSearchParams}
+        searchParams={searchParams}/>
       {category === "info" ? <InfoPage /> : 
         <CommentPage 
           page={page} 

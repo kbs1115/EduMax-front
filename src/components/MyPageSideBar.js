@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import Typography from "./Typography";
+import { useNavigate } from "react-router-dom";
 
 export const mypageMapping = {
     info: "회원정보",
@@ -12,12 +13,9 @@ export const mypageMapping = {
   
 const MyPageSideBar = ({ 
     category, 
-    setPage,
-    setCategory,
-    setSearchOption,
-    setSearchWord 
+    setSearchParams,
+    searchParams
 }) => {
-  
     return (
       <SideBarWrapper>
         <BoardWrapper>
@@ -28,10 +26,8 @@ const MyPageSideBar = ({
             key={key}
             isActive={key === category}
             onClick={() => {
-              setCategory(key);
-              setPage(1);
-              setSearchOption("TOTAL");
-              setSearchWord("");
+              searchParams.set('category', key);
+              setSearchParams(searchParams);
             }}
           >
             <Typography size="h3_medium">{value}</Typography>
