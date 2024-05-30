@@ -8,6 +8,7 @@ import Typography from "../Typography";
 import AuthContext from "../../context/AuthProvider";
 import { getPostData } from "../../apifetchers/fetcher";
 import { categoryDict } from "../../pages/Home";
+import { formatDate } from "../post/PostTable";
 
 
 const CardWrapper = styled.div`
@@ -108,7 +109,7 @@ const ContentContainer = ({ date, author, content, id}) => {
                         <Typography size="body_content_small" color="gray">{author}</Typography>
                     </AuthortextBox>
                     <DatetextBox>
-                        <Typography size="body_content_small" color="gray">{date}</Typography>
+                        <Typography size="body_content_small" color="gray">{formatDate(date)}</Typography>
                     </DatetextBox>
                 </AuthorItem>
             </ItemWrapper>
@@ -127,7 +128,7 @@ const PostCard = ({ posts, title }) => {
                     key={index}
                     content={post.title}
                     author={post.author}
-                    date={post.date}
+                    date={post.created_at}
                     id={post.id}
                 />
             ))}

@@ -45,15 +45,6 @@ function FreeBoard() {
       <BodyOuterWrapper>
         <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
           <Typography size="h1">공지사항</Typography>
-          <PostListButton 
-            width="92px" 
-            height="43px" 
-            size="body_content_bold" 
-            buttonColor="#4C6BFF" 
-            textColor="white"
-          >
-            글쓰기
-          </PostListButton>
         </div>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
@@ -66,6 +57,15 @@ function FreeBoard() {
                 searchWord={searchWord}
                 setSearchWord={setSearchWord}
                 setPage={setPage}/>
+              <PostListButton 
+                width="92px" 
+                height="43px" 
+                size="body_content_bold" 
+                buttonColor="#4C6BFF" 
+                textColor="white"
+              >
+                글쓰기
+              </PostListButton>
             </InnerRightWrapper>
           </InnerMenuWrapper>
           <PostTable page={page} setPage={setPage} data={data}/>

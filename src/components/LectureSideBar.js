@@ -70,7 +70,7 @@ const LectureSideBar = () => {
         <Typography size="h3_medium">국어</Typography>
       </CategoryWrapper>
       <CategoryWrapper
-        isActive={category === "수학"}
+        isActive={category === "수학" || category === "수학1" || category === "수학2" || category === "미적분" || category == "고등수학" || category === "확률과통계"}
         onClick={() => {
           navigate('/post/lecture?category=수학')
         }}
@@ -78,7 +78,7 @@ const LectureSideBar = () => {
         <Typography size="h3_medium">수학</Typography>
       </CategoryWrapper>
       <CategoryWrapper
-        isActive={category === "영어"}
+        isActive={category === "영어" || category === "내신" || category === "수능" || category === "문법"}
         onClick={() => {
           navigate('/post/lecture?category=영어')
         }}

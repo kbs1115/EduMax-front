@@ -82,6 +82,7 @@ function QuestionBoard() {
                 size="body_content_bold" 
                 buttonColor="#4C6BFF" 
                 textColor="white"
+                onClick={() => navigate('/create-post')}
               >
                 글쓰기
               </PostListButton>

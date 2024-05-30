@@ -7,14 +7,30 @@ import { SignupModal } from "../pages/Signup";
 
 const FooterWrapper = styled.div`
     display: flex;
-    flex-direction: column;
     margin-top: 100px;
-    padding: 40px 400px 40px 400px;
+    padding: 40px 0px 40px 0px;
     gap: 10px;
-    align-items: start;
+    align-items: center;
     justify-content: center;
     border-top: 1px solid #DFE5EE;
     border-bottom: 1px solid #DFE5EE;
+`;
+
+const CopyrightWrapper = styled.div`
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    align-items: center;
+    justify-content: center;
+`;
+
+const FooterInnerWrapper = styled.div`
+  display: flex;
+  width: 1170px;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 5px;
 `;
 
 const TextContainer = styled.div`
@@ -32,6 +48,7 @@ const Footer = () => {
 
     return (<>
     <FooterWrapper>
+      <FooterInnerWrapper>
       <div style={{ paddingLeft: '5px'}}>
         <Typography color="bright_blue" size="body_content_medium">EduMax</Typography>
       </div>
@@ -92,12 +109,15 @@ const Footer = () => {
           </TextContainer>
         </div>
       </div>
+      </FooterInnerWrapper>
     </FooterWrapper>
-    <div style={{ marginTop: '30px', marginBottom: '30px', paddingLeft: '405px'}}>
+    <CopyrightWrapper>
+      <div style={{ width: '1170px'}}>
       <Typography size="body_content_small_thin" color="black_gray">
         Copyright () 2024 EduMax 홈페이지 All rights reserved.
       </Typography>
-    </div>
+      </div>
+    </CopyrightWrapper>
     </>
     );
 }
