@@ -117,7 +117,7 @@ const LectureNavBar = ({ onClose }) => {
                                     <Typography color="clay" size="body_content_thin">수학2</Typography>
                                 </TypographyWrapper>
                             </Link>
-                            <Link to="/post/lecture?category=고등수학 상" onClick={onClose} style={{ textDecoration: 'none' }}>
+                            <Link to="/post/lecture?category=고등수학" onClick={onClose} style={{ textDecoration: 'none' }}>
                                 <TypographyWrapper>
                                     <Typography color="clay" size="body_content_thin">고등수학 상</Typography>
                                 </TypographyWrapper>
@@ -127,7 +127,7 @@ const LectureNavBar = ({ onClose }) => {
                                     <Typography color="clay" size="body_content_thin">미적분</Typography>
                                 </TypographyWrapper>
                             </Link>
-                            <Link to="/post/lecture?category=확률과 통계" onClick={onClose} style={{ textDecoration: 'none' }}>
+                            <Link to="/post/lecture?category=확률과통계" onClick={onClose} style={{ textDecoration: 'none' }}>
                                 <TypographyWrapper>
                                     <Typography color="clay" size="body_content_thin">확률과 통계</Typography>
                                 </TypographyWrapper>
