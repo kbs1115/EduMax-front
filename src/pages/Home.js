@@ -17,6 +17,9 @@ export const categoryDict = {
 }
 
 function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
   const { isAuthenticated } = useContext(AuthContexts);
 
   useEffect(() => {

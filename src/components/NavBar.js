@@ -23,7 +23,7 @@ const Header = styled.header`
   align-items: center;
   background-color: transparent;
   margin-top: 20px;
-  border-bottom: 2px solid ${colorMapping.bright_blue};
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const TopRow = styled.div`
@@ -170,7 +170,7 @@ const NavBar = () => {
           {Object.keys(boardMapping).map((item, index) => (
             <MenuLink
               key={index}
-              to={`/post/${item}`}
+              to={item === 'intro' ? `/intro` : `/post/${item}`}
               onMouseEnter={() => handleMouseEnter(item)}
               onMouseLeave={handleMouseLeave}
               size="body_sub_title"

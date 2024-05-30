@@ -4,21 +4,33 @@ import styled from "styled-components";
 // 추가할 size, 굵기 조합을 여기 추가하면 됨.
 export const sizeMapping = {
   heading1: ["48px", "700"],
+  heading1_regular: ["48px", "500"],
+  heading_thin: ["48px", "300"],
   h2: ["24px", "500"],
+  h2_bold: ["24px", "700"],
   h3_bold: ["18px", "700"],
   h3_medium: ["18px", "500"],
-  h3_thin :["18px", "400"],
+  h3_thin: ["18px", "400"],
   h1: ["32px", "500"],
-  light_h1 : ["32px", "400"],
+  light_h1: ["32px", "400"],
+  h1_bold: ["32px", "700"],
+  light_h1dot5: ["30px", "400"],
   logo: ["26px", "500"],
+  logo_regular: ["26px", "300"],
+  medium_28px: ["28px", "500"],
   body_content_regular: ["13px", "500"],
-  body_content_bold:["14px", "700"],
+  body_content_bold: ["14px", "700"],
   body_content_medium: ["14px", "500"],
   body_content_thin: ["14px", "400"],
   body_content_small: ["12px", "500"],
-  body_content_small_thin :["12px", "400"],
+  body_content_small_thin: ["12px", "400"],
   body_sub_title: ["16px", "500"],
+  body_sub_title_regular: ["16px", "400"],
+  body_sub_title_bold: ["16px", "700"],
   signup_small_logo: ["20px", "500"],
+  
+  h0_regular: ["40px", "400"],
+  h0_bold: ["40px", "600"],
 };
 
 export const colorMapping = {
@@ -32,18 +44,19 @@ export const colorMapping = {
   blue_gray: "#F3F4F8", // 사이트배경색
   container: "#DFE5EE", // 컨테이너색
   timer_red: "#ED6E6E",
-  bright_gray:"#95A0B1", //회색보다 연한
-  middle_gray:"#B6C0D5", //회원가입
+  bright_gray: "#95A0B1", //회색보다 연한
+  middle_gray: "#B6C0D5", //회원가입
   purple_blue: "#91A5FF", //신기한색
   bright_black_gray: "#4D4E52", //회색
   bright_blue: "#4C6BFF", // 남색 대체색
   hover_blue: "#002CFF",
   orange: "#F79502",
-  white :"#FFFFFF",
+  white: "#FFFFFF",
   red: "#FF0000",
   warning_red: "#FF4747",
   ok_message: "#5E59FF",
-  clay: "#BAB9D2" // 선생님강의 네비바 글자색
+  clay: "#BAB9D2", // 선생님강의 네비바 글자색
+  dark_clay: " #717B8E"
 };
 
 const Container = styled.div`
@@ -59,8 +72,8 @@ const Container = styled.div`
 
 function Typography({
   children,
-  size = "body_content_medium", 
-  color = "black_gray", 
+  size = "body_content_medium",
+  color = "black_gray",
   ...rest
 }) {
   return (

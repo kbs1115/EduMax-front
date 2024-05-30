@@ -46,6 +46,7 @@ const ContainerItemWrapper = styled.div`
   background: #FFF;
   cursor: pointer;
   border-radius: 15px;
+  transition: background-color 0.3s, color 0.3s; // Add transition for smooth changes
   ${props => props.isSelected && css`
     background: ${colorMapping.bright_blue};
     color: white;
@@ -133,10 +134,27 @@ const PostItemWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid ${colorMapping.container};
-  transition: border-color 0.3s; 
+  transition: border-color 0.5s, transform 0.5s, opacity 0.5s; // Add transition for border-color, transform, and opacity
 
   &:hover {
     border-bottom: 1px solid ${colorMapping.black_gray}; 
+  }
+
+  &.fade-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  &.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  &.fade-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  &.fade-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
   }
 `;
 
