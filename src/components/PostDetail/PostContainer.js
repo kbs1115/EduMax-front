@@ -179,16 +179,16 @@ const PostContainer = (
     const navigate = useNavigate();
 
     const PostCategorymapping = {
-        FR: "자유게시판",
-        NO: "공지사항",
-        KQ: "질문게시판-국어",
-        MQ: "질문게시판-수학",
-        EQ: "질문게시판-영어",
-        OQ: "질문게시판-탐구",
-        KD: "자료게시판-국어",
-        MD: "자료게시판-수학",
-        ED: "자료게시판-영어",
-        OD: "자료게시판-탐구",
+        FR: { label: "자유게시판", postType: "free" },
+        NO: { label: "공지사항", postType: "notice" },
+        KQ: { label: "질문게시판-국어", postType: "question" },
+        MQ: { label: "질문게시판-수학", postType: "question" },
+        EQ: { label: "질문게시판-영어", postType: "question" },
+        OQ: { label: "질문게시판-탐구", postType: "question" },
+        KD: { label: "자료게시판-국어", postType: "data" },
+        MD: { label: "자료게시판-수학", postType: "data" },
+        ED: { label: "자료게시판-영어", postType: "data" },
+        OD: { label: "자료게시판-탐구", postType: "data" },
     }
 
     const handleVote = (post_id) => {
@@ -232,12 +232,14 @@ const PostContainer = (
         }
     };
 
+    const postType = PostCategorymapping[category]?.postType || "post";
+
     return (
         <PostWrapper>
             <CategoryWrapper>
                 <CategoryContainer to={`/post/?category=${category}`}>
                     <HomeIconImage src={homeIcon} />
-                    <Typography size="body_sub_title" color="gray">{PostCategorymapping[category]}</Typography>
+                    <Typography size="body_sub_title" color="gray">{PostCategorymapping[category].label}</Typography>
                 </CategoryContainer>
             </CategoryWrapper>
 
@@ -275,9 +277,10 @@ const PostContainer = (
                         </>
                     )}
                 </DeleteOrModifyWrapper>
-                <ListButtons category={category} mainContent="post" />
+                <ListButtons category={category} mainContent={`post/${postType}`} />
             </ButtonListWrapper>
         </PostWrapper>
     )
 }
 export default PostContainer;
+
