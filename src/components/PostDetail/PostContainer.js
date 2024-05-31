@@ -190,7 +190,7 @@ const PostContainer = (
         KQ: { label: "질문게시판-국어", postType: "question" },
         MQ: { label: "질문게시판-수학", postType: "question" },
         EQ: { label: "질문게시판-영어", postType: "question" },
-        OQ: { label: "질문게시판-탐구", postType: "question" },
+        TQ: { label: "질문게시판-탐구", postType: "question" },
         KD: { label: "자료게시판-국어", postType: "data" },
         MD: { label: "자료게시판-수학", postType: "data" },
         ED: { label: "자료게시판-영어", postType: "data" },
