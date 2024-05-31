@@ -228,6 +228,9 @@ const PostItemWrapper = styled.div`
   gap: 10px;
   border-bottom: 1px solid #B6C0D5;
   cursor: pointer;
+  &:hover {
+    background: rgba(168, 170, 174, 0.05);
+  }
 `;
 
 const PostItemBody = styled.div`

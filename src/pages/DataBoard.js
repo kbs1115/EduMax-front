@@ -59,6 +59,7 @@ export const SubjectMapping = {
     }
   `;
   
+  
   const SideBar = ({ board = "data", category = "ED" , setSearchParams, searchParams }) => {
     // 나중에는 이 state를 props로 받아야 함.
   
@@ -85,7 +86,8 @@ export const SubjectMapping = {
 
 function DataBoard() {
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const navigate = useNavigate();
+  
   // ED, KD, MD, TD
   const category = searchParams.get('category') || 'ED';
   const [page, setPage] = useState(1);
@@ -143,6 +145,7 @@ function DataBoard() {
                 size="body_content_bold" 
                 buttonColor="#4C6BFF" 
                 textColor="white"
+                onClick={() => navigate('/create-post')}
               >
                 글쓰기
               </PostListButton>

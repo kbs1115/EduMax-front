@@ -12,6 +12,9 @@ const StyledButton = styled.button`
 	border-radius: ${props => props.borderRadius};
 	border-style: hidden;
   cursor: pointer;
+    &:hover {
+    background-color: #002CFF;
+  }
 `;
 
 const PostListButton = ({ 

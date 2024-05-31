@@ -124,7 +124,7 @@ export const ContentWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     align-self: stretch;
-
+    min-height: 200px;
     // 추가: 이미지 크기를 ContentWrapper에 맞추기 위한 스타일
     img {
         max-width: 100%;
@@ -230,7 +230,7 @@ const PostContainer = (
             try {
                 const response = await DeletePost(post_id); // DeletePost 함수를 호출하여 API 요청
                 console.log("Post 삭제 성공:", response);
-                navigate('/post/'); // 상태 업데이트 후 페이지 리다이렉트
+                navigate(`/post/${postType}`); // 상태 업데이트 후 페이지 리다이렉트
             } catch (error) {
                 console.error("Post 삭제 실패:", error);
                 alert("삭제에 실패하였습니다."); // 사용자에게 실패를 알림
@@ -243,7 +243,7 @@ const PostContainer = (
     return (
         <PostWrapper>
             <CategoryWrapper>
-                <CategoryContainer to={`/post/?category=${category}`}>
+                <CategoryContainer to={`/post/${postType}/?category=${category}`}>
                     <HomeIconImage src={homeIcon} />
                     <Typography size="body_sub_title" color="gray">{PostCategorymapping[category].label}</Typography>
                 </CategoryContainer>

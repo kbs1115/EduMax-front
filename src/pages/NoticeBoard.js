@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { useQuery } from 'react-query';
-
+import { useNavigate } from "react-router-dom";
 import PostListButton from "../components/buttons/PostListButton";
 import PostTable from "../components/post/PostTable";
 import PostOrder from "../components/post/PostOrder";
@@ -13,6 +13,7 @@ import Typography from "../components/Typography";
 import LoadingSpinner from "../components/spinner";
 
 function FreeBoard() {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
 
   // created_at or MOST_LIKE
@@ -63,6 +64,7 @@ function FreeBoard() {
                 size="body_content_bold" 
                 buttonColor="#4C6BFF" 
                 textColor="white"
+                onClick={() => navigate('/create-post')}
               >
                 글쓰기
               </PostListButton>
