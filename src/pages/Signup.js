@@ -121,6 +121,14 @@ const Signup = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  
+  const handleCloseAlertModal = () => {
+    setAlertModalOpen(false);
+};
+
   useEffect(() => {
     setIsIdDup(null);
 
@@ -246,8 +254,13 @@ const Signup = () => {
     const formData = { 'email': email }
     try {
       await SendEmail(formData);
+      setAlertMessage('인증번호가 전송됐습니다');
+      setAlertModalOpen(true);
     } catch (error) {
       console.error("An error occurred while sending email:", error);
+      console.error("An error occurred while sending email:", error);
+      setAlertMessage('인증번호 전송에 실패했습니다');
+      setAlertModalOpen(true);
       // Handle error appropriately, maybe set a state to notify the user
     }
     setTimeLeft(300); // 5분으로 재설정
@@ -538,6 +551,9 @@ const Signup = () => {
       </ContentWrapper>
       {errorModalOpen && <AlertModal message={errorMessage} onClose={handleCloseErrorModal} />}
       {loading && <LoadingSpinner />}
+      {alertModalOpen && (
+        <AlertModal message={alertMessage} onClose={handleCloseAlertModal} />
+      )}
     </>
   );
 }
