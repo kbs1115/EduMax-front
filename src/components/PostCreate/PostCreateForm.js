@@ -13,7 +13,7 @@ import LoadingSpinner from "../spinner";
 
 const MainContainer = styled.div`
     display: flex;
-    height: 902px;
+
     padding: 0px 34px 34px 34px;
     flex-direction: column;
     align-items: flex-start;
