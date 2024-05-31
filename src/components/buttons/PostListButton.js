@@ -13,7 +13,7 @@ const StyledButton = styled.button`
 	border-style: hidden;
   cursor: pointer;
     &:hover {
-    background-color: #002CFF;
+    background-color: ${props => props.hoverColor};
   }
 `;
 
@@ -25,10 +25,11 @@ const PostListButton = ({
   buttonColor, 
   borderRadius="10px",
   onClick,
-  children 
+  hoverColor = "002CFF",
+  children
 }) => {
   return (
-    <StyledButton width={width} height={height} buttonColor={buttonColor} borderRadius={borderRadius} onClick={onClick}>
+    <StyledButton width={width} height={height} buttonColor={buttonColor} borderRadius={borderRadius} onClick={onClick} hoverColor = {hoverColor}>
         <Typography size={size} color={textColor}>{children}</Typography>
     </StyledButton>
   );
