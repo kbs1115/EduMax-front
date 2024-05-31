@@ -210,7 +210,7 @@ const CategoryPostList = ({ post_list, category }) => {
           <PostItemWrapper key={index} to={`/post/${post.id}`}>
             <ContentWrapper>
               <Typography size="body_content_regular" color="black_gray">
-                {post.content}
+                {post.title}
               </Typography>
             </ContentWrapper>
             <AuthorWrapper>
