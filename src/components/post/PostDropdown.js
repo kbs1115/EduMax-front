@@ -88,14 +88,14 @@ const PostDropDown = ({ searchOption, setSearchOption }) => {
   return (
     <DropdownContainer>
       <DropdownHeader isOpen={isOpen} onClick={toggling}>
-        <Typography size="body_content_medium">{optionMapping[searchOption]}</Typography>
+        <Typography size="body_content_medium" color="black_gray">{optionMapping[searchOption]}</Typography>
         <DropdownArrow src={dropdownclick} />
       </DropdownHeader>
       {isOpen && (
         <DropdownList>
           {options.map((option) => (
             <DropdownItem key={option} isOpen={isOpen} onClick={onOptionClicked(option)}>
-              <Typography size="body_content_medium">{optionMapping[option]}</Typography>
+              <Typography size="body_content_medium" color="black_gray">{optionMapping[option]}</Typography>
             </DropdownItem>
           ))}
         </DropdownList>

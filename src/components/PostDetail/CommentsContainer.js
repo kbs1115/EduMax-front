@@ -66,9 +66,13 @@ const ContentWrapper = styled.div`
 display: flex;
 padding: 10px 0 10px 10px;
 align-items: flex-start;
+flex-direction: column;
 gap: 22px;
 align-self: stretch;
-
+img {
+    max-width: 100%;
+    height: auto;
+}
 `
 const CommentSubmitWrapper = styled.div`
 display: flex;

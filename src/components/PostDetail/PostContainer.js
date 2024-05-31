@@ -119,11 +119,17 @@ justify-content: center;
 align-self: stretch;
 `
 export const ContentWrapper = styled.div`
-display: flex;
-padding: 0px 10px;
-flex-direction: column;
-align-items: flex-start;
-align-self: stretch;
+    display: flex;
+    padding: 0px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+
+    // 추가: 이미지 크기를 ContentWrapper에 맞추기 위한 스타일
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 `
 
 export const VoteButtonWrapper = styled.div`

@@ -7,7 +7,7 @@ const ToggleContainer = styled.div`
   box-sizing: border-box;
   width: 82px;
   height: 39px;
-  padding: 5px 15px 0px 15px;
+  padding: 5px 10px 5px 2px;
   justify-content: center;
   align-items: center;
   gap: 5px;
@@ -25,12 +25,12 @@ const DropdownMenu = styled.ul`
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 5px 0px;
   z-index: 10;
 `;
 
 const DropdownItem = styled.li`
-  padding: 5px;
+  padding: 8px;
   text-align: center;
   cursor: pointer;
   &:hover {
@@ -50,7 +50,7 @@ const PostOrder = ({ order, setOrder }) => {
 
   return (
     <ToggleContainer onClick={toggleDropdown}>
-      <Typography size='body_content_medium' color='black'>
+      <Typography size='body_content_medium' color='black_gray'>
         {order === 'created_at' ? '최신순' : '추천순'}
       </Typography>
       <svg xmlns="http://www.w3.org/2000/svg" width="7" height="5" viewBox="0 0 7 5" fill="none">
@@ -59,12 +59,12 @@ const PostOrder = ({ order, setOrder }) => {
       {isOpen && (
         <DropdownMenu>
           <DropdownItem onClick={() => handleSelect('created_at')}>
-            <Typography size='body_content_medium' color='black'>
+            <Typography size='body_content_medium' color='black_gray'>
               최신순
             </Typography>
           </DropdownItem>
           <DropdownItem onClick={() => handleSelect('MOST_LIKE')}>
-            <Typography size='body_content_medium' color='black'>
+            <Typography size='body_content_medium' color='black_gray'>
               추천순
             </Typography>
           </DropdownItem>
