@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useQuery } from 'react-query';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,9 @@ import Typography from "../components/Typography";
 import LoadingSpinner from "../components/spinner";
 
 function FreeBoard() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
 
@@ -44,25 +47,25 @@ function FreeBoard() {
   return (
     <Wrapper>
       <BodyOuterWrapper>
-        <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+        <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Typography size="h1">공지사항</Typography>
         </div>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
-            <PostOrder order={order} setOrder={setOrder}/>
+            <PostOrder order={order} setOrder={setOrder} />
             <InnerRightWrapper>
-              <PostDropDown 
-                searchOption={searchOption} 
-                setSearchOption={setSearchOption}/>
-              <PostSearchBar 
+              <PostDropDown
+                searchOption={searchOption}
+                setSearchOption={setSearchOption} />
+              <PostSearchBar
                 searchWord={searchWord}
                 setSearchWord={setSearchWord}
-                setPage={setPage}/>
-              <PostListButton 
-                width="92px" 
-                height="43px" 
-                size="body_content_bold" 
-                buttonColor="#4C6BFF" 
+                setPage={setPage} />
+              <PostListButton
+                width="92px"
+                height="43px"
+                size="body_content_bold"
+                buttonColor="#4C6BFF"
                 textColor="white"
                 onClick={() => navigate('/create-post')}
               >
@@ -70,10 +73,10 @@ function FreeBoard() {
               </PostListButton>
             </InnerRightWrapper>
           </InnerMenuWrapper>
-          <PostTable page={page} setPage={setPage} data={data}/>
+          <PostTable page={page} setPage={setPage} data={data} />
         </BodyInnerWrapper>
       </BodyOuterWrapper>
-    </Wrapper>  
+    </Wrapper>
   );
 }
 

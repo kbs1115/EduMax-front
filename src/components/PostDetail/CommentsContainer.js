@@ -284,7 +284,7 @@ const CommentSubmit = ({ parentId, postId }) => {
 
     useEffect(() => {
         setIsLogin(isAuthenticated);
-    }, [isAuthenticated]); // isAuthenticated 값이 변경될 때마다 isLogin 업데이트
+    }, [isAuthenticated]);
 
     const handleContentChange = (newContent) => {
         setContent(newContent);
@@ -292,7 +292,11 @@ const CommentSubmit = ({ parentId, postId }) => {
     };
 
     const validateInputs = () => {
-        if (Islogin && content.trim() === '') {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, "text/html");
+        const textContent = doc.body.textContent || "";
+        
+        if (Islogin && textContent.trim() === '') {
             setContentError(true);
             return false;
         }
@@ -308,23 +312,20 @@ const CommentSubmit = ({ parentId, postId }) => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(content, "text/html");
                 const textContent = doc.body.textContent || "";
+                
                 if (parentId) {
                     response = await createChildComment(parentId, content, textContent);
                 } else {
                     response = await createParentComment(postId, content, textContent);
                 }
                 console.log('댓글 생성 성공:', response.data);
-                // 성공적인 댓글 생성 후 필요한 상태 업데이트 또는 UI 반응
-                window.location.reload()
+                window.location.reload();
             } catch (error) {
                 console.error('댓글 생성 실패:', error);
-                window.alert("댓글 생성 실패",error);
+                window.alert("댓글 생성 실패", error);
             }
         }
     };
-
-
-
 
     const buttonContent = Islogin ? "제출하기" : "EdunMax 로그인 바로가기";
 

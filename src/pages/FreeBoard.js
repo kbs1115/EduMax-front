@@ -14,6 +14,9 @@ import { boardMapping } from "../components/NavBar";
 
 
 function FreeBoard() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
@@ -45,25 +48,25 @@ function FreeBoard() {
   return (
     <Wrapper>
       <BodyOuterWrapper>
-        <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+        <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Typography size="h1">자유게시판</Typography>
         </div>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
-            <PostOrder order={order} setOrder={setOrder}/>
+            <PostOrder order={order} setOrder={setOrder} />
             <InnerRightWrapper>
-              <PostDropDown 
-                searchOption={searchOption} 
-                setSearchOption={setSearchOption}/>
-              <PostSearchBar 
+              <PostDropDown
+                searchOption={searchOption}
+                setSearchOption={setSearchOption} />
+              <PostSearchBar
                 searchWord={searchWord}
                 setSearchWord={setSearchWord}
-                setPage={setPage}/>
-              <PostListButton 
-                width="92px" 
-                height="43px" 
-                size="body_content_bold" 
-                buttonColor="#4C6BFF" 
+                setPage={setPage} />
+              <PostListButton
+                width="92px"
+                height="43px"
+                size="body_content_bold"
+                buttonColor="#4C6BFF"
                 textColor="white"
                 onClick={() => navigate('/create-post')}
               >
@@ -71,10 +74,10 @@ function FreeBoard() {
               </PostListButton>
             </InnerRightWrapper>
           </InnerMenuWrapper>
-          <PostTable page={page} setPage={setPage} data={data}/>
+          <PostTable page={page} setPage={setPage} data={data} />
         </BodyInnerWrapper>
       </BodyOuterWrapper>
-    </Wrapper>  
+    </Wrapper>
   );
 }
 

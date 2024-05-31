@@ -85,6 +85,9 @@ export const SubjectMapping = {
   };
 
 function DataBoard() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   
