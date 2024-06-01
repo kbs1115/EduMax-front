@@ -15,35 +15,35 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const CkeditorBox = ({ setContent, style }) => {
+const CkeditorBox = ({ setContent, style, initialData = "" }) => {
     return (
-        <>
-            <GlobalStyle />
-            <div style={style}>
-                <CKEditor
-                    editor={ClassicEditor}
-                    config={{
-                        placeholder: "내용을 입력하세요...",
-                        extraPlugins: [CustomUploadAdapterPlugin],
-                    }}
-                    data=""
-                    onChange={(event, editor) => {
-                        const data = editor.getData();
-                        setContent(data);
-                    }}  
-                    onInit={(editor) => {
-                        editor.editing.view.change((writer) => {
-                            writer.setStyle(
-                                "min-height",
-                                "254px",
-                                editor.editing.view.document.getRoot()
-                            );
-                        });
-                    }}
-                />
-            </div>
-        </>
+      <>
+        <GlobalStyle />
+        <div style={style}>
+          <CKEditor
+            editor={ClassicEditor}
+            config={{
+              placeholder: "내용을 입력하세요...",
+              extraPlugins: [CustomUploadAdapterPlugin],
+            }}
+            data={initialData}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setContent(data);
+            }}
+            onInit={(editor) => {
+              editor.editing.view.change((writer) => {
+                writer.setStyle(
+                  "min-height",
+                  "254px",
+                  editor.editing.view.document.getRoot()
+                );
+              });
+            }}
+          />
+        </div>
+      </>
     );
-};
+  };
 
 export default CkeditorBox;

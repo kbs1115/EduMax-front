@@ -5,14 +5,14 @@ import Typography from "../Typography";
 const StyledButton = styled.button`
   width: ${props => props.width};
   height: ${props => props.height};
-	display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   background-color: ${props => props.buttonColor};
-	border-radius: ${props => props.borderRadius};
-	border-style: hidden;
+  border-radius: ${props => props.borderRadius};
+  border-style: hidden;
   cursor: pointer;
-    &:hover {
+  &:hover {
     background-color: ${props => props.hoverColor};
   }
 `;
@@ -25,11 +25,18 @@ const PostListButton = ({
   buttonColor, 
   borderRadius="10px",
   onClick,
-  hoverColor = "002CFF",
+  hoverColor = "#002CFF",
   children
 }) => {
   return (
-    <StyledButton width={width} height={height} buttonColor={buttonColor} borderRadius={borderRadius} onClick={onClick} hoverColor = {hoverColor}>
+    <StyledButton 
+      width={width} 
+      height={height} 
+      buttonColor={buttonColor} 
+      borderRadius={borderRadius} 
+      onClick={onClick} 
+      hoverColor={hoverColor}
+    >
         <Typography size={size} color={textColor}>{children}</Typography>
     </StyledButton>
   );

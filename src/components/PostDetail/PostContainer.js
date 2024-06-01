@@ -12,10 +12,9 @@ import PostLinkShareButton from "../buttons/PostLinkShareButton";
 import PostDeleteButton from "../buttons/PostDeleteButton";
 import PostModifyButton from "../buttons/PostModifyButton";
 import ListButtons from "../buttons/ListButtons";
-import { votePost } from "../../apifetchers/fetcher";
-import { DeletePost } from "../../apifetchers/fetcher";
-
-
+import { votePost, DeletePost } from "../../apifetchers/fetcher";
+import Modal from "../modals/BasicModal";
+import PostCreateForm from "../PostCreate/PostCreateForm";
 
 export const PostWrapper = styled.div`
 display: flex;
@@ -49,7 +48,6 @@ padding: 20px 0 20px 5px;
 align-items: center;
 align-self: stretch;
 border-bottom: 1px solid ${colorMapping.black_gray};
-
 `
 
 export const AuthorAndViewerWrapper = styled.div`
@@ -158,6 +156,14 @@ const PostContainer = (
         category, title, author, modified_date, views,
         filesdata, html_content, voter_nicknames, user_nickname, post_id }
 ) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const initialData = {
+        title,
+        content: html_content,
+        category,
+        files: filesdata
+    };
 
     const Files = () => {
         if (!filesdata || filesdata.length === 0) {
@@ -238,6 +244,10 @@ const PostContainer = (
         }
     };
 
+    const handleModify = () => {
+        setIsModalOpen(true);
+    };
+
     const postType = PostCategorymapping[category]?.postType || "post";
 
     return (
@@ -278,15 +288,17 @@ const PostContainer = (
                 <DeleteOrModifyWrapper>
                     {user_nickname && user_nickname === author && (
                         <>
-                            <PostModifyButton />
+                            <PostModifyButton onClick={handleModify} />
                             <PostDeleteButton onClick={handleDelete} /> {/* handleDelete 함수를 props로 전달 */}
                         </>
                     )}
                 </DeleteOrModifyWrapper>
                 <ListButtons category={category} mainContent={`post/${postType}`} />
             </ButtonListWrapper>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <PostCreateForm initialData={initialData} postId={post_id} onClose={() => setIsModalOpen(false)} />
+            </Modal>
         </PostWrapper>
     )
 }
 export default PostContainer;
-
