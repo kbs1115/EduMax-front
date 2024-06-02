@@ -12,7 +12,7 @@ import PostDropDown from "../components/post/PostDropdown";
 import { getPostData } from "../apifetchers/fetcher";
 import Typography from "../components/Typography";
 import { boardMapping } from "../components/NavBar";
-
+import { colorMapping } from "../components/Typography";
 export const SubjectMapping = {
     KD: "국어",
     MD: "수학",
@@ -53,11 +53,18 @@ export const SubjectMapping = {
     border-radius: 10px;
     background-color: ${(props) => (props.isActive ? "#4C6BFF" : "transparent")};
     cursor: pointer;
+    &:hover {
+      background: ${colorMapping.bright_blue};
+      & > div {
+        color: white;
+      }
+    }
   
     & > div {
       color: ${(props) => (props.isActive ? "white" : "black")};
     }
   `;
+  
   
   const SideBar = ({ board = "data", category = "ED" , setSearchParams, searchParams }) => {
     // 나중에는 이 state를 props로 받아야 함.
@@ -84,8 +91,12 @@ export const SubjectMapping = {
   };
 
 function DataBoard() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const navigate = useNavigate();
+  
   // ED, KD, MD, TD
   const category = searchParams.get('category') || 'ED';
   const [page, setPage] = useState(1);
@@ -143,6 +154,8 @@ function DataBoard() {
                 size="body_content_bold" 
                 buttonColor="#4C6BFF" 
                 textColor="white"
+                hoverColor="#002CFF"
+                onClick={() => navigate('/create-post')}
               >
                 글쓰기
               </PostListButton>

@@ -88,6 +88,16 @@ export const createPost = async (formData) => {
   });
 };
 
+export const modifyPost = async (postId, formData) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.patch(`post/${postId}`, formData, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
+
 export const DeletePost = async (postId) => {
   const accessToken = localStorage.getItem('access_token');
   return await api.delete(`post/${postId}`, {
@@ -157,6 +167,18 @@ export const DeleteComment = async (commentId) => {
   });
 };
 
+export const ModifyComment = async (commentId, content, textContent) => {
+  const accessToken = localStorage.getItem('access_token');
+  return await api.patch(`comment/${commentId}`, {
+    html_content: content,
+    content: textContent
+  }, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
 
 export const voteComment = async (commentId) => {
   const accessToken = localStorage.getItem('access_token');

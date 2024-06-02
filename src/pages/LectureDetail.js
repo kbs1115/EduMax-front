@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import Typography, { colorMapping } from "../components/Typography";
+import Typography from "../components/Typography";
 import { useParams, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import {
@@ -12,13 +12,12 @@ import {
 import { getLecture } from "../apifetchers/fetcher";
 import ListButton from "../components/buttons/ListButtons";
 import PostDeleteButton from "../components/buttons/PostDeleteButton";
-import PostModifyButton from "../components/buttons/PostDeleteButton";
-import homeIcon from "../assets/homeIcon.png"
+import homeIcon from "../assets/homeIcon.png";
 import LectureSideBar from "../components/LectureSideBar";
-import YouTube from 'react-youtube'; // YouTube 컴포넌트를 임포트합니다
+import YouTube from 'react-youtube';
 import LoadingSpinner from "../components/spinner";
 import { DeleteLecture } from "../apifetchers/fetcher";
-
+import NotFound from '../components/NotFound';
 
 const MainContainer = styled.div`
 display: flex;
@@ -27,7 +26,7 @@ align-items: flex-start;
 gap: 50px;
 align-self: stretch;
 margin-top: 60px;
-`
+`;
 
 const MainContentwrapper = styled.div`
 display: flex;
@@ -37,7 +36,7 @@ flex-direction: column;
 align-items: center;
 gap: 10px;
 border-top: 2px solid #393E46;
-`
+`;
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -47,6 +46,7 @@ const ContentWrapper = styled.div`
   width: 100%;   
   padding: 60px 0 60px 0;
 `;
+
 const VideoContainer = styled.div`
   overflow: hidden;        
   border-radius: 20px;     
@@ -63,21 +63,24 @@ const Categorymapping = {
     "MA": "수학"
 };
 
-const LectureDetial = () => {
+const LectureDetail = () => {
     const auth = useContext(AuthContext);
-    const user_nickname = auth.isAuthenticated ? auth.username : ""
-
+    const user_nickname = auth.isAuthenticated ? auth.username : "";
     const navigate = useNavigate();
-
     const { lectureId } = useParams();
     const [lectureDetail, setLectureData] = useState(null);
+    const [notFound, setNotFound] = useState(false);
+
     async function fetchData() {
         try {
             const lectureDetail = await getLecture(lectureId);
-            console.log(lectureDetail)
             setLectureData(lectureDetail.data.data);
         } catch (error) {
-            console.error('Failed to fetch data:', error);
+            if (error.response && error.response.status === 404) {
+                setNotFound(true);
+            } else {
+                console.error('Failed to fetch data:', error);
+            }
         }
     }
 
@@ -93,26 +96,31 @@ const LectureDetial = () => {
         KO: "선생님강의-국어",
         MA: "선생님강의-수학",
         TM: "선생님강의-탐구",
-    }
+    };
+
     const handleDelete = async () => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
             try {
-                const response = await DeleteLecture(lectureId); // DeletePost 함수를 호출하여 API 요청
+                const response = await DeleteLecture(lectureId);
                 console.log("lecture 삭제 성공:", response);
-                navigate(`/lecture/`); // 상태 업데이트 후 페이지 리다이렉트
+                navigate(`/lecture/`);
             } catch (error) {
                 console.error("lecture 삭제 실패:", error);
-                alert("삭제에 실패하였습니다."); // 사용자에게 실패를 알림
+                alert("삭제에 실패하였습니다.");
             }
         }
     };
 
-    if (!lectureDetail) {
-        return <LoadingSpinner />;  // 데이터가 없을 경우 로딩 스피너를 표시
+    if (notFound) {
+        return <NotFound />;
     }
-    const { title, youtube_id, category_d1, category_d2, category_d3, category_d4, modified_at, author } = lectureDetail
-    return (
 
+    if (!lectureDetail) {
+        return <LoadingSpinner />;
+    }
+
+    const { title, youtube_id, category_d1, category_d2, category_d3, category_d4, modified_at, author } = lectureDetail;
+    return (
         <MainContainer>
             <LectureSideBar />
             <MainContentwrapper>
@@ -168,8 +176,7 @@ const LectureDetial = () => {
                 </PostWrapper>
             </MainContentwrapper>
         </MainContainer>
+    );
+};
 
-    )
-}
-
-export default LectureDetial; 
+export default LectureDetail;

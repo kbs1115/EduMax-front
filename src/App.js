@@ -48,7 +48,6 @@ function App() {
         <Route path="/find" element={<EmailModal isPassword={true} />} />
         <Route path="/post/:postId" element={<PostDetailPage />} />
         <Route path="/post/lecture/:lectureId" element={<LectureDetial />} />
-        <Route path="/error" element={<AlertModal message={"에러 모달 디자인 샘플입니다."} />} />
       </Routes>
       <Footer />
     </QueryClientProvider>

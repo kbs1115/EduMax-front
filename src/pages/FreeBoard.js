@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { useQuery } from 'react-query';
-
+import { useNavigate } from "react-router-dom";
 import PostListButton from "../components/buttons/PostListButton";
 import PostTable from "../components/post/PostTable";
 import PostOrder from "../components/post/PostOrder";
@@ -14,7 +14,11 @@ import { boardMapping } from "../components/NavBar";
 
 
 function FreeBoard() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [page, setPage] = useState(1);
+  const navigate = useNavigate();
 
   // created_at or MOST_LIKE
   const [order, setOrder] = useState("created_at")
@@ -44,35 +48,36 @@ function FreeBoard() {
   return (
     <Wrapper>
       <BodyOuterWrapper>
-        <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+        <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Typography size="h1">자유게시판</Typography>
         </div>
         <BodyInnerWrapper>
           <InnerMenuWrapper>
-            <PostOrder order={order} setOrder={setOrder}/>
+            <PostOrder order={order} setOrder={setOrder} />
             <InnerRightWrapper>
-              <PostDropDown 
-                searchOption={searchOption} 
-                setSearchOption={setSearchOption}/>
-              <PostSearchBar 
+              <PostDropDown
+                searchOption={searchOption}
+                setSearchOption={setSearchOption} />
+              <PostSearchBar
                 searchWord={searchWord}
                 setSearchWord={setSearchWord}
-                setPage={setPage}/>
-              <PostListButton 
-                width="92px" 
-                height="43px" 
-                size="body_content_bold" 
-                buttonColor="#4C6BFF" 
+                setPage={setPage} />
+              <PostListButton
+                width="92px"
+                height="43px"
+                size="body_content_bold"
+                buttonColor="#4C6BFF"
                 textColor="white"
+                onClick={() => navigate('/create-post')}
               >
                 글쓰기
               </PostListButton>
             </InnerRightWrapper>
           </InnerMenuWrapper>
-          <PostTable page={page} setPage={setPage} data={data}/>
+          <PostTable page={page} setPage={setPage} data={data} />
         </BodyInnerWrapper>
       </BodyOuterWrapper>
-    </Wrapper>  
+    </Wrapper>
   );
 }
 

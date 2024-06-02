@@ -19,7 +19,7 @@ align-items: flex-start;
 gap: 1px;
 border-radius: 15px;
 border: 1px solid ${colorMapping.container};
-box-shadow: 0px 2px 2px 0px rgba(0.15, 0.15, 0.15, 0.15);
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 `;
 const SubjectContainerWrapper = styled.div`
 display: flex;
@@ -30,9 +30,7 @@ align-items: flex-start;
 gap: 1px;
 border-radius: 15px;
 border: 1px solid ${colorMapping.container};
-&:hover {
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.15);
-}
+
 
 `;
 
@@ -51,6 +49,12 @@ const ContainerItemWrapper = styled.div`
     background: ${colorMapping.bright_blue};
     color: white;
   `}
+  &:hover {
+    background: ${colorMapping.bright_blue};
+    & > div {
+      color: white;
+    }
+  }
 `;
 const RightContainerItemWrapper = styled(Link)`
 display: flex;
@@ -117,7 +121,7 @@ flex-direction: column;
 align-items: flex-end;
 
 `;
-const ContentWrapper = styled(Link)`
+const ContentWrapper = styled.div`
 display: flex;
 width: 660px;
 align-items: center;
@@ -126,7 +130,7 @@ flex-shrink: 0;
 text-decoration: none;
 `;
 
-const PostItemWrapper = styled.div`
+const PostItemWrapper = styled(Link)`
   display: flex;
   width: 743px;
   height: 57.5px;
@@ -135,9 +139,9 @@ const PostItemWrapper = styled.div`
   align-items: center;
   border-bottom: 1px solid ${colorMapping.container};
   transition: border-color 0.5s, transform 0.5s, opacity 0.5s; // Add transition for border-color, transform, and opacity
-
+  text-decoration: none;
   &:hover {
-    border-bottom: 1px solid ${colorMapping.black_gray}; 
+    background: rgba(168, 170, 174, 0.05);
   }
 
   &.fade-enter {
@@ -203,10 +207,10 @@ const CategoryPostList = ({ post_list, category }) => {
     <ListWrapper>
       {post_list ? (
         post_list.slice(0, 5).map((post, index) => (
-          <PostItemWrapper key={index}>
-            <ContentWrapper to={`/post/${post.id}`}>
+          <PostItemWrapper key={index} to={`/post/${post.id}`}>
+            <ContentWrapper>
               <Typography size="body_content_regular" color="black_gray">
-                {post.content}
+                {post.title}
               </Typography>
             </ContentWrapper>
             <AuthorWrapper>

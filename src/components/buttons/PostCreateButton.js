@@ -14,6 +14,7 @@ border-radius: 5px;
 opacity: ${props => props.isValid ? '1' : '0.5'};
 background: ${colorMapping.bright_blue};
 cursor: pointer;
+
 `
 
 const PostCreateButton = ({ onClick, isValid }) => {

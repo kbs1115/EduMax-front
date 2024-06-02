@@ -12,10 +12,9 @@ import PostLinkShareButton from "../buttons/PostLinkShareButton";
 import PostDeleteButton from "../buttons/PostDeleteButton";
 import PostModifyButton from "../buttons/PostModifyButton";
 import ListButtons from "../buttons/ListButtons";
-import { votePost } from "../../apifetchers/fetcher";
-import { DeletePost } from "../../apifetchers/fetcher";
-
-
+import { votePost, DeletePost } from "../../apifetchers/fetcher";
+import Modal from "../modals/BasicModal";
+import PostCreateForm from "../PostCreate/PostCreateForm";
 
 export const PostWrapper = styled.div`
 display: flex;
@@ -49,7 +48,6 @@ padding: 20px 0 20px 5px;
 align-items: center;
 align-self: stretch;
 border-bottom: 1px solid ${colorMapping.black_gray};
-
 `
 
 export const AuthorAndViewerWrapper = styled.div`
@@ -119,11 +117,17 @@ justify-content: center;
 align-self: stretch;
 `
 export const ContentWrapper = styled.div`
-display: flex;
-padding: 0px 10px;
-flex-direction: column;
-align-items: flex-start;
-align-self: stretch;
+    display: flex;
+    padding: 0px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    min-height: 200px;
+    // 추가: 이미지 크기를 ContentWrapper에 맞추기 위한 스타일
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 `
 
 export const VoteButtonWrapper = styled.div`
@@ -152,6 +156,14 @@ const PostContainer = (
         category, title, author, modified_date, views,
         filesdata, html_content, voter_nicknames, user_nickname, post_id }
 ) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const initialData = {
+        title,
+        content: html_content,
+        category,
+        files: filesdata
+    };
 
     const Files = () => {
         if (!filesdata || filesdata.length === 0) {
@@ -184,7 +196,7 @@ const PostContainer = (
         KQ: { label: "질문게시판-국어", postType: "question" },
         MQ: { label: "질문게시판-수학", postType: "question" },
         EQ: { label: "질문게시판-영어", postType: "question" },
-        OQ: { label: "질문게시판-탐구", postType: "question" },
+        TQ: { label: "질문게시판-탐구", postType: "question" },
         KD: { label: "자료게시판-국어", postType: "data" },
         MD: { label: "자료게시판-수학", postType: "data" },
         ED: { label: "자료게시판-영어", postType: "data" },
@@ -224,7 +236,7 @@ const PostContainer = (
             try {
                 const response = await DeletePost(post_id); // DeletePost 함수를 호출하여 API 요청
                 console.log("Post 삭제 성공:", response);
-                navigate('/post/'); // 상태 업데이트 후 페이지 리다이렉트
+                navigate(`/post/${postType}`); // 상태 업데이트 후 페이지 리다이렉트
             } catch (error) {
                 console.error("Post 삭제 실패:", error);
                 alert("삭제에 실패하였습니다."); // 사용자에게 실패를 알림
@@ -232,12 +244,16 @@ const PostContainer = (
         }
     };
 
+    const handleModify = () => {
+        setIsModalOpen(true);
+    };
+
     const postType = PostCategorymapping[category]?.postType || "post";
 
     return (
         <PostWrapper>
             <CategoryWrapper>
-                <CategoryContainer to={`/post/?category=${category}`}>
+                <CategoryContainer to={`/post/${postType}/?category=${category}`}>
                     <HomeIconImage src={homeIcon} />
                     <Typography size="body_sub_title" color="gray">{PostCategorymapping[category].label}</Typography>
                 </CategoryContainer>
@@ -272,15 +288,17 @@ const PostContainer = (
                 <DeleteOrModifyWrapper>
                     {user_nickname && user_nickname === author && (
                         <>
-                            <PostModifyButton />
+                            <PostModifyButton onClick={handleModify} />
                             <PostDeleteButton onClick={handleDelete} /> {/* handleDelete 함수를 props로 전달 */}
                         </>
                     )}
                 </DeleteOrModifyWrapper>
                 <ListButtons category={category} mainContent={`post/${postType}`} />
             </ButtonListWrapper>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <PostCreateForm initialData={initialData} postId={post_id} onClose={() => setIsModalOpen(false)} />
+            </Modal>
         </PostWrapper>
     )
 }
 export default PostContainer;
-

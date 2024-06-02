@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Typography from "./Typography";
 import { useNavigate } from "react-router-dom";
-
+import { colorMapping } from "./Typography";
 export const mypageMapping = {
     info: "회원정보",
     posts: "내가 쓴 글",
@@ -72,8 +72,13 @@ align-self: stretch;
 border-radius: 10px;
 background-color: ${(props) => (props.isActive ? "#4C6BFF" : "transparent")};
 cursor: pointer;
-
 & > div {
   color: ${(props) => (props.isActive ? "white" : "black")};
+}
+&:hover {
+  background: ${colorMapping.bright_blue};
+  & > div {
+    color: white;
+  }
 }
 `;
