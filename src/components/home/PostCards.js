@@ -20,9 +20,9 @@ flex-direction: column;
 align-items: flex-start;
 border-radius: 20px;
 background: #FFFFFF;
-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.15);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 &:hover {
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
   }
 `;
 
@@ -42,6 +42,9 @@ align-items: center;
 gap: 10px;
 align-self: stretch;
 text-decoration: none;
+&:hover {
+    background: rgba(168, 170, 174, 0.05);
+  }
 `;
 const ItemWrapper = styled.div`
 display: flex;

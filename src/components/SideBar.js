@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Typography from "./Typography";
 import { boardMapping } from "./NavBar";
-
+import { colorMapping } from "./Typography";
 export const SubjectMapping = {
   KQ: "국어",
   MQ: "수학",
@@ -44,6 +44,12 @@ const CategoryWrapper = styled.div`
   border-radius: 10px;
   background-color: ${(props) => (props.isActive ? "#4C6BFF" : "transparent")};
   cursor: pointer;
+  &:hover {
+    background: ${colorMapping.bright_blue};
+    & > div {
+      color: white;
+    }
+  }
 
   & > div {
     color: ${(props) => (props.isActive ? "white" : "black")};

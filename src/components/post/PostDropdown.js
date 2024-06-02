@@ -7,7 +7,10 @@ const DropdownContainer = styled.div`
   width: 145px;
   position: relative;
   user-select: none;
+  
 `;
+
+
 
 const DropdownHeader = styled.div`
   height: 40px;
@@ -20,6 +23,16 @@ const DropdownHeader = styled.div`
   justify-content: space-between;
   cursor: pointer;
 
+  // isOpen이 false일 때만 hover 스타일 적용
+  ${({ isOpen }) =>
+    !isOpen &&
+    css`
+      &:hover {
+        border: 1px solid #B6C0D5;
+      }
+    `}
+
+  // isOpen이 true일 때 스타일
   ${({ isOpen }) =>
     isOpen &&
     css`
@@ -27,6 +40,7 @@ const DropdownHeader = styled.div`
       border-bottom-right-radius: 0;
     `}
 `;
+
 
 const DropdownArrow = styled.img`
   width: 11px;
@@ -88,14 +102,14 @@ const PostDropDown = ({ searchOption, setSearchOption }) => {
   return (
     <DropdownContainer>
       <DropdownHeader isOpen={isOpen} onClick={toggling}>
-        <Typography size="body_content_medium">{optionMapping[searchOption]}</Typography>
+        <Typography size="body_content_medium" color="black_gray">{optionMapping[searchOption]}</Typography>
         <DropdownArrow src={dropdownclick} />
       </DropdownHeader>
       {isOpen && (
         <DropdownList>
           {options.map((option) => (
             <DropdownItem key={option} isOpen={isOpen} onClick={onOptionClicked(option)}>
-              <Typography size="body_content_medium">{optionMapping[option]}</Typography>
+              <Typography size="body_content_medium" color="black_gray">{optionMapping[option]}</Typography>
             </DropdownItem>
           ))}
         </DropdownList>

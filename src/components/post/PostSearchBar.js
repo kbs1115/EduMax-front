@@ -10,6 +10,9 @@ const SearchBarContainer = styled.div`
   width: 310px;
   height: 40px;
   padding: 0 20px;
+  &:hover {
+    border: 1px solid #B6C0D5;
+  }
 `;
 
 const Input = styled.input`
@@ -34,7 +37,18 @@ const IconWrapper = styled.div`
 `;
 
 const PostSearchBar = ({ searchWord, setSearchWord, setPage }) => {
-  const [innerWord, setInnerWord] = useState("")
+  const [innerWord, setInnerWord] = useState("");
+
+  const handleSearch = () => {
+    setPage(1);
+    setSearchWord(innerWord);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <SearchBarContainer>
@@ -43,11 +57,9 @@ const PostSearchBar = ({ searchWord, setSearchWord, setPage }) => {
         value={innerWord}
         onChange={(e) => setInnerWord(e.target.value)}
         placeholder="Search..."
+        onKeyDown={handleKeyDown} // 엔터 키 이벤트 핸들러 추가
       />
-      <IconWrapper onClick={() => {
-        setPage(1);
-        setSearchWord(innerWord);
-      }} />
+      <IconWrapper onClick={handleSearch} />
     </SearchBarContainer>
   );
 };

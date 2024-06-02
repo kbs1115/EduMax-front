@@ -16,6 +16,9 @@ import LoadingSpinner from "../components/spinner";
 import Typography from "../components/Typography";
 
 function QuestionBoard() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();

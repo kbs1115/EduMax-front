@@ -150,6 +150,8 @@ const InfoPage = () => {
           size="body_content_small_thin"
           buttonColor="#717B8E"
           textColor="white"
+          hoverColor="#393E46"
+          borderRadius="5px"
           onClick={() => setIsEmailModal(true)}>아이디 찾기</PostListButton>
         <FindModal isOpen={isEmailModal} isPassword={false} onClose={() => setIsEmailModal(false)}/>
       </ContentWrapper>
@@ -163,6 +165,8 @@ const InfoPage = () => {
           size="body_content_small_thin"
           buttonColor="#717B8E"
           textColor="white"
+          hoverColor="#393E46"
+          borderRadius="5px"
           onClick={() => setIsPwModal(true)}>비밀번호 찾기</PostListButton>
         <FindModal isOpen={isPwModal} isPassword={true} onClose={() => setIsPwModal(false)}/>
       </ContentWrapper>

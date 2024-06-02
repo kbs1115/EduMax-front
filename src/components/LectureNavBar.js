@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 
 const LectureNavBarWrapper = styled.div`
   display: flex;
-  padding: 30px 10px 50px 10px;
+  padding: 30px 10px 50px 0px;
   flex-direction: column;
   align-items: center;
   gap: 10px;
