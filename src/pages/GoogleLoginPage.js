@@ -14,13 +14,24 @@ const GoogleLoginPage = () => {
     const handleGoogleLogin = async (code) => {
         try {
           const data = await googleLoginMutation.mutateAsync(code);
+
           login(data.token.access, data.token.refresh, data.user.nickname, data.user.is_staff);
           window.location.href = "http://localhost:3000"
         } catch (error) {
           console.error('로그인 실패:', error);
-          alert("로그인에 실패하였습니다.")
+          if (error.response && error.response.data) {
+            const serverError = error.response.data;
+            if (serverError.errors === "login to normal account") {
+                alert("일반 계정으로 로그인해주세요.");
+            } else if (serverError.error) {
+                alert(serverError.error);
+            } else {
+                alert("로그인에 실패하였습니다.");
+            } 
+        } else
+            alert("로그인에 실패하였습니다.");
           logout();
-          // 에러 처리
+          window.location.href = "http://localhost:3000"
         }
       };
 

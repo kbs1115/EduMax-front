@@ -31,7 +31,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/find' &&<NavBar />}
+      {location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/find' && location.pathname !== "/login/google" &&<NavBar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -52,7 +52,7 @@ function App() {
         <Route path="/error" element={<AlertModal message={"에러 모달 디자인 샘플입니다."} />} />
         <Route path="/login/google" element={<GoogleLoginPage />} />
       </Routes>
-      <Footer />
+      {location.pathname !== "/login/google" && <Footer />}
     </QueryClientProvider>
   );
 }
