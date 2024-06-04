@@ -1,39 +1,37 @@
-import React, { useEffect, useContext } from "react";
-import Cookies from 'js-cookie';
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useContext, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useMutation } from "react-query";
 
 import AuthContext from "../context/AuthProvider";
+import { fetchSocialLogin } from "../apifetchers/fetcher";
 
 const GoogleLoginPage = () => {
     const navigate = useNavigate();
     const { login, logout } = useContext(AuthContext);
+    const googleLoginMutation = useMutation(fetchSocialLogin);
+    const location = useLocation();
+
+    const handleGoogleLogin = async (code) => {
+        try {
+          const data = await googleLoginMutation.mutateAsync(code);
+          console.log('로그인 성공:', data);
+          login(data.token.access, data.token.refresh, data.user.nickname, data.user.is_staff);
+          navigate("/");
+        } catch (error) {
+          console.error('로그인 실패:', error);
+          alert("로그인에 실패하였습니다.")
+          logout();
+          // 에러 처리
+        }
+      };
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            const access_token = Cookies.get("accessToken");
-            const refresh_token = Cookies.get("refreshToken");
-            const user_data = Cookies.get("user");
-
-            if (access_token && refresh_token && user_data) {
-                try {
-                    const parsedUserData = JSON.parse(user_data);
-                    login(access_token, refresh_token, parsedUserData.nickname, parsedUserData.is_staff);
-                    navigate("/");
-                } catch (error) {
-                    console.error('Error parsing user data:', error);
-                    alert("로그인 처리 중 오류가 발생했습니다.");
-                    logout();
-                }
-            } else {
-                console.error('쿠키에서 필요한 정보를 가져오지 못했습니다.');
-                alert("쿠키에서 필요한 정보를 가져오지 못했습니다.");
-                logout();
-            }
-        }, 3000);
-
-        // Cleanup function to clear the timer if the component unmounts before the timer finishes
-        return () => clearTimeout(timer);
-    }, [login, logout, navigate]);
+        const query = new URLSearchParams(location.search);
+        const code = query.get('code');
+        if (code) {
+            handleGoogleLogin(code);
+        }
+    }, [location, navigate]);
     
     return (<div>로그인 중...</div>);
 }
