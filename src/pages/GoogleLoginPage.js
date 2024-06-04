@@ -14,9 +14,8 @@ const GoogleLoginPage = () => {
     const handleGoogleLogin = async (code) => {
         try {
           const data = await googleLoginMutation.mutateAsync(code);
-          console.log('로그인 성공:', data);
           login(data.token.access, data.token.refresh, data.user.nickname, data.user.is_staff);
-          navigate("/");
+          window.location.href = "http://localhost:3000"
         } catch (error) {
           console.error('로그인 실패:', error);
           alert("로그인에 실패하였습니다.")

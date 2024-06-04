@@ -73,6 +73,7 @@ export const fetchSocialLoginRedirect = async () => {
 
 export const fetchSocialLogin = async (code) => {
   const { data } = await api.get(`auth/user/google/redirection/?code=${code}`);
+  localStorage.setItem('access_token', data.access_token);
   return data;
 };
 
