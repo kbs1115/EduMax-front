@@ -101,6 +101,7 @@ const Signup = () => {
   const [emailError, setEmailError] = useState("");
 
   const [nickname, setNickname] = useState("");
+  const [isNicknameValid, setIsNicknameValid] = useState(false);
   const [isDup, setIsDup] = useState(null);
   const [nicknameError, setNicknameError] = useState("");
 
@@ -142,14 +143,40 @@ const Signup = () => {
       else
         setIdError("")
     }
-  }, [ID]);
+  }, [ID, isIDValid]);
 
   useEffect(() => {
-    if (isIdDup === true)
+    setIsDup(null);
+
+    if (nickname === "") {
+      setNicknameError("");
+    } else {
+      const regex = /^[\u3131-\u318E\uAC00-\uD7A3a-zA-Z0-9]{2,10}$/;
+      setIsNicknameValid(regex.test(nickname));
+      if (isNicknameValid === false)
+        setNicknameError("닉네임은 2~10자 사이의 한글, 영문자, 숫자로 이루어져야 합니다.")
+      else
+        setNicknameError("")
+    }
+  }, [nickname, isNicknameValid]);
+
+  useEffect(() => {
+    if (ID === "")
+      setIdError("")
+    else if (isIdDup === true)
       setIdError("중복되는 아이디입니다.")
     else if (isIdDup === false)
       setIdError("사용 가능한 아이디입니다.")
   }, [isIdDup]);
+
+  useEffect(() => {
+    if (nickname === "")
+      setNicknameError("")
+    else if (isDup === true)
+      setNicknameError("중복되는 닉네임입니다.")
+    else if (isDup === false)
+      setNicknameError("사용 가능한 닉네임입니다.")
+  }, [isDup]);
 
   useEffect(() => {
     if (pw === "") {
@@ -185,20 +212,6 @@ const Signup = () => {
       setIsPwValid(true);
     }
   }, [pw]);
-
-  useEffect(() => {
-    setIsDup(null);
-    if (nickname === "") {
-      setNicknameError("");
-    } else {
-      const regex = /^[\u3131-\u318E\uAC00-\uD7A3a-zA-Z0-9]{2,10}$/;
-      if (regex.test(nickname)) {
-        setNicknameError("");
-      } else {
-        setNicknameError("닉네임은 2~10자의 문자열이어야 합니다.");
-      }
-    }
-  }, [nickname]);
 
   useEffect(() => {
     if (email === "") {
@@ -427,22 +440,15 @@ const Signup = () => {
               setInput={setNickname}
               width="310px"
             />
-            <SignupButton isDisabled={nickname.trim().length === 0 || nicknameError !== ""} onClick={checkNicknameDuplication} />
+            <SignupButton isDisabled={isNicknameValid === false} onClick={checkNicknameDuplication} />
           </InputWithButtonWrapper>
-          {nicknameError && (
-            <div style={{ marginLeft: "20px" }}>
-              <Typography color="warning_red" size="body_sub_title">
-                {nicknameError}
-              </Typography>
-            </div>
-          )}
-          {nickname !== "" && isDup !== null && !nicknameError && (
-            <div style={{ marginLeft: "20px" }}>
-              <Typography color={isDup === false ? "ok_message" : "warning_red"} size="body_sub_title">
-                {isDup ? "중복되는 닉네임입니다." : "사용 가능한 닉네임입니다."}
-              </Typography>
-            </div>
-          )}
+          {nicknameError !== "" && (
+              <div style={{ marginLeft: "20px" }}>
+                <Typography color={isDup === false ? "ok_message" : "warning_red"} size="body_sub_title">
+                  {nicknameError}
+                </Typography>
+              </div>
+            )}
         </InputWrapper>
         <InputWrapper>
           <Typography size="h3_bold" color="black_gray">
@@ -538,8 +544,8 @@ const Signup = () => {
               yakgwan1Checked &&
               yakgwan2Checked &&
               isCertValid &&
-              !isIdDup &&
-              !isDup &&
+              isIdDup == false &&
+              isDup == false &&
               timer
             )
           }
