@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useMutation } from "react-query";
-
 import AuthContext from "../context/AuthProvider";
 import LoginInput from "../components/LoginInput";
 import Typography from "../components/Typography";
 import GoogleIcon from "../assets/googleicon.png"
 import Kakaoicon from "../assets/kakaoicon.png"
 import { fetchLogin, fetchSocialLogin } from "../apifetchers/fetcher";
-
+import FindModal from "../components/modals/FindModal"; // Import FindModal
 
 const SocialLoginButton = ({ onClick, imagePath, margin, children }) => (
   <SocialLoginStyledButton onClick={onClick} margin={margin}>
@@ -18,10 +17,11 @@ const SocialLoginButton = ({ onClick, imagePath, margin, children }) => (
   </SocialLoginStyledButton>
 );
 
-
 const LoginPage = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmailModal, setIsEmailModal] = useState(false); // Modal state for ID
+  const [isPwModal, setIsPwModal] = useState(false); // Modal state for Password
 
   const loginMutation = useMutation(fetchLogin);
   const googleLoginMutation = useMutation(fetchSocialLogin);
@@ -39,21 +39,16 @@ const LoginPage = () => {
       console.error('로그인 실패:', error);
       alert("로그인에 실패하였습니다.")
       logout();
-      // 에러 처리
     }
   };
 
   const handleGoogleLogin = async () => {
     try {
       const data = await googleLoginMutation.mutateAsync();
-
-      // login(data.token.access, data.token.refresh, data.user.nickname, data.user.is_staff);
-      // navigate("/");
     } catch (error) {
       console.error('로그인 실패:', error);
       alert("로그인에 실패하였습니다.")
       logout();
-      // 에러 처리
     }
   };
 
@@ -75,7 +70,7 @@ const LoginPage = () => {
         <LoginButton onClick={handleLogin}>로그인</LoginButton>
         <LoginTextWrapper>
           <SignupTextWrapper>
-            <Link style={{ textDecoration: 'none' }}>
+            <Link to="/signup" style={{ textDecoration: 'none' }}>
               <Typography
                 color="navy" 
                 size="body_content_small">
@@ -84,20 +79,20 @@ const LoginPage = () => {
             </Link>
           </SignupTextWrapper>
           <InnerTextWrapper>
-            <Link style={{ textDecoration: 'none' }}>
-              <Typography
-                color="navy" 
-                size="body_content_small">
-                  아이디 찾기
-              </Typography>
-            </Link>
-            <Link style={{ textDecoration: 'none' }}>
-              <Typography
-                color="navy" 
-                size="body_content_small">
-                  비밀번호 찾기
-              </Typography>
-            </Link>
+            <Typography
+              color="navy" 
+              size="body_content_small"
+              onClick={() => setIsEmailModal(true)} // Open modal for finding ID
+              style={{ cursor: 'pointer' }}>
+                아이디 찾기
+            </Typography>
+            <Typography
+              color="navy" 
+              size="body_content_small"
+              onClick={() => setIsPwModal(true)} // Open modal for finding Password
+              style={{ cursor: 'pointer' }}>
+                비밀번호 찾기
+            </Typography>
           </InnerTextWrapper>
         </LoginTextWrapper>
         <SocialLoginButton
@@ -117,6 +112,8 @@ const LoginPage = () => {
           </Typography>
         </SocialLoginButton>
       </BodyWrapper>
+      <FindModal isOpen={isEmailModal} isPassword={false} onClose={() => setIsEmailModal(false)} /> {/* Render FindModal for ID */}
+      <FindModal isOpen={isPwModal} isPassword={true} onClose={() => setIsPwModal(false)} /> {/* Render FindModal for Password */}
     </Wrapper>
   )
 }
@@ -150,12 +147,11 @@ const LogoWrapper = styled.div`
   letter-spacing: 2.5px;
 `;
 
-
 const BodyWrapper = styled.div`
   box-sizing: border-box;
   padding-top: 40px;
   width: 100%;
-	height: 480px;
+  height: 480px;
   border: 2px solid #DFE5EE;
   border-radius: 20px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -181,7 +177,7 @@ const LoginButton = styled.button`
   width: 310px;
   border-radius: 20px;
   background-color: #4C6BFF;
-  border: none; // 버튼의 기본 테두리를 제거합니다.
+  border: none;
   color: #FFF;
   font-family: "Noto Sans Symbols";
   font-size: 16px;
@@ -218,30 +214,28 @@ const InnerTextWrapper = styled.div`
 `;
 
 const SocialImage = styled.img`
-  width: 30px; // 너비 30px의 정사각형 이미지
-  height: 30px; // 높이 30px
+  width: 30px;
+  height: 30px;
 `;
 
-// 버튼 스타일을 위한 styled-component 정의
 const SocialLoginStyledButton = styled.button`
-  width: 310px; // 가로 310px
-  height: 55px; // 세로 55px
-  border-radius: 20px; // 모서리 둥글기 20px
-  border: 1px solid #B6C0D5; // 기본 테두리 스타일
-  padding: 12px 10px 12px 25px; // padding 설정
-  display: flex; // flexbox 레이아웃 사용
-  align-items: center; // 가로축(center)을 기준으로 아이템 정렬
-  gap: 15px; // 이미지와 텍스트 사이 간격 15px
-  background-color: white; // 배경색
-  margin: ${({ margin }) => margin || '0'}; // margin prop을 적용
+  width: 310px;
+  height: 55px;
+  border-radius: 20px;
+  border: 1px solid #B6C0D5;
+  padding: 12px 10px 12px 25px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: white;
+  margin: ${({ margin }) => margin || '0'};
 
-  // 클릭(active) 상태에서의 스타일
   &:active {
-    border: 2px solid #4C6BFF; // 클릭 시 테두리 스타일
+    border: 2px solid #4C6BFF;
   }
 
   &:hover {
-    border: 2px solid #4C6BFF; // 클릭 시 테두리 스타일
+    border: 2px solid #4C6BFF;
     cursor: pointer;
   }
 `;
