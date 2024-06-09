@@ -21,6 +21,7 @@ import LectureDetial from './pages/LectureDetail';
 import NotFound from './components/NotFound';
 import AlertModal from './components/modals/AlertModal';
 import Footer from './components/Footer';
+import GoogleLoginPage from './pages/GoogleLoginPage';
 
 
 const queryClient = new QueryClient()
@@ -30,7 +31,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/find' &&<NavBar />}
+      {location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/find' && location.pathname !== "/login/google" &&<NavBar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -48,8 +49,10 @@ function App() {
         <Route path="/find" element={<EmailModal isPassword={true} />} />
         <Route path="/post/:postId" element={<PostDetailPage />} />
         <Route path="/post/lecture/:lectureId" element={<LectureDetial />} />
+        <Route path="/error" element={<AlertModal message={"에러 모달 디자인 샘플입니다."} />} />
+        <Route path="/login/google" element={<GoogleLoginPage />} />
       </Routes>
-      <Footer />
+      {location.pathname !== "/login/google" && <Footer />}
     </QueryClientProvider>
   );
 }
