@@ -8,7 +8,7 @@ import LoginInput from "../components/LoginInput";
 import Typography from "../components/Typography";
 import GoogleIcon from "../assets/googleicon.png"
 import Kakaoicon from "../assets/kakaoicon.png"
-import { fetchLogin, fetchSocialLogin } from "../apifetchers/fetcher";
+import { fetchLogin, fetchSocialLoginRedirect } from "../apifetchers/fetcher";
 
 
 const SocialLoginButton = ({ onClick, imagePath, margin, children }) => (
@@ -24,7 +24,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
 
   const loginMutation = useMutation(fetchLogin);
-  const googleLoginMutation = useMutation(fetchSocialLogin);
+  const googleLoginMutation = useMutation(fetchSocialLoginRedirect);
   const { login, logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -32,7 +32,6 @@ const LoginPage = () => {
   const handleLogin = async () => {
     try {
       const data = await loginMutation.mutateAsync({ login_id: id, password });
-      console.log('로그인 성공:', data);
       login(data.token.access, data.token.refresh, data.user.nickname, data.user.is_staff);
       navigate("/");
     } catch (error) {

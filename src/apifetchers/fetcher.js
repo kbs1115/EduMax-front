@@ -65,11 +65,16 @@ export const fetchLogin = async ({ login_id, password }) => {
   return data;
 };
 
-export const fetchSocialLogin = async () => {
+export const fetchSocialLoginRedirect = async () => {
   const { data } = await api.get('auth/user/google/login/');
-  // 로그인 성공 시 토큰을 로컬 스토리지에 저장
   window.location.href = data.redirect_url;
   return;
+};
+
+export const fetchSocialLogin = async (code) => {
+  const { data } = await api.get(`auth/user/google/redirection/?code=${code}`);
+  localStorage.setItem('access_token', data.access_token);
+  return data;
 };
 
 export const getPostDetailData = async (postId) => {
