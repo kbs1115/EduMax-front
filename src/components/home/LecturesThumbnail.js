@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import eng_lec_img1 from "../../assets/eng_lec_img1.png";
-import eng_lec_img2 from "../../assets/eng_lec_img2.png";
-import eng_lec_img3 from "../../assets/eng_lec_img3.png";
-import eng_lec_img4 from "../../assets/eng_lec_img4.png";
+import eng_lec_img1 from "../../assets/thumnail1.jpg";
+import eng_lec_img2 from "../../assets/thumnail2.jpg";
+import eng_lec_img3 from "../../assets/thumnail3.jpg";
+import eng_lec_img4 from "../../assets/thumnail4.jpg";
 import lecture_logo from "../../assets/lecture_logo.png";
 import { Link } from 'react-router-dom'; // Import Link
 import { colorMapping } from "../Typography";
@@ -17,7 +17,9 @@ justify-content: center;
 align-items: center;
 gap: 40px;
 align-self: stretch;
+min-height: 201px; /* 최소 높이 추가 */
 `;
+
 
 const BottomRowWrapper = styled.div`
 display: flex;
@@ -112,22 +114,16 @@ const ClickableTypography = styled(Typography)`
 `;
 const lectureData = {
   Korean: [
-    { img: eng_lec_img1, title: 'Korean Lecture 1', instructor: 'Instructor 1', path: 'lecture/k1' },
-    { img: eng_lec_img2, title: 'Korean Lecture 2', instructor: 'Instructor 2', path: 'lecture/k2' },
-    { img: eng_lec_img2, title: 'Korean Lecture 3', instructor: 'Instructor 3', path: 'lecture/k3' },
-    { img: eng_lec_img1, title: 'Korean Lecture 4', instructor: 'Instructor 4', path: 'lecture/k4' },
+
   ],
   Math: [
-    { img: eng_lec_img3, title: 'Math Lecture 1', instructor: 'Instructor 1', path: 'lecture/m1' },
-    { img: eng_lec_img3, title: 'Math Lecture 2', instructor: 'Instructor 2', path: 'lecture/m2' },
-    { img: eng_lec_img3, title: 'Math Lecture 3', instructor: 'Instructor 3', path: 'lecture/m3' },
-    { img: eng_lec_img3, title: 'Math Lecture 4', instructor: 'Instructor 4', path: 'lecture/m4' },
+
   ],
   // 나중에 path 바꿔야함. 이미지도 바꿔야함 너무 구림
-  English: [{ img: eng_lec_img1, title: '문장의 구조 품사 및 구와 절', instructor: '영어 신성균 선생님', path: 'lecture/23' },
-  { img: eng_lec_img2, title: '호주머니 어법-동사와 준동사', instructor: '영어 신성균 선생님', path: 'lecture/24' },
-  { img: eng_lec_img3, title: '호주머니 어법-동사의 시제', instructor: '영어 신성균 선생님', path: 'lecture/25' },
-  { img: eng_lec_img4, title: '호주머니 어법-동사란', instructor: '영어 신성균 선생님', path: 'lecture/26' },]
+  English: [{ img: eng_lec_img1, title: '수동태의 기본개념 1편', instructor: '영어 신성균 선생님', path: 'post/lecture/140' },
+  { img: eng_lec_img2, title: '호주머니 어법-48', instructor: '영어 신성균 선생님', path: 'post/lecture/123' },
+  { img: eng_lec_img3, title: '호주머니 어법-should의 생략', instructor: '영어 신성균 선생님', path: 'post/lecture/139' },
+  { img: eng_lec_img4, title: '호주머니 어법-종속절,관계사,복합관계사', instructor: '영어 신성균 선생님', path: 'post/lecture/84' },]
 };
 
 const categories = ["Korean", "Math", "English"]; // Move categories outside the component
