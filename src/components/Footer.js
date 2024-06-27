@@ -114,7 +114,7 @@ const Footer = () => {
     <CopyrightWrapper>
       <div style={{ width: '1170px'}}>
       <Typography size="body_content_small_thin" color="black_gray">
-        Copyright () 2024 EduMax 홈페이지 All rights reserved.
+        Copyright ⓒ 2024 EduMax 홈페이지 All rights reserved.
       </Typography>
       </div>
     </CopyrightWrapper>
