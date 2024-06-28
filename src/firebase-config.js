@@ -1,10 +1,10 @@
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyB6Ik9RM45gQRmqiuC-PBZcNjumLQ0I94A",
-  authDomain: "edumax-414706.firebaseapp.com",
-  projectId: "edumax-414706",
-  messagingSenderId: "356957646824",
-  appId: "1:356957646824:web:8b3defe369923f51067e5d"
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 export default firebaseConfig;
